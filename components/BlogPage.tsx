@@ -10,7 +10,7 @@ export default function BlogPage() {
     const [pageData, setPageData] = useState(null);
     
       useEffect(() => {
-        fetch("https://payload-back.onrender.com/api/blog-posts?depth=1&limit=100")
+        fetch("https://rebar-xbackend.vercel.app/api/blog-posts?depth=1&limit=100")
           .then((res) => res.json())
           .then((data) => setPageData(data.docs));
       }, []);

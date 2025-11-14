@@ -6,10 +6,10 @@ import { useEffect, useState } from "react";
 
 export default function Footer() {
   const [footerData, setFooterData] = useState(null);
-  //https://payload-back.onrender.com/api/footer
+  //https://rebar-xbackend.vercel.app/api/footer
 
   https: useEffect(() => {
-    fetch(`https://payload-back.onrender.com/api/footer`)
+    fetch(`https://rebar-xbackend.vercel.app/api/footer`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data.docs) && data.docs.length > 0) {

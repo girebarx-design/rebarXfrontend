@@ -20,7 +20,7 @@ export default function Home() {
   const [pageData, setPageData] = useState(null);
 
   useEffect(() => {
-    fetch("https://payload-back.onrender.com/api/pages?where[slug][equals]=home&depth=2")
+    fetch("https://rebar-xbackend.vercel.app/api/pages?where[slug][equals]=home&depth=2")
       .then((res) => res.json())
       .then((data) => setPageData(data.docs[0]));
   }, []);

@@ -36,7 +36,7 @@ const Navbar: React.FC = () => {
   const [navData, setNavData] = useState(null);
 
   useEffect(() => {
-    fetch("https://payload-back.onrender.com/api/navbar?depth=2")
+    fetch("https://rebar-xbackend.vercel.app/api/navbar?depth=2")
       .then((res) => res.json())
       .then((data) => setNavData(data.docs[0]));
   }, []);
@@ -92,7 +92,8 @@ const Navbar: React.FC = () => {
             </div>
 
             <div className="brand-menu-wrap">
-              {navData.logoType === "image" && navData.logoImage?.cloudinaryUrl ? (
+              {navData.logoType === "image" &&
+              navData.logoImage?.cloudinaryUrl ? (
                 <Link href="/" className="brand-link-navbars w-nav-brand">
                   <img
                     className="brand-navbars"
@@ -384,7 +385,11 @@ const Navbar: React.FC = () => {
                             >
                               {navData.links.map((li, index) => (
                                 <>
-                                  <Link href={li.url} key={index} onClick={() => setIsOpen(!isOpen)}>
+                                  <Link
+                                    href={li.url}
+                                    key={index}
+                                    onClick={() => setIsOpen(!isOpen)}
+                                  >
                                     <div className="menu-column">
                                       <div className="navigation-link-wrap">
                                         <div className="navigation-label-mobile">
@@ -457,7 +462,7 @@ const Navbar: React.FC = () => {
                         />
                       </a>
                     </div>
-                    <div className="text-body">+91 1234567890</div>
+                    <div className="text-body">+91 {navData.phone }</div>
                   </div>
                 </nav>
               </motion.div>

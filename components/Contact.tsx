@@ -13,7 +13,7 @@ export default function Contact() {
 
   useEffect(() => {
     fetch(
-      `https://payload-back.onrender.com/api/globals/contact-page?depth=2`
+      `https://rebar-xbackend.vercel.app/api/globals/contact-page?depth=2`
     )
       .then((res) => res.json())
       .then((data) => setContactPage(data));
@@ -35,7 +35,7 @@ export default function Contact() {
     e.preventDefault();
 
     try {
-      const res = await fetch("https://payload-back.onrender.com/api/contact-submissions", {
+      const res = await fetch("https://rebar-xbackend.vercel.app/api/contact-submissions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

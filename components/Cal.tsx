@@ -728,7 +728,7 @@ const Calculatorss: React.FC = ({ calc  }) => {
 
   //   try {
   //     const res = await fetch(
-  //       "https://payload-back.onrender.com/api/contact-submissions",
+  //       "https://rebar-xbackend.vercel.app/api/contact-submissions",
   //       {
   //         method: "POST",
   //         headers: {
@@ -761,7 +761,7 @@ const Calculatorss: React.FC = ({ calc  }) => {
 
   //   try {
   //     const res = await fetch(
-  //       "https://payload-back.onrender.com/api/contact-submissions",
+  //       "https://rebar-xbackend.vercel.app/api/contact-submissions",
   //       {
   //         method: "POST",
   //         headers: {
@@ -804,7 +804,7 @@ const Calculatorss: React.FC = ({ calc  }) => {
 
     try {
       const res = await fetch(
-        "https://payload-back.onrender.com/api/contact-submissions",
+        "https://rebar-xbackend.vercel.app/api/contact-submissions",
         {
           method: "POST",
           headers: {
@@ -842,7 +842,7 @@ const Calculatorss: React.FC = ({ calc  }) => {
 
     try {
       const res = await fetch(
-        "https://payload-back.onrender.com/api/contact-submissions",
+        "https://rebar-xbackend.vercel.app/api/contact-submissions",
         {
           method: "POST",
           headers: {

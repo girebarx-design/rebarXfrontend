@@ -25,7 +25,7 @@
 //         const slug = decodeURIComponent(params.slug);
 
 //       fetch(
-//         `https://payload-back.onrender.com/api/blog-posts?where[slug][equals]=${slug}&depth=2`
+//         `https://rebar-xbackend.vercel.app/api/blog-posts?where[slug][equals]=${slug}&depth=2`
 //       )
 //         .then((res) => res.json())
 //         .then((data) => {
@@ -226,7 +226,7 @@ import BlogPost from "@/components/SingleBlog";
 
 export async function generateMetadata({ params }): Promise<Metadata> {
   const res = await fetch(
-    `https://payload-back.onrender.com/api/blog-posts?where[slug][equals]=${params.slug}&depth=2`
+    `https://rebar-xbackend.vercel.app/api/blog-posts?where[slug][equals]=${params.slug}&depth=2`
   );
 
   const data = await res.json();
@@ -245,7 +245,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
     openGraph: {
       title: blog.ogTitle || blog.metaTitle || blog.title,
       description: blog.ogDescription || blog.metaDescription || "",
-      url: `https://payload-back.onrender.com/blog/${blog.slug}`,
+      url: `https://rebar-xbackend.vercel.app/blog/${blog.slug}`,
       images: blog.ogImage?.cloudinaryUrl
         ? [blog.ogImage.cloudinaryUrl]
         : blog.mainImage?.cloudinaryUrl
@@ -265,7 +265,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
     alternates: {
       canonical:
         blog.canonicalURL ||
-        `https://payload-back.onrender.com/blog/${blog.slug}`,
+        `https://rebar-xbackend.vercel.app/blog/${blog.slug}`,
     },
   };
 }

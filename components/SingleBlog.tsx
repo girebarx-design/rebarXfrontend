@@ -240,10 +240,10 @@ const BlogPost = () => {
 
         const slug = decodeURIComponent(params.slug);
         const response = await fetch(
-          `https://payload-back.onrender.com/api/blog-posts?where[slug][equals]=${slug}&depth=2`
+          `https://rebar-xbackend.vercel.app/api/blog-posts?where[slug][equals]=${slug}&depth=2`
         );
 
-        // https://payload-back.onrender.com/api/blog-posts?where[slug][equals]=${slug}&depth=2
+        // https://rebar-xbackend.vercel.app/api/blog-posts?where[slug][equals]=${slug}&depth=2
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

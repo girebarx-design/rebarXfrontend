@@ -1,7 +1,7 @@
 // // lib/getSEO.ts
 // export async function getSEO() {
 //   const res = await fetch(
-//     "https://payload-back.onrender.com/api/globals/seo",
+//     "https://rebar-xbackend.vercel.app/api/globals/seo",
 //     {
 //       next: { revalidate: 60 }, // or `cache: 'no-store'` for no caching
 //     }
@@ -19,7 +19,7 @@
 // lib/getSEO.ts
 export async function getSEO() {
   const res = await fetch(
-    "https://payload-back.onrender.com/api/globals/seo",
+    "https://rebar-xbackend.vercel.app/api/globals/seo",
     {
       next: { revalidate: 60 }, // or `cache: 'no-store'` for no caching
     }
