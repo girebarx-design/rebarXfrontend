@@ -58,7 +58,7 @@ export default function BlogPage() {
                       <div className="article-category-wrap">
                         <div className="text-small">{first.tag}</div>
                         <div className="text-small opacity-50">·</div>
-                        <div className="text-small">
+                        <div className="text-small" style={{whiteSpace: "nowrap"}}>
                           {new Date(
                             first.date || first.createdAt
                           ).toLocaleDateString("en-US", {
@@ -127,7 +127,7 @@ export default function BlogPage() {
                         <div className="article-category-wrap">
                           <div className="text-small">{bb.tag}</div>
                           <div className="text-small opacity-50">·</div>
-                          <div className="text-small">
+                          <div className="text-small" style={{whiteSpace: "nowrap"}}>
                             {new Date(
                               bb.date || bb.createdAt
                             ).toLocaleDateString("en-US", {
