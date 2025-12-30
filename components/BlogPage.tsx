@@ -50,7 +50,7 @@ export default function BlogPage() {
                       <img
                         alt=""
                         loading="lazy"
-                        src={first.mainImage.url}
+                         src={first.mainImage.cloudinaryUrl}
                         sizes="(max-width: 479px) 100vw, (max-width: 767px) 92vw, 54vw"
                         className="image-cover"
                       />
