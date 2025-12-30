@@ -3,14 +3,28 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-
+import "../app/globals.css"
 // Lexical Content Renderer
 const LexicalContentRenderer = ({ content, className = "" }) => {
+  console.log(content, "yeh content hai");
   if (!content?.root?.children) {
     return <div className={className}>No content available</div>;
   }
 
   const renderNode = (node, index) => {
+    console.log(node.children,'node is yes')
+    node.children?.map((child,index)=>{
+      console.log(child.type,'dek bhai yeh')
+      //  child?.children.map((item,index)=>{
+        console.log(child,'karishma')
+      //  })
+      // if(child.type=="listitem "){
+      //    console.log(child,'karishma')
+      // }
+      // child?.children.map((item,i)=>{
+      //   console.log(item)
+      // })
+    })
     switch (node.type) {
       case "paragraph":
         if (!node.children || node.children.length === 0) {
@@ -45,6 +59,7 @@ const LexicalContentRenderer = ({ content, className = "" }) => {
           )
         );
 
+      // list
       case "list":
         const ListTag = node.listType === "number" ? "ol" : "ul";
         const listClasses =
@@ -60,19 +75,33 @@ const LexicalContentRenderer = ({ content, className = "" }) => {
           </ListTag>
         );
 
-      case "listitem":
-        return (
-          <li key={index} className="mb-2">
-            {node.children?.map((child, childIndex) => {
-              if (child.type === "paragraph") {
-                return child.children?.map((textChild, textIndex) =>
-                  renderTextNode(textChild, textIndex)
-                );
-              }
-              return renderNode(child, childIndex);
-            })}
-          </li>
-        );
+      // listitem
+    case "listitem":
+  return (
+    <li key={index} className="mb-2">
+      {node.children?.map((child, childIndex) => {
+        // If child is paragraph, render as paragraph
+        if (child.type === "paragraph") {
+          return (
+            <p key={childIndex} className="m-0">
+              {child.children?.map((textChild, textIndex) =>
+                renderTextNode(textChild, textIndex)
+              )}
+            </p>
+          );
+        }
+
+        // If child is text directly, render it
+        if (child.type === "text") {
+          return renderTextNode(child, childIndex);
+        }
+
+        // fallback: render any nested nodes recursively
+        return renderNode(child, childIndex);
+      })}
+    </li>
+  );
+
 
       case "quote":
         return (
@@ -239,8 +268,10 @@ const BlogPost = () => {
         setError(null);
 
         const slug = decodeURIComponent(params.slug);
+        console.log(slug, "yeh hi bhai");
         const response = await fetch(
-          `https://rebar-xbackend.vercel.app/api/blog-posts?where[slug][equals]=${slug}&depth=2`
+          // `https://rebar-xbackend.vercel.app/api/blog-posts?where[slug][equals]=${slug}&depth=2`
+          `http://localhost:3000/api/blog-posts?where[slug][equals]=${slug}&depth=2`
         );
 
         // https://rebar-xbackend.vercel.app/api/blog-posts?where[slug][equals]=${slug}&depth=2
@@ -331,72 +362,41 @@ const BlogPost = () => {
 
   return (
     <div>
-      <section className="section hero-article">
-        <div className="w-layout-blockcontainer main-container w-container">
-          <div className="w-layout-grid article-hero-halves">
-            <div className="article-heading-wrap">
-              <div className="article-top-tile">
-                <div className="article-category-wrap">
-                  <div className="text-small semibold">{blogData.tag}</div>
-                  <div className="text-small opacity-50">·</div>
-                  <div className="text-small">{formattedDate}</div>
-                </div>
-                <h1 className="text-h1">{blogData.title}</h1>
-              </div>
-              <a href="#Article" className="article-down-button w-inline-block">
-                <div className="icon-down-arrow w-embed">
-                  <svg
-                    width="22"
-                    height="21"
-                    viewBox="0 0 22 21"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M11 0.666992L11 19.3337"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    />
-                    <path
-                      d="M20.334 10L11.0007 19.3333L1.66732 10"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    />
-                  </svg>
-                </div>
-              </a>
-            </div>
-            {blogData.mainImage?.cloudinaryUrl && (
-              <img
-                src={blogData.mainImage.cloudinaryUrl}
-                loading="lazy"
-                alt={blogData.mainImage.alt || blogData.title}
-                sizes="(max-width: 479px) 100vw, (max-width: 767px) 92vw, 94vw"
-                className="article-big-thumbnail"
-              />
-            )}
-          </div>
-        </div>
-      </section>
+    <section className="blog-hero-modern">
+  {blogData.mainImage?.cloudinaryUrl && (
+    <div className="blog-hero-bg">
+      <img
+        src={blogData.mainImage.cloudinaryUrl}
+        alt={blogData.mainImage.alt || blogData.title}
+      />
+    </div>
+  )}
 
-      <section className="section body-article">
-        <div className="w-layout-blockcontainer main-container w-container">
-          <div
-            data-w-id="aa46aa4f-a776-788c-4b98-c2b87dd9e11b"
-            className="section-divider article-divider"
-          ></div>
-          <div className="w-layout-blockcontainer main-container article-container w-container">
-            <div className="article-body-wrap">
-              <div id="Article" className="post-body w-richtext">
-                <LexicalContentRenderer
-                  content={blogData.content}
-                  className="w-richtext"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+  <div className="blog-hero-inner">
+    <div className="blog-hero-meta">
+      <span>{blogData.tag}</span>
+      <span>·</span>
+      <span>{formattedDate}</span>
+    </div>
+
+    <h1 className="blog-hero-title">
+      {blogData.title}
+    </h1>
+  </div>
+</section>
+
+
+     <section className="blog-body">
+  <div className="blog-container">
+
+    {/* Article Content */}
+    <article id="Article" className="blog-content">
+      <LexicalContentRenderer content={blogData.content} />
+    </article>
+
+  </div>
+</section>
+
       <br />
       <br />
       <br />

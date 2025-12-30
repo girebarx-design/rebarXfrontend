@@ -10,7 +10,8 @@ export default function BlogPage() {
     const [pageData, setPageData] = useState(null);
     
       useEffect(() => {
-        fetch("https://rebar-xbackend.vercel.app/api/blog-posts?depth=1&limit=100")
+        // fetch("https://rebar-xbackend.vercel.app/api/blog-posts?depth=1&limit=100")
+        fetch("http://localhost:3000/api/blog-posts?depth=1&limit=100")
           .then((res) => res.json())
           .then((data) => setPageData(data.docs));
       }, []);
@@ -49,7 +50,7 @@ export default function BlogPage() {
                       <img
                         alt=""
                         loading="lazy"
-                        src={first.mainImage.cloudinaryUrl}
+                        src={first.mainImage.url}
                         sizes="(max-width: 479px) 100vw, (max-width: 767px) 92vw, 54vw"
                         className="image-cover"
                       />
