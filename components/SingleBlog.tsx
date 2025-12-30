@@ -6,17 +6,13 @@ import Link from "next/link";
 import "../app/globals.css"
 // Lexical Content Renderer
 const LexicalContentRenderer = ({ content, className = "" }) => {
-  console.log(content, "yeh content hai");
   if (!content?.root?.children) {
     return <div className={className}>No content available</div>;
   }
 
   const renderNode = (node, index) => {
-    console.log(node.children,'node is yes')
     node.children?.map((child,index)=>{
-      console.log(child.type,'dek bhai yeh')
       //  child?.children.map((item,index)=>{
-        console.log(child,'karishma')
       //  })
       // if(child.type=="listitem "){
       //    console.log(child,'karishma')
@@ -270,8 +266,8 @@ const BlogPost = () => {
         const slug = decodeURIComponent(params.slug);
         console.log(slug, "yeh hi bhai");
         const response = await fetch(
-          // `https://rebar-xbackend.vercel.app/api/blog-posts?where[slug][equals]=${slug}&depth=2`
-          `http://localhost:3000/api/blog-posts?where[slug][equals]=${slug}&depth=2`
+          `https://rebar-xbackend.vercel.app/api/blog-posts?where[slug][equals]=${slug}&depth=2`
+          // `http://localhost:3000/api/blog-posts?where[slug][equals]=${slug}&depth=2`
         );
 
         // https://rebar-xbackend.vercel.app/api/blog-posts?where[slug][equals]=${slug}&depth=2
