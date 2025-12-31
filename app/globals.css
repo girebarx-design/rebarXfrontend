@@ -12002,3 +12002,43 @@ body {
 }
 
 
+.article-h1 {
+  font-size: 26px;
+  line-height: 1.35;
+  font-weight: 600;
+  margin: 2em 0 0.8em;
+}
+
+.article-h2 {
+  font-size: 22px;
+  line-height: 1.4;
+  font-weight: 600;
+  margin: 1.8em 0 0.6em;
+}
+
+.article-h3 {
+  font-size: 18px;
+  line-height: 1.45;
+  font-weight: 600;
+  margin: 1.5em 0 0.5em;
+}
+
+.article-h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 1.2em 0 0.4em;
+}
+
+.article-h5,
+.article-h6 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 1em 0 0.3em;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .article-h1 { font-size: 22px; }
+  .article-h2 { font-size: 20px; }
+  .article-h3 { font-size: 16px; }
+}

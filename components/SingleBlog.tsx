@@ -38,14 +38,14 @@ const LexicalContentRenderer = ({ content, className = "" }) => {
         if (!node.children || node.children.length === 0) return null;
         const level = node.tag || 2;
         const HeadingTag = `h${level}`;
-        const headingClasses = {
-          1: "text-h1",
-          2: "text-h2",
-          3: "text-h3",
-          4: "text-h4",
-          5: "text-h5",
-          6: "text-h6",
-        };
+      const headingClasses = {
+  1: "article-h1",
+  2: "article-h2",
+  3: "article-h3",
+  4: "article-h4",
+  5: "article-h5",
+  6: "article-h6",
+};
 
         return React.createElement(
           HeadingTag,
