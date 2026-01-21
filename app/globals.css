@@ -4136,6 +4136,13 @@ figcaption {
   height: 100%;
 }
 
+.image-coverforblogs {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
 .master-marquees {
   flex-direction: column;
   justify-content: space-between;

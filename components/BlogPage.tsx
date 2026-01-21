@@ -52,7 +52,8 @@ export default function BlogPage() {
                         loading="lazy"
                          src={first.mainImage.cloudinaryUrl}
                         sizes="(max-width: 479px) 100vw, (max-width: 767px) 92vw, 54vw"
-                        className="image-cover"
+                        // className="image-cover"
+                        className="image-coverforblogs"
                       />
                     </div>
                     <div className="article-info-wrap">
@@ -121,7 +122,8 @@ export default function BlogPage() {
                           loading="lazy"
                           src={bb.mainImage.cloudinaryUrl}
                           sizes="(max-width: 479px) 100vw, (max-width: 767px) 44vw, (max-width: 991px) 46vw, 30vw"
-                          className="image-cover"
+                          // className="image-cover"
+                          className="image-coverforblogs"
                         />
                       </div>
                       <div className="article-info-wrap">
