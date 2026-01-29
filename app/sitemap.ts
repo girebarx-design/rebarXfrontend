@@ -3,7 +3,7 @@ import { MetadataRoute } from "next";
 const BACKEND_URL =
   process.env.NEXT_PUBLIC_PAYLOAD_URL || "https://rebar-xbackend.vercel.app";
 const FRONTEND_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.rebarx.in";
 
 interface SitemapEntry {
   url: string;
