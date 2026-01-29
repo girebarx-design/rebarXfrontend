@@ -31,6 +31,12 @@ export default function BlogPage() {
     console.log(pageData,' this is irst')
     
 
+    const slugify = (text) =>
+  text
+    .toLowerCase()
+    .trim()
+    .replace(/[\s]+/g, "-")     // spaces → -
+    .replace(/[^\w-]+/g, "");   // remove special chars
     return (
       <>
         <section className="section hero-blog">
@@ -43,7 +49,9 @@ export default function BlogPage() {
               <div role="list" className="w-dyn-items">
                 <div role="listitem" className="w-dyn-item">
                   <Link
-                    href={`/blog/${first.slug}`}
+                    href={`/blog/${slugify(first.slug)}`}
+                      // href={`/blog/${slugify(bb.slug)}`}
+
                     className="article-tile pinned w-inline-block"
                   >
                     <div className="image-wrap-blog pinned">
@@ -113,7 +121,7 @@ export default function BlogPage() {
                 {pageData.slice(1).map((bb, index) => (
                   <div role="listitem" className="w-dyn-item">
                     <Link
-                      href={`/blog/${bb.slug}`}
+                      href={`/blog/${slugify(bb.slug)}`}
                       className="article-tile w-inline-block"
                     >
                       <div className="image-wrap-blog">

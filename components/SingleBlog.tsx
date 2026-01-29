@@ -258,39 +258,81 @@ const BlogPost = () => {
       return;
     }
 
+    const slugify = (text = "") =>
+  text
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]+/g, "");
+
+    // const fetchBlogPost = async () => {
+    //   try {
+    //     setLoading(true);
+    //     setError(null);
+
+    //     const slug = decodeURIComponent(params.slug);
+    //     console.log(slug, "yeh hi bhai");
+    //     const response = await fetch(
+    //       `https://rebar-xbackend.vercel.app/api/blog-posts?where[slug][equals]=${slug}&depth=2`
+    //       // `http://localhost:3000/api/blog-posts?where[slug][equals]=${slug}&depth=2`
+    //     );
+
+    //     // https://rebar-xbackend.vercel.app/api/blog-posts?where[slug][equals]=${slug}&depth=2
+
+    //     if (!response.ok) {
+    //       throw new Error(`HTTP error! status: ${response.status}`);
+    //     }
+
+    //     const data = await response.json();
+
+    //     if (data.docs?.length > 0) {
+    //       setBlogData(data.docs[0]);
+    //     } else {
+    //       setError("Blog post not found");
+    //     }
+    //   } catch (err) {
+    //     console.error("Failed to fetch blog post:", err);
+    //     setError(err.message || "Failed to fetch blog post");
+    //   } finally {
+    //     setLoading(false);
+    //   }
+    // };
+
     const fetchBlogPost = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+  try {
+    setLoading(true);
+    setError(null);
 
-        const slug = decodeURIComponent(params.slug);
-        console.log(slug, "yeh hi bhai");
-        const response = await fetch(
-          `https://rebar-xbackend.vercel.app/api/blog-posts?where[slug][equals]=${slug}&depth=2`
-          // `http://localhost:3000/api/blog-posts?where[slug][equals]=${slug}&depth=2`
-        );
+    const urlSlug = params.slug; // already clean
+    console.log(urlSlug, "URL SLUG");
 
-        // https://rebar-xbackend.vercel.app/api/blog-posts?where[slug][equals]=${slug}&depth=2
+    // ⛔ DO NOT filter by slug here
+    const response = await fetch(
+      `https://rebar-xbackend.vercel.app/api/blog-posts?depth=2&limit=100`
+    );
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-        const data = await response.json();
+    const data = await response.json();
 
-        if (data.docs?.length > 0) {
-          setBlogData(data.docs[0]);
-        } else {
-          setError("Blog post not found");
-        }
-      } catch (err) {
-        console.error("Failed to fetch blog post:", err);
-        setError(err.message || "Failed to fetch blog post");
-      } finally {
-        setLoading(false);
-      }
-    };
+    const matchedPost = data.docs?.find(
+      (post) => slugify(post.slug) === urlSlug
+    );
 
+    if (matchedPost) {
+      setBlogData(matchedPost);
+    } else {
+      setError("Blog post not found");
+    }
+  } catch (err) {
+    console.error("Failed to fetch blog post:", err);
+    setError(err.message || "Failed to fetch blog post");
+  } finally {
+    setLoading(false);
+  }
+};
     fetchBlogPost();
   }, [params?.slug]);
 

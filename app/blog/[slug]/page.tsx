@@ -225,12 +225,37 @@ import { Metadata } from "next";
 import BlogPost from "@/components/SingleBlog";
 
 export async function generateMetadata({ params }): Promise<Metadata> {
-  const res = await fetch(
-    `https://rebar-xbackend.vercel.app/api/blog-posts?where[slug][equals]=${params.slug}&depth=2`
+  const slugify = (text = "") =>
+  text
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]+/g, "");
+
+
+  // const res = await fetch(
+  //   `https://rebar-xbackend.vercel.app/api/blog-posts?where[slug][equals]=${params.slug}&depth=2`
+  // );
+
+  // const data = await res.json();
+  // const blog = data.docs?.[0];
+
+  // if (!blog) {
+  //   return {
+  //     title: "Blog Not Found",
+  //     description: "This blog post does not exist.",
+  //   };
+  // }
+
+   const res = await fetch(
+    `https://rebar-xbackend.vercel.app/api/blog-posts?depth=2&limit=100`
   );
 
-  const data = await res.json();
-  const blog = data.docs?.[0];
+   const data = await res.json();
+
+  const blog = data.docs?.find(
+    (post) => slugify(post.slug) === params.slug
+  );
 
   if (!blog) {
     return {
