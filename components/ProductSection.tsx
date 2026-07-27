@@ -57,6 +57,7 @@ export default function ProductSection({ productSection }) {
 
           {productSection.products.map((pr, index) => (
             <div
+              key={pr.id || index}
               id="w-node-d3fc33a7-4793-5f6e-7bc4-31a4856e0ae8-e2064dc4"
               data-w-id="d3fc33a7-4793-5f6e-7bc4-31a4856e0ae8"
               // href={`blog/`}
@@ -92,7 +93,7 @@ export default function ProductSection({ productSection }) {
                             <path
                               d="M1 9L5 5L1 1"
                               stroke="currentColor"
-                              stroke-width="2"
+                              strokeWidth="2"
                             />
                           </svg>
                         </div>
@@ -138,7 +139,7 @@ export default function ProductSection({ productSection }) {
                           <path
                             d="M1 9L5 5L1 1"
                             stroke="currentColor"
-                            stroke-width="2"
+                            strokeWidth="2"
                           />
                         </svg>
                       </div>

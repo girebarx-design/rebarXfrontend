@@ -15,6 +15,7 @@ export default function Blog({ blogSection }) {
         <div className="w-layout-grid case-halves-home-b">
           {blogSection.selectedBlogs.map((blo, index) => (
             <Link
+              key={blo.slug || blo.id || index}
               id="w-node-d3fc33a7-4793-5f6e-7bc4-31a4856e0ae8-e2064dc4"
               data-w-id="d3fc33a7-4793-5f6e-7bc4-31a4856e0ae8"
               href={`blog/${blo.slug}`}
@@ -47,7 +48,7 @@ export default function Blog({ blogSection }) {
                             <path
                               d="M1 9L5 5L1 1"
                               stroke="currentColor"
-                              stroke-width="2"
+                              strokeWidth="2"
                             />
                           </svg>
                         </div>
@@ -93,7 +94,7 @@ export default function Blog({ blogSection }) {
                           <path
                             d="M1 9L5 5L1 1"
                             stroke="currentColor"
-                            stroke-width="2"
+                            strokeWidth="2"
                           />
                         </svg>
                       </div>
@@ -111,7 +112,7 @@ export default function Blog({ blogSection }) {
                           <path
                             d="M1 9L5 5L1 1"
                             stroke="currentColor"
-                            stroke-width="2"
+                            strokeWidth="2"
                           />
                         </svg>
                       </div>
@@ -156,7 +157,7 @@ export default function Blog({ blogSection }) {
                           <path
                             d="M1 9L5 5L1 1"
                             stroke="currentColor"
-                            stroke-width="2"
+                            strokeWidth="2"
                           />
                         </svg>
                       </div>
@@ -174,7 +175,7 @@ export default function Blog({ blogSection }) {
                           <path
                             d="M1 9L5 5L1 1"
                             stroke="currentColor"
-                            stroke-width="2"
+                            strokeWidth="2"
                           />
                         </svg>
                       </div>

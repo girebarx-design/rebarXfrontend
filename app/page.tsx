@@ -3,8 +3,7 @@
 
 import AboutSection from "@/components/About";
 import Blog from "@/components/Blog";
-import Calculatorss from "@/components/Cal";
-import Calculators from "@/components/Calculator";
+import SlabCalculator from "@/components/SlabCalculator";
 import CTA from "@/components/CTA_Section";
 import FAQ from "@/components/FAQ";
 import Hero from "@/components/Hero";
@@ -55,8 +54,6 @@ export default function Home() {
   const cta = layout.find((block) => block.blockType === "cta-section");
 
   const gmfr = layout.find((block) => block.blockType === "gfrp-vs-tmt");
-
-  const calc = layout.find((block) => block.blockType === "calculator");
 
   // console.log(about, 'this is about')
 
@@ -126,9 +123,7 @@ export default function Home() {
             elements.push(<VisionSection key={index} visionSection={block} />);
             break;
           case "calculator":
-            elements.push(
-              <Calculatorss key={`calculator-${index}`} calc={calc} />
-            );
+            elements.push(<SlabCalculator key={`calculator-${index}`} />);
             break;
           case "blogSection":
             

@@ -16,20 +16,20 @@ export default function ContactButton() {
 
   return (
     <>
-      <Link href="https://wa.me/+919530013034">
-        <button
-          // onClick={handleContactClick}
-          className="floating-contact-btn"
-          aria-label="Contact Us"
-          style={{
-            outline: "none",
-            border: "none",
-            backgroundColor: "#128C7E",
-          }}
-        >
-          <MessageCircle size={20} />
-          <span className="contact-text">Whatsapp</span>
-        </button>
+      <Link
+        href="https://wa.me/+919530013034"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="floating-contact-btn"
+        aria-label="Contact Us"
+        style={{
+          outline: "none",
+          border: "none",
+          backgroundColor: "#128C7E",
+        }}
+      >
+        <MessageCircle size={20} />
+        <span className="contact-text">Whatsapp</span>
       </Link>
 
       <style jsx>{`

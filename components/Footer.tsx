@@ -82,21 +82,21 @@ export default function Footer() {
                           <path
                             d="M5 12L18 12"
                             stroke="currentColor"
-                            stroke-width="2"
+                            strokeWidth="2"
                             stroke-linecap="square"
                             stroke-linejoin="round"
                           />
                           <path
                             d="M13 6L19 12"
                             stroke="currentColor"
-                            stroke-width="2"
+                            strokeWidth="2"
                             stroke-linecap="square"
                             stroke-linejoin="round"
                           />
                           <path
                             d="M13 18L19 12"
                             stroke="currentColor"
-                            stroke-width="2"
+                            strokeWidth="2"
                             stroke-linecap="square"
                             stroke-linejoin="round"
                           />

@@ -288,12 +288,7 @@ const Navbar: React.FC = () => {
           </div>
           <div className="nav-right">
             <div className="menu-cta-wrap desktop">
-              <a
-                // href="https://webflow.com/templates/designers/byq-studio"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="cta-small w-inline-block"
-              >
+              <div className="cta-small w-inline-block">
                 <div className="button-animation-hide small">
                   <div className="button-animation-wrap small">
                     {navData.links && navData.links.length > 0 && (
@@ -328,7 +323,7 @@ const Navbar: React.FC = () => {
                     )}
                   </div>
                 </div>
-              </a>
+              </div>
             </div>
           </div>
         </div>

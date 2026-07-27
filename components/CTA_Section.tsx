@@ -42,7 +42,7 @@ export default function CTA({ cta }) {
                             <path
                               d="M1 9L5 5L1 1"
                               stroke="currentColor"
-                              stroke-width="2"
+                              strokeWidth="2"
                             />
                           </svg>
                         </div>
@@ -60,7 +60,7 @@ export default function CTA({ cta }) {
                             <path
                               d="M1 9L5 5L1 1"
                               stroke="currentColor"
-                              stroke-width="2"
+                              strokeWidth="2"
                             />
                           </svg>
                         </div>

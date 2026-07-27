@@ -23,7 +23,7 @@ export default function Science({ science  }) {
             </div>
             <div className="features-list-home-b">
               {science.facts.map((fac, index) => (
-                <div className="feature-item-home-b">
+                <div className="feature-item-home-b" key={fac.id || index}>
                   <div className="feature-top-tile">
                     <div className="tick-features w-embed">
                       <svg
@@ -36,7 +36,7 @@ export default function Science({ science  }) {
                         <path
                           d="M20 6L9 17L4 12"
                           stroke="currentColor"
-                          stroke-width="2"
+                          strokeWidth="2"
                         />
                       </svg>
                     </div>
@@ -62,7 +62,7 @@ export default function Science({ science  }) {
                       <path
                         d="M20 6L9 17L4 12"
                         stroke="currentColor"
-                        stroke-width="2"
+                        strokeWidth="2"
                       />
                     </svg>
                   </div>
@@ -89,7 +89,7 @@ export default function Science({ science  }) {
                       <path
                         d="M20 6L9 17L4 12"
                         stroke="currentColor"
-                        stroke-width="2"
+                        strokeWidth="2"
                       />
                     </svg>
                   </div>

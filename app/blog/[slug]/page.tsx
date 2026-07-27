@@ -79,12 +79,12 @@
 //                       <path
 //                         d="M11 0.666992L11 19.3337"
 //                         stroke="currentColor"
-//                         stroke-width="2"
+//                         strokeWidth="2"
 //                       />
 //                       <path
 //                         d="M20.334 10L11.0007 19.3333L1.66732 10"
 //                         stroke="currentColor"
-//                         stroke-width="2"
+//                         strokeWidth="2"
 //                       />
 //                     </svg>
 //                   </div>

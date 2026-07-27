@@ -2,14 +2,14 @@ import React from 'react';
 import { Check, Zap, Shield, Wrench, DollarSign, Clock, Flame, Link, Activity } from 'lucide-react';
 
 function SS({ gmfr }) {
-  const renderLexicalNode = (node) => {
+  const renderLexicalNode = (node, i = 0) => {
     if (!node) return null;
 
     switch (node.type) {
       case "paragraph":
         return (
-          <p key={Math.random()}>
-            {node.children?.map((child, i) => renderLexicalNode(child, i))}
+          <p key={i}>
+            {node.children?.map((child, ci) => renderLexicalNode(child, ci))}
           </p>
         );
 
@@ -20,10 +20,10 @@ function SS({ gmfr }) {
           content = <strong>{content}</strong>; // Bold
         }
 
-        return <span key={Math.random()}>{content}</span>;
+        return <span key={i}>{content}</span>;
 
       default:
-        return node.children?.map((child, i) => renderLexicalNode(child, i));
+        return node.children?.map((child, ci) => renderLexicalNode(child, ci));
     }
   };
 
@@ -96,7 +96,7 @@ function SS({ gmfr }) {
 
                                 <div className="check-list">
                                   {gf.properties.map((pr, index) => (
-                                    <div className="check-wrap">
+                                    <div className="check-wrap" key={pr.id || index}>
                                       <div
                                         className="check-icon-wrap"
                                         style={{ backgroundColor: pr.bgColor }}
