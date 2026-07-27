@@ -367,7 +367,7 @@ export default function SlabCalculator() {
   const savingsPct = tmtCost > 0 ? (savings / tmtCost) * 100 : 0;
 
   return (
-    <div className="main-container" id="slab-calculator">
+    <div className="main-container" id="calculator">
       <div className="section-divider"></div>
       <div className="section">
         <div className="headline-pricing">
