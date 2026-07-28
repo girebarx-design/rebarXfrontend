@@ -39,3 +39,41 @@ export function blocksOf(page: any): Record<string, Block> {
   for (const b of page?.layout ?? []) out[b.blockType] = b;
   return out;
 }
+
+/** Matches the slugs stored in the CMS, which aren't always pre-slugified. */
+export function slugify(text = ""): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]+/g, "");
+}
+
+/** Blog index: light payload (depth=1) is enough for cards. */
+export async function getBlogPosts() {
+  const res = await fetch(`${CMS}/blog-posts?depth=1&limit=100`, {
+    next: { revalidate: 3600 },
+  });
+  if (!res.ok) return [];
+  const data = await res.json();
+  return data.docs ?? [];
+}
+
+/** Single post: depth=2 to populate content + related posts. */
+export async function getBlogPostsFull() {
+  const res = await fetch(`${CMS}/blog-posts?depth=2&limit=100`, {
+    next: { revalidate: 3600 },
+  });
+  if (!res.ok) return [];
+  const data = await res.json();
+  return data.docs ?? [];
+}
+
+export async function getBlogPostBySlug(slug: string) {
+  const posts = await getBlogPostsFull();
+  return (
+    posts.find((p: any) => slugify(p.slug) === slug) ??
+    posts.find((p: any) => p.slug === slug) ??
+    null
+  );
+}

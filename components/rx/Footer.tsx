@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { DOWNLOADS } from "@/lib/downloads";
 
 type L = { label: string; url: string };
 
@@ -51,6 +52,15 @@ export default function Footer({
               ))}
             </div>
           ) : null}
+
+          <div className="rx-foot__col">
+            <h4>Downloads</h4>
+            {DOWNLOADS.map((d) => (
+              <a key={d.href} href={d.href} download>
+                {d.label}
+              </a>
+            ))}
+          </div>
 
           <div className="rx-foot__col">
             <h4>Get in touch</h4>

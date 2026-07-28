@@ -1,10 +1,67 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Btn } from "./ui";
+import { DOWNLOADS } from "@/lib/downloads";
 
 type NavLink = { label: string; url: string };
+
+function DownloadsMenu({ onPick }: { onPick: () => void }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (e: MouseEvent) => {
+      if (!ref.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("click", close);
+    return () => document.removeEventListener("click", close);
+  }, [open]);
+
+  return (
+    <div className="rx-nav__dd" ref={ref}>
+      <button
+        className="rx-nav__link rx-nav__dd-btn"
+        aria-expanded={open}
+        aria-haspopup="menu"
+        onClick={() => setOpen((v) => !v)}
+      >
+        Downloads
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+          <path
+            d="m2 3.5 3 3 3-3"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+      {open ? (
+        <div className="rx-nav__dd-menu" role="menu">
+          {DOWNLOADS.map((d) => (
+            <a
+              key={d.href}
+              href={d.href}
+              download
+              role="menuitem"
+              className="rx-nav__dd-item"
+              onClick={() => {
+                setOpen(false);
+                onPick();
+              }}
+            >
+              <b>{d.label}</b>
+              <small>{d.meta}</small>
+            </a>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
 
 export default function Nav({
   logo,
@@ -44,6 +101,11 @@ export default function Nav({
               {l.label}
             </Link>
           ))}
+
+          {/* Desktop: dropdown. In the mobile panel the menu renders inline
+              under the trigger, so the same component serves both. */}
+          <DownloadsMenu onPick={() => setOpen(false)} />
+
           {/* The header CTA is hidden on small screens, so repeat it here. */}
           {cta ? (
             <Link

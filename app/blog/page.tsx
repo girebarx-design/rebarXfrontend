@@ -1,8 +1,23 @@
+import type { Metadata } from "next";
 import BlogPage from "@/components/BlogPage";
+import { getBlogPosts } from "@/lib/cms";
 
+export const revalidate = 3600;
 
-export default function Blog() {
-    return (
-        <BlogPage />
-    )
+export const metadata: Metadata = {
+  title: "Blog | RebarX — GFRP Rebar Insights & Guides",
+  description:
+    "Guides and insights on GFRP rebar, corrosion-free reinforcement, and construction cost savings from the RebarX team.",
+  alternates: { canonical: "https://www.rebarx.in/blog" },
+  openGraph: {
+    title: "RebarX Blog",
+    description:
+      "Guides and insights on GFRP rebar, corrosion-free reinforcement, and construction cost savings.",
+    url: "https://www.rebarx.in/blog",
+  },
+};
+
+export default async function Blog() {
+  const posts = await getBlogPosts();
+  return <BlogPage posts={posts} />;
 }

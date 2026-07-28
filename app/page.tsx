@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getPage, blocksOf } from "@/lib/cms";
 import Faq from "@/components/rx/Faq";
+import ComparisonTable from "@/components/rx/ComparisonTable";
 import SlabCalculator from "@/components/SlabCalculator";
-import { Btn, Eyebrow, Check, Dot, Star } from "@/components/rx/ui";
+import { Btn, Eyebrow, Star } from "@/components/rx/ui";
+import { DOWNLOADS } from "@/lib/downloads";
 
 export const revalidate = 3600;
 
@@ -198,18 +200,9 @@ export default async function Home() {
             <div className="rx-about__grid">
               <div>
                 {about.sectionName ? <Eyebrow>{about.sectionName}</Eyebrow> : null}
-                <h2 style={{ fontSize: "var(--t-h2)" }}>{about.sectionTitle}</h2>
+                <h2 className="rx-about__h">{about.sectionTitle}</h2>
                 {about.sectionDescription ? (
-                  <p
-                    style={{
-                      marginTop: "1.35rem",
-                      fontSize: "var(--t-lead)",
-                      color: "var(--tx-soft)",
-                      maxWidth: "34rem",
-                    }}
-                  >
-                    {about.sectionDescription}
-                  </p>
+                  <p className="rx-about__p">{about.sectionDescription}</p>
                 ) : null}
 
                 {about.attributes?.length ? (
@@ -247,6 +240,11 @@ export default async function Home() {
             <div className="rx-head">
               <Eyebrow>Where RebarX is used</Eyebrow>
               <h2>{carousel.sectionTitle ?? "Applications"}</h2>
+              <p>
+                Anywhere corrosion, weight or electromagnetic interference
+                limits what steel can do — from slabs and retaining walls to
+                marine, water and power infrastructure.
+              </p>
             </div>
             <div className="rx-apps__grid">
               {(carousel.cards ?? []).map((c: any, i: number) => (
@@ -268,41 +266,7 @@ export default async function Home() {
               <h2>{cmp.heading ?? "RebarX vs TMT"}</h2>
             </div>
 
-            <div className="rx-cmp__grid">
-              {(cmp.comparisonSections ?? []).map((s: any, i: number) => {
-                const lead = i === 0;
-                return (
-                  <div className={`rx-card${lead ? " rx-card--lead" : ""}`} key={i}>
-                    <div className="rx-card__h">
-                      {s.logo?.cloudinaryUrl ? (
-                        <img src={s.logo.cloudinaryUrl} alt="" />
-                      ) : null}
-                      <h3>{s.title}</h3>
-                    </div>
-                    <p className="rx-card__sub">{s.description}</p>
-
-                    <div className="rx-rows">
-                      {(s.properties ?? []).map((p: any, j: number) => (
-                        <div
-                          className={`rx-row${lead ? "" : " rx-row--neg"}`}
-                          key={j}
-                        >
-                          {lead ? <Check /> : <Dot />}
-                          <span>{lexicalToText(p.property)}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {s.bestFor ? (
-                      <div className="rx-card__best">
-                        <b>Best for</b>
-                        {s.bestFor}
-                      </div>
-                    ) : null}
-                  </div>
-                );
-              })}
-            </div>
+            <ComparisonTable sections={cmp.comparisonSections ?? []} />
           </div>
         </section>
 
@@ -312,6 +276,10 @@ export default async function Home() {
             <div className="rx-head">
               <Eyebrow>Product range</Eyebrow>
               <h2>{prod.sectionTitle ?? "Optimized solutions for strength"}</h2>
+              <p>
+                Straight bar and custom-formed shapes, cut to length so there
+                is no wastage on site.
+              </p>
             </div>
             <div className="rx-prod__grid">
               {(prod.products ?? []).map((p: any, i: number) => (
@@ -390,6 +358,42 @@ export default async function Home() {
           </section>
         ) : null}
 
+        {/* ---------------- DOWNLOADS ---------------- */}
+        <section className="rx-section rx-dl" id="downloads">
+          <div className="rx-wrap">
+            <div className="rx-head">
+              <Eyebrow>Resources</Eyebrow>
+              <h2>Take RebarX with you</h2>
+              <p>
+                Everything your consultant or structural engineer needs to
+                evaluate GFRP — in two documents.
+              </p>
+            </div>
+            <div className="rx-dl__grid">
+              {DOWNLOADS.map((d) => (
+                <a className="rx-dl__card" href={d.href} download key={d.href}>
+                  <span className="rx-dl__ico" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M12 3v11m0 0 4-4m-4 4-4-4M5 20h14"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                  <span className="rx-dl__body">
+                    <b>{d.label}</b>
+                    <span>{d.blurb}</span>
+                    <small>{d.meta}</small>
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ---------------- CTA ---------------- */}
         <section className="rx-section rx-cta rx-on-dark">
           <div className="rx-wrap">
@@ -410,11 +414,3 @@ export default async function Home() {
   );
 }
 
-/** Payload stores rich text as a Lexical tree; flatten it to plain text. */
-function lexicalToText(node: any): string {
-  if (!node) return "";
-  if (typeof node === "string") return node;
-  if (node.text) return node.text;
-  const kids = node.children ?? node.root?.children ?? [];
-  return kids.map(lexicalToText).join("");
-}

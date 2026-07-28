@@ -7,7 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { getSEO } from "@/components/getSEO";
-import ContactButton from "@/components/ContactButton";
+import WhatsAppFab from "@/components/rx/WhatsApp";
 import Nav from "@/components/rx/Nav";
 import RxFooter from "@/components/rx/Footer";
 import { getNav, getFooter } from "@/lib/cms";
@@ -109,7 +109,12 @@ export default async function RootLayout({
     getNav(),
     getFooter(),
   ]);
-  const navLinks = (navData?.links ?? []) as { label: string; url: string }[];
+  const navLinks = (
+    (navData?.links ?? []) as { label: string; url: string }[]
+  ).filter(
+    // The brochure now lives on the site itself (see Downloads menu).
+    (l) => !/brochure/i.test(l.label)
+  );
   return (
     // <html lang="en">
     //   <head>
@@ -283,7 +288,7 @@ export default async function RootLayout({
           />
         </div>
 
-        <ContactButton />
+        <WhatsAppFab />
 
         {/* Custom Scripts Before </body> */}
         {seo?.customBodyEndScripts && (
