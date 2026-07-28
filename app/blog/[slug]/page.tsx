@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import BlogPost from "@/components/SingleBlog";
-import { getBlogPostBySlug } from "@/lib/cms";
+import { getBlogPostBySlug, slugify } from "@/lib/cms";
 
 export const revalidate = 3600;
 
@@ -22,7 +22,7 @@ export async function generateMetadata({
     };
   }
 
-  const url = `https://www.rebarx.in/blog/${blog.slug}`;
+  const url = `https://www.rebarx.in/blog/${slugify(blog.slug)}`;
 
   return {
     title: blog.metaTitle || blog.title,
@@ -71,7 +71,7 @@ export default async function Blog({ params }: { params: Params }) {
       name: "RebarX",
       "@id": "https://www.rebarx.in/#org",
     },
-    mainEntityOfPage: `https://www.rebarx.in/blog/${blog.slug}`,
+    mainEntityOfPage: `https://www.rebarx.in/blog/${slugify(blog.slug)}`,
   };
 
   return (

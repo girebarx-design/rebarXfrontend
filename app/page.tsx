@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getPage, blocksOf } from "@/lib/cms";
+import { getPage, blocksOf, slugify } from "@/lib/cms";
 import Faq from "@/components/rx/Faq";
 import ComparisonTable from "@/components/rx/ComparisonTable";
 import SlabCalculator from "@/components/SlabCalculator";
@@ -324,7 +324,7 @@ export default async function Home() {
               </div>
               <div className="rx-blogs__grid">
                 {blogs.selectedBlogs.map((p: any, i: number) => (
-                  <Link className="rx-blog" href={`/blog/${p.slug}`} key={p.slug ?? i}>
+                  <Link className="rx-blog" href={`/blog/${slugify(p.slug)}`} key={p.slug ?? i}>
                     <div className="rx-blog__img">
                       {p.mainImage?.cloudinaryUrl ? (
                         <img

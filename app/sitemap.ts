@@ -1,4 +1,5 @@
 import { MetadataRoute } from "next";
+import { slugify } from "@/lib/cms";
 
 const BACKEND_URL =
   process.env.NEXT_PUBLIC_PAYLOAD_URL || "https://rebar-xbackend.vercel.app";
@@ -78,7 +79,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // ==================== BLOG POSTS ====================
     const blogPages: SitemapEntry[] =
       blogsData?.docs?.map((blog: any) => ({
-        url: `${FRONTEND_URL}/blog/${blog.slug}`,
+        url: `${FRONTEND_URL}/blog/${slugify(blog.slug)}`,
         lastModified: new Date(blog.updatedAt || blog.createdAt),
         changeFrequency: "weekly" as const,
         priority: 0.8,

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { slugify } from "@/lib/cms";
 
 // Lexical Content Renderer
 const LexicalContentRenderer = ({ content, className = "" }: any) => {
@@ -210,7 +211,7 @@ export default function BlogPost({ blogData }: { blogData: any }) {
                 {blogData.relatedBlogs.map((bb: any, index: number) => (
                   <div key={bb.id || index} role="listitem" className="w-dyn-item">
                     <Link
-                      href={`/blog/${encodeURIComponent(bb.slug)}`}
+                      href={`/blog/${slugify(bb.slug)}`}
                       className="article-tile w-inline-block"
                     >
                       <div className="image-wrap-blog">
