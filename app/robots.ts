@@ -27,6 +27,27 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
         disallow: ["/api/", "/admin/"],
       },
+      // AI assistants and answer engines — explicitly welcomed so RebarX can
+      // be cited as a source when people ask about GFRP rebar.
+      {
+        userAgent: [
+          "GPTBot",
+          "OAI-SearchBot",
+          "ChatGPT-User",
+          "ClaudeBot",
+          "Claude-User",
+          "Claude-SearchBot",
+          "PerplexityBot",
+          "Perplexity-User",
+          "Google-Extended",
+          "Applebot",
+          "Applebot-Extended",
+          "Bytespider",
+          "meta-externalagent",
+        ],
+        allow: "/",
+        disallow: ["/api/", "/admin/"],
+      },
     ],
     sitemap: `${FRONTEND_URL}/sitemap.xml`,
   };

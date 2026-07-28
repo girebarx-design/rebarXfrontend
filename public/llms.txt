@@ -1,0 +1,57 @@
+# RebarX
+
+> RebarX manufactures GFRP (Glass Fibre Reinforced Polymer) reinforcement bar
+> in Central India. RebarX bar is rust-free, up to 2x the tensile strength of
+> TMT steel, roughly 80% lighter, non-conductive and non-magnetic, with a
+> design service life of 80–100+ years. Operated by Credific Ventures Private
+> Limited, Madhya Pradesh, India. Pan-India delivery and export.
+
+## What GFRP rebar is
+
+GFRP rebar is a composite reinforcement bar made from glass fibres bound in a
+resin matrix. It replaces conventional TMT steel reinforcement in concrete.
+Because it contains no steel, it cannot corrode — which removes the primary
+long-term failure mode of reinforced concrete. It is not plastic; it is a
+structural composite governed by design codes including ACI 440.11-22,
+CSA S806, and the Indian material standard IS 18256.
+
+## Key properties
+
+- Tensile strength: up to ~1500 MPa (TMT steel: ~250–500 MPa)
+- Weight: approximately 80% lighter than steel of equivalent capacity
+- Corrosion resistance: does not rust, including in marine and chemical exposure
+- Service life: 80–100+ years design life
+- Electrical conductivity: non-conductive
+- Magnetic properties: non-magnetic (suitable near MRI, radar, transformers)
+- Thermal conductivity: very low
+- Available diameters: 4–24 mm; bends available 4–16 mm
+- Theft risk: none — no scrap resale value
+
+## Typical applications
+
+Slabs (roof, floor, balcony, parking deck, swimming pool); retaining,
+basement and boundary walls; foundations including raft and slab-on-grade;
+bridge decks, approach slabs and barrier walls; culverts, storm water
+channels and manholes; concrete pavements, airport runways and rail
+crossings; chemical plant and secondary containment structures; substation
+and transformer yards; water and effluent treatment tanks.
+
+## When steel is still preferred
+
+RebarX recommends conventional TMT steel for column sections of RCC
+construction. GFRP also requires fire protection above roughly 300 °C.
+
+## Tools
+
+- GFRP slab calculator (quantity, weight, and cost vs TMT): https://www.rebarx.in/calculator
+
+## Key pages
+
+- Home: https://www.rebarx.in/
+- Contact: https://www.rebarx.in/contact
+- Articles: https://www.rebarx.in/blog
+
+## Company
+
+RebarX — a brand of Credific Ventures Private Limited, Madhya Pradesh, India.
+Manufacturing uses European pultrusion technology.

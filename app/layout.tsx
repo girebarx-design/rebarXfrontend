@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Archivo, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 
@@ -8,16 +8,25 @@ import Footer from "@/components/Footer";
 
 import { getSEO } from "@/components/getSEO";
 import ContactButton from "@/components/ContactButton";
+import Nav from "@/components/rx/Nav";
+import RxFooter from "@/components/rx/Footer";
+import { getNav, getFooter } from "@/lib/cms";
+import "./rx.css";
 
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+/** Display face: tight, engineered, editorial — carries the headlines. */
+const archivo = Archivo({
+  variable: "--font-display",
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+/** Body face: neutral and highly legible at small sizes. */
+const inter = Inter({
+  variable: "--font-body",
   subsets: ["latin"],
+  display: "swap",
 });
 
 
@@ -95,7 +104,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const seo = await getSEO();
+  const [seo, navData, footerData] = await Promise.all([
+    getSEO(),
+    getNav(),
+    getFooter(),
+  ]);
+  const navLinks = (navData?.links ?? []) as { label: string; url: string }[];
   return (
     // <html lang="en">
     //   <head>
@@ -230,7 +244,7 @@ export default async function RootLayout({
           <script dangerouslySetInnerHTML={{ __html: seo.customHeadScripts }} />
         )}
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${archivo.variable} ${inter.variable}`}>
         {/* Custom Scripts Immediately After <body> */}
         {seo?.customBodyStartScripts && (
           <div
@@ -250,9 +264,24 @@ export default async function RootLayout({
           </noscript>
         )}
 
-        <Navbar />
-        {children}
-        <Footer />
+        <div className="rx">
+          <Nav
+            logo={navData?.logoImage?.cloudinaryUrl}
+            links={navLinks.slice(0, -1)}
+            cta={navLinks[navLinks.length - 1]}
+          />
+          {children}
+          <RxFooter
+            logo={navData?.logoImage?.cloudinaryUrl}
+            company={footerData?.companyLinks ?? []}
+            legal={footerData?.legalLinks ?? []}
+            social={(footerData?.socialMedia ?? []).map((s: any) => ({
+              label: s.icon?.alt ?? "Social",
+              url: s.url,
+            }))}
+            phone={navData?.phone}
+          />
+        </div>
 
         <ContactButton />
 
