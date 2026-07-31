@@ -62,15 +62,30 @@ const inter = Inter({
 // }
 
 
+/**
+ * These CMS fields are meant to hold short verification tokens, but have
+ * historically been mis-populated with entire <script> blocks pasted in by
+ * mistake. Emitting that as a meta tag's content attribute produces broken,
+ * bloated markup and doesn't verify anything — so treat anything containing
+ * markup as unset rather than trust it blindly.
+ */
+function cleanToken(value?: string | null): string | undefined {
+  if (!value) return undefined;
+  const trimmed = value.trim();
+  if (!trimmed || /[<>]/.test(trimmed) || trimmed.length > 150) return undefined;
+  return trimmed;
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSEO();
-
-  console.log(seo, 'this i')
 
   return {
     title: seo?.siteTitle || "RebarX",
     description: seo?.metaDescription || "Default description for my site.",
     metadataBase: new URL(seo?.canonicalURL || "http://localhost:3000"),
+    alternates: {
+      languages: { "en-IN": "https://www.rebarx.in/" },
+    },
     openGraph: {
       title: seo?.ogTitle || seo?.siteTitle,
       description: seo?.ogDescription || seo?.metaDescription,
@@ -90,10 +105,18 @@ export async function generateMetadata(): Promise<Metadata> {
       icon: seo?.favicon?.cloudinaryUrl || undefined,
     },
     other: {
-      "google-site-verification": seo?.googleSiteVerification || "",
-      "bing-site-verification": seo?.bingSiteVerification || "",
-      "pinterest-site-verification": seo?.pinterestVerification || "",
-      "yandex-verification": seo?.yandexVerification || "",
+      ...(cleanToken(seo?.googleSiteVerification)
+        ? { "google-site-verification": cleanToken(seo.googleSiteVerification)! }
+        : {}),
+      ...(cleanToken(seo?.bingSiteVerification)
+        ? { "bing-site-verification": cleanToken(seo.bingSiteVerification)! }
+        : {}),
+      ...(cleanToken(seo?.pinterestVerification)
+        ? { "pinterest-site-verification": cleanToken(seo.pinterestVerification)! }
+        : {}),
+      ...(cleanToken(seo?.yandexVerification)
+        ? { "yandex-verification": cleanToken(seo.yandexVerification)! }
+        : {}),
       robots: seo?.robotsDirectives || "index, follow",
     },
   };
@@ -164,25 +187,15 @@ export default async function RootLayout({
           />
         )}
 
-        {/* Google Analytics */}
-        {seo?.googleAnalyticsId && (
-          <>
-            <script
-              async
-              src={`https://www.googletagmanager.com/gtag/js?id=${seo.googleAnalyticsId}`}
-            />
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
-                  window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());
-                  gtag('config', '${seo.googleAnalyticsId}');
-                `,
-              }}
-            />
-          </>
-        )}
+        {/*
+          Google Analytics is wired via the customHeadScripts field below —
+          the googleAnalyticsId field has historically held a full pasted
+          <script> block instead of a bare measurement ID, which produced a
+          second, broken gtag.js request (invalid URL, invalid JS string) on
+          every single page load. That's a real performance/INP cost for
+          zero benefit, so this field is intentionally not rendered here
+          until it holds a clean ID again.
+        */}
 
         {/* Google Tag Manager */}
         {seo?.googleTagManagerId && (

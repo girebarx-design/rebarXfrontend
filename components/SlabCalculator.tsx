@@ -371,7 +371,7 @@ export default function SlabCalculator() {
       <div className="section-divider"></div>
       <div className="section">
         <div className="headline-pricing">
-          <div className="text-h2">RebarX Slab Calculator</div>
+          <h2 className="text-h2">RebarX Slab Calculator</h2>
           <div
             className="text-body"
             style={{ maxWidth: "620px", textAlign: "center" }}

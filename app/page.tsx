@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getPage, blocksOf, slugify } from "@/lib/cms";
+import { getPage, blocksOf, slugify, getFooter } from "@/lib/cms";
 import Faq from "@/components/rx/Faq";
 import ComparisonTable from "@/components/rx/ComparisonTable";
 import SlabCalculator from "@/components/SlabCalculator";
@@ -10,7 +10,7 @@ import { DOWNLOADS } from "@/lib/downloads";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "GFRP Rebar Manufacturer in India | RebarX — Rust Free, 2X Strength",
+  title: "GFRP Rebar Manufacturer in India | RebarX — Rustfree",
   description:
     "RebarX manufactures GFRP (glass fibre reinforced polymer) rebar in India — 2x the tensile strength of steel, 80% lighter, and 100% corrosion-proof. Used in slabs, bridges, marine and water infrastructure. Pan-India delivery and export.",
   keywords: [
@@ -58,7 +58,7 @@ const STATS = [
 ];
 
 export default async function Home() {
-  const page = await getPage("home");
+  const [page, footerData] = await Promise.all([getPage("home"), getFooter()]);
   const b = blocksOf(page);
 
   const hero = b.hero ?? {};
@@ -75,6 +75,13 @@ export default async function Home() {
 
   const faqItems = (faq.faqs ?? []) as { question: string; answer: string }[];
 
+  const productImage =
+    prod.products?.[0]?.image?.cloudinaryUrl ?? hero.posterImage?.cloudinaryUrl;
+
+  const sameAs = ((footerData?.socialMedia ?? []) as { url?: string }[])
+    .map((s) => s.url)
+    .filter((url): url is string => Boolean(url));
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -86,8 +93,13 @@ export default async function Home() {
         url: "https://www.rebarx.in/",
         description:
           "Manufacturer of GFRP (glass fibre reinforced polymer) rebar in India.",
+        telephone: "+91-9530013034",
+        email: "hello@rebarx.in",
+        ...(sameAs.length ? { sameAs } : {}),
         address: {
           "@type": "PostalAddress",
+          streetAddress: "Plot Number 8B, 8C, Industrial Area - Sector 3",
+          addressLocality: "Pithampur",
           addressRegion: "Madhya Pradesh",
           addressCountry: "IN",
         },
@@ -106,6 +118,7 @@ export default async function Home() {
         material: "Glass Fibre Reinforced Polymer",
         description:
           "Corrosion-proof GFRP reinforcement bar with up to 2x the tensile strength of TMT steel at 80% lower weight. Available in 4–24mm diameters.",
+        ...(productImage ? { image: [productImage] } : {}),
       },
       ...(faqItems.length
         ? [

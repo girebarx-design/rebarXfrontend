@@ -103,7 +103,7 @@ export default async function ContactPage() {
         <div className="rx-wrap">
           <div className="rx-head">
             <Eyebrow>{c?.smallTitle ?? "Contact"}</Eyebrow>
-            <h2>Talk to our GFRP team</h2>
+            <h1>Talk to our GFRP team</h1>
             <p>
               {c?.description ??
                 "Tell us about your project and we'll come back with sizing, quantities and a delivered price."}
@@ -160,7 +160,7 @@ export default async function ContactPage() {
 
             {/* ---- form ---- */}
             <div className="rx-contact__form">
-              <h3>Send an enquiry</h3>
+              <h2>Send an enquiry</h2>
               <ContactForm fields={fields} />
             </div>
           </div>

@@ -31,6 +31,18 @@ const nextConfig: NextConfig = {
       "payload-back.onrender.com",
     ],
   },
+  async redirects() {
+    return [
+      // Footer CMS data links to these as standalone pages, but they're
+      // homepage sections — the pages themselves never existed (404).
+      { source: "/about", destination: "/#about", permanent: true },
+      { source: "/compare", destination: "/#compare", permanent: true },
+      // /slab-calculator and /calculator were byte-identical duplicate
+      // pages (duplicate-content SEO issue) — /calculator is the one
+      // actually linked (footer), so consolidate onto it.
+      { source: "/slab-calculator", destination: "/calculator", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;
