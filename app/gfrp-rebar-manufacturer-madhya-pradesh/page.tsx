@@ -22,15 +22,64 @@ export const metadata: Metadata = {
   },
 };
 
+// Major cities and district headquarters across Madhya Pradesh — the
+// state RebarX manufactures in and delivers across in full.
 const AREAS = [
-  "Indore",
-  "Pithampur",
-  "Dewas",
-  "Ujjain",
   "Bhopal",
-  "Dhar",
-  "Mhow",
+  "Indore",
+  "Jabalpur",
+  "Gwalior",
+  "Ujjain",
+  "Sagar",
+  "Dewas",
+  "Satna",
+  "Ratlam",
+  "Rewa",
+  "Katni",
+  "Singrauli",
+  "Burhanpur",
+  "Khandwa",
+  "Bhind",
+  "Chhindwara",
+  "Guna",
+  "Shivpuri",
+  "Vidisha",
+  "Chhatarpur",
+  "Damoh",
+  "Mandsaur",
   "Khargone",
+  "Neemuch",
+  "Pithampur",
+  "Itarsi",
+  "Sehore",
+  "Morena",
+  "Betul",
+  "Seoni",
+  "Balaghat",
+  "Narmadapuram",
+  "Shahdol",
+  "Dhar",
+  "Anuppur",
+  "Datia",
+  "Mandla",
+  "Tikamgarh",
+  "Ashoknagar",
+  "Harda",
+  "Raisen",
+  "Dindori",
+  "Umaria",
+  "Panna",
+  "Sidhi",
+  "Alirajpur",
+  "Jhabua",
+  "Barwani",
+  "Sheopur",
+  "Niwari",
+  "Agar Malwa",
+  "Rajgarh",
+  "Mhow",
+  "Maihar",
+  "Nagda",
 ];
 
 const FAQS = [
@@ -49,6 +98,10 @@ const FAQS = [
   {
     q: "Does RebarX deliver outside Madhya Pradesh too?",
     a: "Yes, we deliver pan-India and export — Madhya Pradesh is simply where we manufacture, so customers here get the shortest lead times and lowest freight cost.",
+  },
+  {
+    q: "Do you deliver to every pincode in Madhya Pradesh, or only major cities?",
+    a: "Every pincode in the state, not just the major cities listed on this page. Those cities are our main dispatch hubs — smaller towns and rural project sites across MP are served too.",
   },
 ];
 
@@ -73,7 +126,15 @@ export default function MadhyaPradeshPage() {
       addressRegion: "Madhya Pradesh",
       addressCountry: "IN",
     },
-    areaServed: AREAS.map((a) => ({ "@type": "City", name: a })),
+    // A State-level entry is the structurally correct way to say "we
+    // deliver to every pincode in Madhya Pradesh" — schema.org has no
+    // pincode-list property, and literally enumerating thousands of PIN
+    // codes would be unverifiable and read as content-stuffing. City
+    // entries stay for on-page/local-search specificity.
+    areaServed: [
+      { "@type": "State", name: "Madhya Pradesh" },
+      ...AREAS.map((a) => ({ "@type": "City", name: a })),
+    ],
     makesOffer: {
       "@type": "Offer",
       itemOffered: {
@@ -181,17 +242,19 @@ export default function MadhyaPradeshPage() {
           <div className="rx-head">
             <h2>Areas we serve from Pithampur</h2>
             <p>
-              Pan-India delivery and export, with the shortest lead times
-              closest to the factory.
+              We deliver to every pincode across Madhya Pradesh — the cities
+              below are our major hubs, not the limit of where we ship.
+              Beyond MP, it&rsquo;s pan-India delivery and export, with the
+              shortest lead times closest to the factory.
             </p>
           </div>
-          <div className="rx-resources__standards">
+          <ul className="rx-areas">
             {AREAS.map((area) => (
-              <div key={area} className="rx-resources__standard">
-                <b>{area}</b>
-              </div>
+              <li key={area} className="rx-areas__chip">
+                {area}
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
