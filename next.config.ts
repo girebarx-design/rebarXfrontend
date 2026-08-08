@@ -83,6 +83,14 @@ const nextConfig: NextConfig = {
       "style-src 'self' 'unsafe-inline'",
       `img-src 'self' data: https://res.cloudinary.com ${googleHosts} ${legacyAssetHosts}`,
       `font-src 'self' data: https://cdn.prod.website-files.com`,
+      // hero.backgroundVideoURL is a freeform CMS text field (an editor
+      // can paste any video URL) — this broke silently in production
+      // because media-src wasn't set at all, so it fell back to
+      // default-src 'self' and blocked the hero background video
+      // (a Pexels stock clip). res.cloudinary.com covers CMS-native
+      // uploads; *.pexels.com covers this and any future Pexels URL an
+      // editor picks, since exact subdomains vary by clip.
+      "media-src 'self' https://res.cloudinary.com https://*.pexels.com",
       `connect-src 'self' https://rebar-xbackend.vercel.app ${googleHosts}`,
       `frame-src 'self' https://www.google.com`,
       "object-src 'none'",
