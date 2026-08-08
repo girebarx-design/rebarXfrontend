@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getPage, blocksOf, slugify, getFooter, cldOptimize } from "@/lib/cms";
+import { getPage, blocksOf, slugify, getFooter, cldOptimize, ORG_SAME_AS } from "@/lib/cms";
 import Faq from "@/components/rx/Faq";
 import ComparisonTable from "@/components/rx/ComparisonTable";
 import SlabCalculator from "@/components/SlabCalculator";
@@ -78,9 +78,12 @@ export default async function Home() {
   const productImage =
     prod.products?.[0]?.image?.cloudinaryUrl ?? hero.posterImage?.cloudinaryUrl;
 
-  const sameAs = ((footerData?.socialMedia ?? []) as { url?: string }[])
-    .map((s) => s.url)
-    .filter((url): url is string => Boolean(url));
+  const sameAs = [
+    ...ORG_SAME_AS,
+    ...((footerData?.socialMedia ?? []) as { url?: string }[])
+      .map((s) => s.url)
+      .filter((url): url is string => Boolean(url)),
+  ];
 
   const jsonLd = {
     "@context": "https://schema.org",

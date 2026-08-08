@@ -2,6 +2,13 @@ const CMS = "https://rebar-xbackend.vercel.app/api";
 
 export type Block = Record<string, any>;
 
+// Third-party profile URLs for the same RebarX business entity — emitted as
+// schema.org `sameAs` on every page that declares the Organization/
+// LocalBusiness JSON-LD (same @id: https://www.rebarx.in/#org), so Google
+// and AI crawlers link this listing to the on-site entity instead of
+// treating it as an unrelated business.
+export const ORG_SAME_AS = ["https://www.indiamart.com/credificventures/"];
+
 /**
  * Inserts Cloudinary's auto-format/auto-quality transformation so the
  * browser gets WebP/AVIF where supported instead of whatever format was

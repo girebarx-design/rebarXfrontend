@@ -4,6 +4,7 @@ import ContactForm from "@/components/rx/ContactForm";
 import { Eyebrow } from "@/components/rx/ui";
 import { WhatsAppButton, WA_NUMBER } from "@/components/rx/WhatsApp";
 import Breadcrumbs from "@/components/rx/Breadcrumbs";
+import { ORG_SAME_AS } from "@/lib/cms";
 
 export const revalidate = 3600;
 
@@ -91,6 +92,7 @@ export default async function ContactPage() {
     url: "https://www.rebarx.in/",
     email,
     telephone: PHONE_HREF,
+    sameAs: ORG_SAME_AS,
     address: {
       "@type": "PostalAddress",
       streetAddress: "Plot Number 8B, 8C, Industrial Area - Sector 3",

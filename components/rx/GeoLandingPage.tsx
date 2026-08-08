@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ORG_SAME_AS } from "@/lib/cms";
 import { Eyebrow, Btn } from "@/components/rx/ui";
 import { WhatsAppButton } from "@/components/rx/WhatsApp";
 import Breadcrumbs from "@/components/rx/Breadcrumbs";
@@ -39,6 +40,7 @@ export default function GeoLandingPage({ data }: { data: GeoPageData }) {
     url: "https://www.rebarx.in/",
     telephone: PHONE_HREF,
     email: "hello@rebarx.in",
+    sameAs: ORG_SAME_AS,
     address: {
       "@type": "PostalAddress",
       streetAddress: "Plot Number 8B, 8C, Industrial Area - Sector 3",
