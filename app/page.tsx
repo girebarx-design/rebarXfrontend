@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getPage, blocksOf, slugify, getFooter } from "@/lib/cms";
+import { getPage, blocksOf, slugify, getFooter, cldOptimize } from "@/lib/cms";
 import Faq from "@/components/rx/Faq";
 import ComparisonTable from "@/components/rx/ComparisonTable";
 import SlabCalculator from "@/components/SlabCalculator";
@@ -157,7 +157,11 @@ export default async function Home() {
                 <source src={hero.backgroundVideoURL} type="video/mp4" />
               </video>
             ) : hero.posterImage?.cloudinaryUrl ? (
-              <img src={hero.posterImage.cloudinaryUrl} alt="" />
+              <img
+                src={cldOptimize(hero.posterImage.cloudinaryUrl)}
+                alt=""
+                fetchPriority="high"
+              />
             ) : null}
           </div>
           <div className="rx-hero__scrim" />
@@ -223,7 +227,11 @@ export default async function Home() {
                     {about.attributes.map((a: any, i: number) => (
                       <div className="rx-attr" key={i}>
                         {a.image?.cloudinaryUrl ? (
-                          <img src={a.image.cloudinaryUrl} alt="" />
+                          <img
+                            src={cldOptimize(a.image.cloudinaryUrl)}
+                            alt=""
+                            loading="lazy"
+                          />
                         ) : null}
                         {a.title}
                       </div>
@@ -235,11 +243,12 @@ export default async function Home() {
               <div className="rx-about__media">
                 {about.finalImage?.cloudinaryUrl ? (
                   <img
-                    src={about.finalImage.cloudinaryUrl}
+                    src={cldOptimize(about.finalImage.cloudinaryUrl)}
                     alt={
                       about.finalImage.alt ||
                       "RebarX GFRP rebar manufactured in India"
                     }
+                    loading="lazy"
                   />
                 ) : null}
               </div>
@@ -300,8 +309,9 @@ export default async function Home() {
                   <div className="rx-prod__img">
                     {p.image?.cloudinaryUrl ? (
                       <img
-                        src={p.image.cloudinaryUrl}
+                        src={cldOptimize(p.image.cloudinaryUrl)}
                         alt={p.image.alt || p.title || "RebarX product"}
+                        loading="lazy"
                       />
                     ) : null}
                   </div>
@@ -341,8 +351,9 @@ export default async function Home() {
                     <div className="rx-blog__img">
                       {p.mainImage?.cloudinaryUrl ? (
                         <img
-                          src={p.mainImage.cloudinaryUrl}
+                          src={cldOptimize(p.mainImage.cloudinaryUrl)}
                           alt={p.mainImage.alt || p.title}
+                          loading="lazy"
                         />
                       ) : null}
                     </div>

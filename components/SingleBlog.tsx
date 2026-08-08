@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { slugify } from "@/lib/cms";
+import { slugify, cldOptimize } from "@/lib/cms";
 
 // Lexical Content Renderer
 const LexicalContentRenderer = ({ content, className = "" }: any) => {
@@ -108,9 +108,10 @@ const LexicalContentRenderer = ({ content, className = "" }: any) => {
           return (
             <div key={index} className="mb-8">
               <img
-                src={node.value.cloudinaryUrl}
+                src={cldOptimize(node.value.cloudinaryUrl)}
                 alt={node.value.alt || ""}
                 className="w-full h-auto rounded-lg"
+                loading="lazy"
               />
               {node.value.caption ? (
                 <p className="text-small text-center mt-3 italic">
@@ -172,8 +173,9 @@ export default function BlogPost({ blogData }: { blogData: any }) {
         {blogData.mainImage?.cloudinaryUrl ? (
           <div className="blog-hero-bg">
             <img
-              src={blogData.mainImage.cloudinaryUrl}
+              src={cldOptimize(blogData.mainImage.cloudinaryUrl)}
               alt={blogData.mainImage.alt || blogData.title}
+              fetchPriority="high"
             />
           </div>
         ) : null}
@@ -218,7 +220,7 @@ export default function BlogPost({ blogData }: { blogData: any }) {
                         <img
                           alt={bb.mainImage?.alt || bb.title}
                           loading="lazy"
-                          src={bb.mainImage?.cloudinaryUrl}
+                          src={cldOptimize(bb.mainImage?.cloudinaryUrl)}
                           sizes="(max-width: 479px) 100vw, (max-width: 767px) 44vw, (max-width: 991px) 46vw, 30vw"
                           className="image-cover"
                         />

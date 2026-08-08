@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { slugify } from "@/lib/cms";
+import { slugify, cldOptimize } from "@/lib/cms";
 
 export default function BlogPage({ posts }: { posts: any[] }) {
   if (!posts?.length) {
@@ -47,7 +47,7 @@ export default function BlogPage({ posts }: { posts: any[] }) {
                       <img
                         alt={first.mainImage.alt || first.title || ""}
                         loading="lazy"
-                        src={first.mainImage.cloudinaryUrl}
+                        src={cldOptimize(first.mainImage.cloudinaryUrl)}
                         sizes="(max-width: 479px) 100vw, (max-width: 767px) 92vw, 54vw"
                         className="image-coverforblogs"
                       />
@@ -89,7 +89,7 @@ export default function BlogPage({ posts }: { posts: any[] }) {
                         <img
                           alt={bb.mainImage.alt || bb.title || ""}
                           loading="lazy"
-                          src={bb.mainImage.cloudinaryUrl}
+                          src={cldOptimize(bb.mainImage.cloudinaryUrl)}
                           sizes="(max-width: 479px) 100vw, (max-width: 767px) 44vw, (max-width: 991px) 46vw, 30vw"
                           className="image-coverforblogs"
                         />

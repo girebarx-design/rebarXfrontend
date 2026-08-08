@@ -3,6 +3,20 @@ const CMS = "https://rebar-xbackend.vercel.app/api";
 export type Block = Record<string, any>;
 
 /**
+ * Inserts Cloudinary's auto-format/auto-quality transformation so the
+ * browser gets WebP/AVIF where supported instead of whatever format was
+ * uploaded, without needing a separate image pipeline. No-op for non-
+ * Cloudinary URLs (icons, legacy hosts) or URLs that already carry
+ * transformations.
+ */
+export function cldOptimize(url?: string | null): string | undefined {
+  if (!url) return undefined;
+  if (!url.includes("res.cloudinary.com") || !url.includes("/upload/")) return url;
+  if (/\/upload\/[^/]*f_auto/.test(url)) return url;
+  return url.replace("/upload/", "/upload/f_auto,q_auto/");
+}
+
+/**
  * Fetched on the server so crawlers (including AI crawlers that don't run JS)
  * receive fully-rendered HTML. Revalidates hourly.
  */

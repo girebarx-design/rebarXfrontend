@@ -1608,6 +1608,14 @@
   font-size: 0.75rem;
   color: var(--tx-soft);
 }
+.rx-nav__dd-item--all {
+  margin-top: 0.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+}
+.rx-nav__dd-item--all b {
+  color: var(--brass);
+}
 /* In the mobile panel the dropdown flows inline. */
 @media (max-width: 880px) {
   .rx-nav__dd-menu {
@@ -1683,6 +1691,55 @@
 }
 @media (max-width: 720px) {
   .rx-dl__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   RESOURCE CENTER — standards grid + read-more link
+   ============================================================ */
+.rx-resources__readmore {
+  margin-top: 1.25rem;
+  font-size: 0.95rem;
+}
+.rx-resources__readmore a {
+  color: var(--brass);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.rx-resources__standards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+.rx-resources__standard {
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--paper-2);
+}
+.rx-resources__standard b {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--ink);
+}
+.rx-resources__standard-body {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--steel);
+}
+.rx-resources__standard p {
+  margin-top: 0.6rem;
+  font-size: 0.92rem;
+  color: var(--tx-soft);
+  line-height: 1.5;
+}
+@media (max-width: 720px) {
+  .rx-resources__standards {
     grid-template-columns: 1fr;
   }
 }

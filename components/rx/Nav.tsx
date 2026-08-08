@@ -57,6 +57,17 @@ function DownloadsMenu({ onPick }: { onPick: () => void }) {
               <small>{d.meta}</small>
             </a>
           ))}
+          <Link
+            href="/resources"
+            role="menuitem"
+            className="rx-nav__dd-item rx-nav__dd-item--all"
+            onClick={() => {
+              setOpen(false);
+              onPick();
+            }}
+          >
+            <b>View all resources →</b>
+          </Link>
         </div>
       ) : null}
     </div>

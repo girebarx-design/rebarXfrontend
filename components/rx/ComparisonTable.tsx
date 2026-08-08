@@ -1,4 +1,5 @@
 import { toSpecs, toLines } from "@/lib/lexical";
+import { cldOptimize } from "@/lib/cms";
 import { Check } from "./ui";
 
 /**
@@ -41,7 +42,7 @@ export default function ComparisonTable({ sections }: { sections: any[] }) {
           >
             <span className="rx-spec__brand">
               {rebarx?.logo?.cloudinaryUrl ? (
-                <img src={rebarx.logo.cloudinaryUrl} alt="" />
+                <img src={cldOptimize(rebarx.logo.cloudinaryUrl)} alt="" />
               ) : null}
               {rebarx?.title ?? "RebarX"}
             </span>

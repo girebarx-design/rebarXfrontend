@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 import { Archivo, Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-
-
-import Footer from "@/components/Footer";
 
 import { getSEO } from "@/components/getSEO";
 import WhatsAppFab from "@/components/rx/WhatsApp";
 import Nav from "@/components/rx/Nav";
 import RxFooter from "@/components/rx/Footer";
-import { getNav, getFooter } from "@/lib/cms";
+import RawScripts from "@/components/rx/RawScripts";
+import { getNav, getFooter, cldOptimize } from "@/lib/cms";
 import "./rx.css";
 
 
@@ -258,17 +255,11 @@ export default async function RootLayout({
         ))}
 
         {/* Custom <head> Scripts from CMS */}
-        {seo?.customHeadScripts && (
-          <script dangerouslySetInnerHTML={{ __html: seo.customHeadScripts }} />
-        )}
+        <RawScripts html={seo?.customHeadScripts} idPrefix="head-script" />
       </head>
       <body className={`${archivo.variable} ${inter.variable}`}>
         {/* Custom Scripts Immediately After <body> */}
-        {seo?.customBodyStartScripts && (
-          <div
-            dangerouslySetInnerHTML={{ __html: seo.customBodyStartScripts }}
-          />
-        )}
+        <RawScripts html={seo?.customBodyStartScripts} idPrefix="body-start-script" />
 
         {/* GTM <noscript> fallback */}
         {seo?.googleTagManagerId && (
@@ -284,13 +275,13 @@ export default async function RootLayout({
 
         <div className="rx">
           <Nav
-            logo={navData?.logoImage?.cloudinaryUrl}
+            logo={cldOptimize(navData?.logoImage?.cloudinaryUrl)}
             links={navLinks.slice(0, -1)}
             cta={navLinks[navLinks.length - 1]}
           />
           {children}
           <RxFooter
-            logo={navData?.logoImage?.cloudinaryUrl}
+            logo={cldOptimize(navData?.logoImage?.cloudinaryUrl)}
             company={footerData?.companyLinks ?? []}
             legal={footerData?.legalLinks ?? []}
             social={(footerData?.socialMedia ?? []).map((s: any) => ({
@@ -304,9 +295,7 @@ export default async function RootLayout({
         <WhatsAppFab />
 
         {/* Custom Scripts Before </body> */}
-        {seo?.customBodyEndScripts && (
-          <div dangerouslySetInnerHTML={{ __html: seo.customBodyEndScripts }} />
-        )}
+        <RawScripts html={seo?.customBodyEndScripts} idPrefix="body-end-script" />
       </body>
     </html>
   );
