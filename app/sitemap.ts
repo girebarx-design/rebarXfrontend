@@ -69,6 +69,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.9, // Blog listing page
       },
       {
+        url: `${FRONTEND_URL}/compare`,
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority: 0.8,
+      },
+      {
         url: `${FRONTEND_URL}/calculator`,
         lastModified: new Date(),
         changeFrequency: "monthly",

@@ -41,10 +41,12 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // Footer CMS data links to these as standalone pages, but they're
-      // homepage sections — the pages themselves never existed (404).
+      // Footer CMS data links to /about as a standalone page, but it's a
+      // homepage section — the page itself never existed (404).
+      // /compare used to redirect to the homepage's #compare anchor; it's
+      // now a real indexable page (app/compare/page.tsx) with its own
+      // direct-answer content and FAQ, so the redirect is gone.
       { source: "/about", destination: "/#about", permanent: true },
-      { source: "/compare", destination: "/#compare", permanent: true },
       // /slab-calculator and /calculator were byte-identical duplicate
       // pages (duplicate-content SEO issue) — /calculator is the one
       // actually linked (footer), so consolidate onto it.

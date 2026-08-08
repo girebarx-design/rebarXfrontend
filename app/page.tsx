@@ -300,6 +300,9 @@ export default async function Home() {
             </div>
 
             <ComparisonTable sections={cmp.comparisonSections ?? []} />
+            <p className="rx-resources__readmore">
+              <Link href="/compare">Read the full GFRP vs TMT comparison →</Link>
+            </p>
           </div>
         </section>
 
