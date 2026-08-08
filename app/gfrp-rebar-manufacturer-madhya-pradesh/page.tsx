@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Eyebrow, Btn } from "@/components/rx/ui";
 import { WhatsAppButton } from "@/components/rx/WhatsApp";
+import Breadcrumbs from "@/components/rx/Breadcrumbs";
 
 const PHONE = "+91 95300 13034";
 const PHONE_HREF = "+919530013034";
@@ -52,12 +53,17 @@ const FAQS = [
 ];
 
 export default function MadhyaPradeshPage() {
+  // Same @id as the homepage's Organization entity (app/page.tsx) and the
+  // contact page's — one canonical RebarX entity across the site, with
+  // this page adding areaServed/makesOffer facts to it rather than
+  // declaring a second, disconnected business.
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": ["Organization", "LocalBusiness"],
+    "@id": "https://www.rebarx.in/#org",
     name: "RebarX",
     legalName: "Credific Ventures Private Limited",
-    url: "https://www.rebarx.in/gfrp-rebar-manufacturer-madhya-pradesh",
+    url: "https://www.rebarx.in/",
     telephone: PHONE_HREF,
     email: "hello@rebarx.in",
     address: {
@@ -97,6 +103,9 @@ export default function MadhyaPradeshPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <Breadcrumbs
+        items={[{ label: "Home", href: "/" }, { label: "Madhya Pradesh" }]}
       />
 
       <section className="rx-section">

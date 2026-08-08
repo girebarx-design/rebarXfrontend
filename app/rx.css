@@ -1743,3 +1743,43 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================================
+   BREADCRUMBS
+   ============================================================ */
+.rx-breadcrumbs {
+  padding: 1rem var(--gutter) 0;
+  max-width: var(--maxw);
+  margin: 0 auto;
+}
+.rx-breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.85rem;
+  color: var(--tx-soft);
+}
+.rx-breadcrumbs li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.rx-breadcrumbs a {
+  color: var(--tx-soft);
+  text-decoration: none;
+}
+.rx-breadcrumbs a:hover {
+  color: var(--brass);
+  text-decoration: underline;
+}
+.rx-breadcrumbs span[aria-current="page"] {
+  color: var(--ink);
+  font-weight: 600;
+}
+.rx-breadcrumbs__sep {
+  color: var(--line);
+}

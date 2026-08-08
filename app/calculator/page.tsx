@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import SlabCalculator from "@/components/SlabCalculator";
 import { Eyebrow } from "@/components/rx/ui";
+import Breadcrumbs from "@/components/rx/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "GFRP Rebar Calculator — Quantity & Cost Savings | RebarX",
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
 export default function CalculatorPage() {
   return (
     <main>
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Calculator" }]} />
       <section className="rx-section">
         <div className="rx-wrap">
           <div className="rx-head">

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import BlogPost from "@/components/SingleBlog";
 import { getBlogPostBySlug, slugify } from "@/lib/cms";
+import Breadcrumbs from "@/components/rx/Breadcrumbs";
 
 export const revalidate = 3600;
 
@@ -79,6 +80,13 @@ export default async function Blog({ params }: { params: Params }) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: "Blog", href: "/blog" },
+          { label: blog.title },
+        ]}
       />
       <BlogPost blogData={blog} />
     </>

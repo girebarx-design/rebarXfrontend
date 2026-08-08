@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import BlogPage from "@/components/BlogPage";
 import { getBlogPosts } from "@/lib/cms";
+import Breadcrumbs from "@/components/rx/Breadcrumbs";
 
 export const revalidate = 3600;
 
@@ -19,5 +20,10 @@ export const metadata: Metadata = {
 
 export default async function Blog() {
   const posts = await getBlogPosts();
-  return <BlogPage posts={posts} />;
+  return (
+    <>
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog" }]} />
+      <BlogPage posts={posts} />
+    </>
+  );
 }

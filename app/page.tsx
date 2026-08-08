@@ -221,6 +221,11 @@ export default async function Home() {
                 {about.sectionDescription ? (
                   <p className="rx-about__p">{about.sectionDescription}</p>
                 ) : null}
+                <p className="rx-resources__readmore">
+                  <Link href="/gfrp-rebar-manufacturer-madhya-pradesh">
+                    Manufactured in Madhya Pradesh, near Indore →
+                  </Link>
+                </p>
 
                 {about.attributes?.length ? (
                   <div className="rx-attrs">
@@ -390,7 +395,10 @@ export default async function Home() {
               <h2>Take RebarX with you</h2>
               <p>
                 Everything your consultant or structural engineer needs to
-                evaluate GFRP — in two documents.
+                evaluate GFRP — in two documents.{" "}
+                <Link href="/resources">
+                  View the full Technical Resource Center →
+                </Link>
               </p>
             </div>
             <div className="rx-dl__grid">

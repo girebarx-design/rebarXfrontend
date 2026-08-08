@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Eyebrow, Btn } from "@/components/rx/ui";
 import { COMPANY_DOCS, REFERENCE_STUDIES, COMPLIANCE_STANDARDS } from "@/lib/resources";
+import Breadcrumbs from "@/components/rx/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Technical Resource Center | RebarX GFRP Rebar",
@@ -46,6 +47,7 @@ export default function ResourcesPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Resources" }]} />
 
       <section className="rx-section">
         <div className="rx-wrap">

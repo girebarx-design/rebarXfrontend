@@ -3,6 +3,7 @@ import Link from "next/link";
 import ContactForm from "@/components/rx/ContactForm";
 import { Eyebrow } from "@/components/rx/ui";
 import { WhatsAppButton, WA_NUMBER } from "@/components/rx/WhatsApp";
+import Breadcrumbs from "@/components/rx/Breadcrumbs";
 
 export const revalidate = 3600;
 
@@ -76,12 +77,18 @@ export default async function ContactPage() {
 
   const mapQuery = encodeURIComponent(address);
 
+  // Same @id as the homepage's Organization entity (app/page.tsx) —
+  // referencing it here instead of declaring a fresh, disconnected
+  // LocalBusiness lets Google/AI systems merge this page's facts (hours,
+  // contact card) into the one canonical RebarX entity rather than seeing
+  // two separate, unlinked businesses.
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
+    "@type": ["Organization", "LocalBusiness"],
+    "@id": "https://www.rebarx.in/#org",
     name: "RebarX",
     legalName: "Credific Ventures Private Limited",
-    url: "https://www.rebarx.in/contact",
+    url: "https://www.rebarx.in/",
     email,
     telephone: PHONE_HREF,
     address: {
@@ -91,6 +98,7 @@ export default async function ContactPage() {
       addressRegion: "Madhya Pradesh",
       addressCountry: "IN",
     },
+    openingHours: "Mo-Sa 09:30-18:30",
   };
 
   return (
@@ -99,6 +107,7 @@ export default async function ContactPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Contact" }]} />
 
       <section className="rx-section rx-contact">
         <div className="rx-wrap">

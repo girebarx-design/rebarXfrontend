@@ -43,6 +43,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const contactData = await contactRes.json();
 
     // ==================== STATIC PAGES ====================
+    // Verified against the live routes — this list previously included
+    // /about (a redirect target, not a real page since /about -> /#about)
+    // and /blogs and /products (neither route exists at all; /blogs
+    // should have been /blog). Google Search Console would have been
+    // logging "submitted URL not found" for two of these the whole time.
     const staticPages: SitemapEntry[] = [
       {
         url: FRONTEND_URL,
@@ -51,28 +56,34 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 1.0, // Homepage has highest priority
       },
       {
-        url: `${FRONTEND_URL}/about`,
-        lastModified: new Date(),
-        changeFrequency: "monthly",
-        priority: 0.9,
-      },
-      {
         url: `${FRONTEND_URL}/contact`,
         lastModified: new Date(),
         changeFrequency: "monthly",
         priority: 0.8,
       },
       {
-        url: `${FRONTEND_URL}/blogs`,
+        url: `${FRONTEND_URL}/blog`,
         lastModified: new Date(),
         changeFrequency: "daily",
         priority: 0.9, // Blog listing page
       },
       {
-        url: `${FRONTEND_URL}/products`,
+        url: `${FRONTEND_URL}/calculator`,
         lastModified: new Date(),
-        changeFrequency: "weekly",
-        priority: 0.9, // Products listing page
+        changeFrequency: "monthly",
+        priority: 0.8,
+      },
+      {
+        url: `${FRONTEND_URL}/resources`,
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority: 0.7,
+      },
+      {
+        url: `${FRONTEND_URL}/gfrp-rebar-manufacturer-madhya-pradesh`,
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority: 0.8,
       },
     ];
 
