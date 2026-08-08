@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { slugify } from "@/lib/cms";
+import { GEO_PAGES } from "@/lib/geo-pages";
 
 const BACKEND_URL =
   process.env.NEXT_PUBLIC_PAYLOAD_URL || "https://rebar-xbackend.vercel.app";
@@ -79,12 +80,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "monthly",
         priority: 0.7,
       },
-      {
-        url: `${FRONTEND_URL}/gfrp-rebar-manufacturer-madhya-pradesh`,
+      // Geo-landing pages (one per state RebarX has meaningful delivery
+      // volume in) — driven by lib/geo-pages.ts so a new state page just
+      // needs an entry there, not a second edit here.
+      ...GEO_PAGES.map((g) => ({
+        url: `${FRONTEND_URL}/gfrp-rebar-manufacturer-${g.slug}`,
         lastModified: new Date(),
-        changeFrequency: "monthly",
+        changeFrequency: "monthly" as const,
         priority: 0.8,
-      },
+      })),
     ];
 
     // ==================== BLOG POSTS ====================

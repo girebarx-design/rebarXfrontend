@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Eyebrow, Btn } from "@/components/rx/ui";
 import { COMPANY_DOCS, REFERENCE_STUDIES, COMPLIANCE_STANDARDS } from "@/lib/resources";
+import { GEO_PAGES } from "@/lib/geo-pages";
 import Breadcrumbs from "@/components/rx/Breadcrumbs";
 
 export const metadata: Metadata = {
@@ -138,6 +139,28 @@ export default function ResourcesPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="rx-section rx-dl">
+        <div className="rx-wrap">
+          <div className="rx-head">
+            <h2>Where we deliver</h2>
+            <p>State-specific manufacturing and delivery details, including our honest logistics for states outside Madhya Pradesh.</p>
+          </div>
+          <ul className="rx-areas">
+            {GEO_PAGES.map((g) => (
+              <li key={g.slug}>
+                <Link
+                  href={`/gfrp-rebar-manufacturer-${g.slug}`}
+                  className="rx-areas__chip"
+                  style={{ textDecoration: "none" }}
+                >
+                  {g.stateName}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

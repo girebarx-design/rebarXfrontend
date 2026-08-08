@@ -146,6 +146,27 @@ export default async function ContactPage() {
               >
                 Manufacturing in Madhya Pradesh — serving Indore & nearby →
               </Link>
+              <Link
+                href="/gfrp-rebar-manufacturer-maharashtra"
+                className="rx-resources__readmore"
+                style={{ display: "block" }}
+              >
+                Shipping to Maharashtra — Mumbai, Pune & Nagpur →
+              </Link>
+              <Link
+                href="/gfrp-rebar-manufacturer-uttar-pradesh"
+                className="rx-resources__readmore"
+                style={{ display: "block" }}
+              >
+                Shipping to Uttar Pradesh — Lucknow, Noida & Kanpur →
+              </Link>
+              <Link
+                href="/gfrp-rebar-manufacturer-punjab"
+                className="rx-resources__readmore"
+                style={{ display: "block" }}
+              >
+                Shipping to Punjab — Ludhiana, Amritsar & Jalandhar →
+              </Link>
 
               <a className="rx-ccard" href={`tel:${PHONE_HREF}`}>
                 <span className="rx-ccard__ico">
