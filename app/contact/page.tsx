@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import ContactForm from "@/components/rx/ContactForm";
 import { Eyebrow } from "@/components/rx/ui";
 import { WhatsAppButton, WA_NUMBER } from "@/components/rx/WhatsApp";
@@ -128,6 +129,14 @@ export default async function ContactPage() {
                   <span className="rx-ccard__go">Open in Maps →</span>
                 </span>
               </a>
+
+              <Link
+                href="/gfrp-rebar-manufacturer-madhya-pradesh"
+                className="rx-resources__readmore"
+                style={{ display: "block" }}
+              >
+                Manufacturing in Madhya Pradesh — serving Indore & nearby →
+              </Link>
 
               <a className="rx-ccard" href={`tel:${PHONE_HREF}`}>
                 <span className="rx-ccard__ico">
