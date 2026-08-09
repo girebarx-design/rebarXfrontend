@@ -147,7 +147,7 @@ export default async function Home() {
 
       <main>
         {/* ---------------- HERO ---------------- */}
-        <section className="rx-hero rx-on-dark">
+        <section className="rx-hero rx-on-dark" data-section="hero">
           <div className="rx-hero__media">
             {hero.backgroundVideoURL ? (
               <video
@@ -215,7 +215,7 @@ export default async function Home() {
         ) : null}
 
         {/* ---------------- ABOUT ---------------- */}
-        <section className="rx-section rx-about" id="about">
+        <section className="rx-section rx-about" id="about" data-section="about">
           <div className="rx-wrap">
             <div className="rx-about__grid">
               <div>
@@ -260,7 +260,7 @@ export default async function Home() {
         </section>
 
         {/* ---------------- APPLICATIONS ---------------- */}
-        <section className="rx-section rx-apps rx-on-dark">
+        <section className="rx-section rx-apps rx-on-dark" data-section="applications">
           <div className="rx-wrap">
             <div className="rx-head">
               <Eyebrow>Where RebarX is used</Eyebrow>
@@ -284,7 +284,7 @@ export default async function Home() {
         </section>
 
         {/* ---------------- COMPARE ---------------- */}
-        <section className="rx-section" id="compare">
+        <section className="rx-section" id="compare" data-section="compare">
           <div className="rx-wrap">
             <div className="rx-head">
               {cmp.subHeading ? <Eyebrow>{cmp.subHeading}</Eyebrow> : null}
@@ -299,7 +299,7 @@ export default async function Home() {
         </section>
 
         {/* ---------------- PRODUCTS ---------------- */}
-        <section className="rx-section rx-prod">
+        <section className="rx-section rx-prod" data-section="products">
           <div className="rx-wrap">
             <div className="rx-head">
               <Eyebrow>Product range</Eyebrow>
@@ -333,7 +333,7 @@ export default async function Home() {
 
         {/* ---------------- VISION ---------------- */}
         {vision.description ? (
-          <section className="rx-section rx-vision rx-on-dark">
+          <section className="rx-section rx-vision rx-on-dark" data-section="vision">
             <div className="rx-wrap">
               <p>{vision.description}</p>
             </div>
@@ -345,7 +345,7 @@ export default async function Home() {
 
         {/* ---------------- BLOGS ---------------- */}
         {blogs.selectedBlogs?.length ? (
-          <section className="rx-section">
+          <section className="rx-section" data-section="blog">
             <div className="rx-wrap">
               <div className="rx-head">
                 <Eyebrow>Insights</Eyebrow>
@@ -377,7 +377,7 @@ export default async function Home() {
 
         {/* ---------------- FAQ ---------------- */}
         {faqItems.length ? (
-          <section className="rx-section rx-prod">
+          <section className="rx-section rx-prod" data-section="faq">
             <div className="rx-wrap">
               <div className="rx-head">
                 <Eyebrow>Questions</Eyebrow>
@@ -389,7 +389,7 @@ export default async function Home() {
         ) : null}
 
         {/* ---------------- DOWNLOADS ---------------- */}
-        <section className="rx-section rx-dl" id="downloads">
+        <section className="rx-section rx-dl" id="downloads" data-section="downloads">
           <div className="rx-wrap">
             <div className="rx-head">
               <Eyebrow>Resources</Eyebrow>
@@ -428,7 +428,7 @@ export default async function Home() {
         </section>
 
         {/* ---------------- CTA ---------------- */}
-        <section className="rx-section rx-cta rx-on-dark">
+        <section className="rx-section rx-cta rx-on-dark" data-section="cta">
           <div className="rx-wrap">
             {cta.smallHeading ? <Eyebrow>{cta.smallHeading}</Eyebrow> : null}
             <h2>{cta.title}</h2>

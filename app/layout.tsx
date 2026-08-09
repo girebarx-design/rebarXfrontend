@@ -9,6 +9,7 @@ import RxFooter from "@/components/rx/Footer";
 import RawScripts from "@/components/rx/RawScripts";
 import { getNav, getFooter, cldOptimize } from "@/lib/cms";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import Analytics from "@/components/rx/Analytics";
 import "./rx.css";
 
 
@@ -296,6 +297,7 @@ export default async function RootLayout({
         </LanguageProvider>
 
         <WhatsAppFab />
+        <Analytics />
 
         {/* Custom Scripts Before </body> */}
         <RawScripts html={seo?.customBodyEndScripts} idPrefix="body-end-script" />
