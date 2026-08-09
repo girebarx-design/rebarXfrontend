@@ -5,31 +5,38 @@ import { usePathname } from "next/navigation";
 
 declare global {
   interface Window {
-    dataLayer?: any[];
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
-function push(event: Record<string, unknown>) {
-  window.dataLayer = window.dataLayer ?? [];
-  window.dataLayer.push(event);
+function sendEvent(name: string, params: Record<string, unknown>) {
+  // The site loads gtag.js directly (Measurement ID G-BHKECRCEZM, injected
+  // via the CMS's customHeadScripts field) — there is no GTM container in
+  // front of it. That means gtag() is the actual send mechanism; pushing a
+  // plain object onto window.dataLayer does nothing on its own, since only
+  // gtag()'s own arguments-object pushes are understood by gtag.js's
+  // runtime. window.gtag may not exist yet on first paint (script loads
+  // async) or at all if a consent/blocker stripped it — skip quietly.
+  if (typeof window.gtag === "function") {
+    window.gtag("event", name, params);
+  }
 }
 
 const SCROLL_MILESTONES = [25, 50, 75, 90, 100];
 
 /**
- * Section-visibility and scroll-depth tracking, pushed to the existing GTM
- * dataLayer (see app/layout.tsx's GTM snippet) rather than calling gtag
- * directly — GTM is already the site's single script-injection point, so a
- * GA4 tag with a Custom Event trigger on "section_view" / "scroll_depth" is
- * the way to surface these in GA4 without adding a second tracking script.
- * That trigger/tag pairing is a GTM admin-side step, not something this
- * code can configure on its own.
+ * Section-visibility and scroll-depth tracking, sent as real GA4 events
+ * (section_view, scroll_depth) via gtag(). Both show up under GA4 →
+ * Reports → Engagement → Events once fired; section_name and percent need
+ * to be registered as custom dimensions (Admin → Custom definitions) to be
+ * usable as report dimensions rather than just raw event parameters.
  *
  * Watches elements carrying data-section (added to the homepage's major
  * blocks) plus #calculator (SlabCalculator's own root id) as a fallback for
  * a component this file doesn't own. Each section fires at most once per
- * page load, at 50% visibility — that's "the visitor actually saw this",
- * not "it merely entered the viewport edge".
+ * page load, at 15% visibility — sections here range from ~300px to over
+ * 1500px tall, far taller than most viewports, so requiring 50% of the
+ * *entire section* on-screen at once would rarely fire for the taller ones.
  */
 export default function Analytics() {
   const pathname = usePathname();
@@ -52,19 +59,13 @@ export default function Analytics() {
           const name = el.dataset.section ?? el.id;
           if (!name || seenSections.has(name)) continue;
           seenSections.add(name);
-          push({
-            event: "section_view",
+          sendEvent("section_view", {
             section_name: name,
             page_path: window.location.pathname,
           });
           observer.unobserve(el);
         }
       },
-      // 0.15 rather than 0.5 — sections here range from ~300px to over
-      // 1500px tall, far taller than most viewports, so requiring half the
-      // *entire section* on-screen at once would rarely fire at all for
-      // the taller ones. 15% is "the visitor genuinely scrolled into this
-      // section", not just grazed its top edge.
       { threshold: 0.15 }
     );
 
@@ -83,8 +84,7 @@ export default function Analytics() {
         for (const milestone of SCROLL_MILESTONES) {
           if (pct >= milestone && !seenDepths.has(milestone)) {
             seenDepths.add(milestone);
-            push({
-              event: "scroll_depth",
+            sendEvent("scroll_depth", {
               percent: milestone,
               page_path: window.location.pathname,
             });
