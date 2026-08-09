@@ -224,17 +224,6 @@ export default async function Home() {
                 {about.sectionDescription ? (
                   <p className="rx-about__p">{about.sectionDescription}</p>
                 ) : null}
-                <p className="rx-resources__readmore">
-                  <Link href="/gfrp-rebar-manufacturer-madhya-pradesh">
-                    Manufactured in Madhya Pradesh, near Indore →
-                  </Link>
-                </p>
-                <p className="rx-resources__readmore">
-                  Also shipping to{" "}
-                  <Link href="/gfrp-rebar-manufacturer-maharashtra">Maharashtra</Link>,{" "}
-                  <Link href="/gfrp-rebar-manufacturer-uttar-pradesh">Uttar Pradesh</Link>{" "}
-                  and <Link href="/gfrp-rebar-manufacturer-punjab">Punjab</Link>
-                </p>
 
                 {about.attributes?.length ? (
                   <div className="rx-attrs">

@@ -8,6 +8,7 @@ import Nav from "@/components/rx/Nav";
 import RxFooter from "@/components/rx/Footer";
 import RawScripts from "@/components/rx/RawScripts";
 import { getNav, getFooter, cldOptimize } from "@/lib/cms";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import "./rx.css";
 
 
@@ -273,24 +274,26 @@ export default async function RootLayout({
           </noscript>
         )}
 
-        <div className="rx">
-          <Nav
-            logo={cldOptimize(navData?.logoImage?.cloudinaryUrl)}
-            links={navLinks.slice(0, -1)}
-            cta={navLinks[navLinks.length - 1]}
-          />
-          {children}
-          <RxFooter
-            logo={cldOptimize(navData?.logoImage?.cloudinaryUrl)}
-            company={footerData?.companyLinks ?? []}
-            legal={footerData?.legalLinks ?? []}
-            social={(footerData?.socialMedia ?? []).map((s: any) => ({
-              label: s.icon?.alt ?? "Social",
-              url: s.url,
-            }))}
-            phone={navData?.phone}
-          />
-        </div>
+        <LanguageProvider>
+          <div className="rx">
+            <Nav
+              logo={cldOptimize(navData?.logoImage?.cloudinaryUrl)}
+              links={navLinks.slice(0, -1)}
+              cta={navLinks[navLinks.length - 1]}
+            />
+            {children}
+            <RxFooter
+              logo={cldOptimize(navData?.logoImage?.cloudinaryUrl)}
+              company={footerData?.companyLinks ?? []}
+              legal={footerData?.legalLinks ?? []}
+              social={(footerData?.socialMedia ?? []).map((s: any) => ({
+                label: s.icon?.alt ?? "Social",
+                url: s.url,
+              }))}
+              phone={navData?.phone}
+            />
+          </div>
+        </LanguageProvider>
 
         <WhatsAppFab />
 

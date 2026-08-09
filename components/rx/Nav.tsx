@@ -4,12 +4,15 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Btn } from "./ui";
 import { DOWNLOADS } from "@/lib/downloads";
+import { useT } from "@/lib/i18n/useT";
+import LanguageToggle from "./LanguageToggle";
 
 type NavLink = { label: string; url: string };
 
 function DownloadsMenu({ onPick }: { onPick: () => void }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const t = useT();
 
   useEffect(() => {
     if (!open) return;
@@ -28,7 +31,7 @@ function DownloadsMenu({ onPick }: { onPick: () => void }) {
         aria-haspopup="menu"
         onClick={() => setOpen((v) => !v)}
       >
-        Downloads
+        {t("nav.downloads")}
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
           <path
             d="m2 3.5 3 3 3-3"
@@ -66,7 +69,7 @@ function DownloadsMenu({ onPick }: { onPick: () => void }) {
               onPick();
             }}
           >
-            <b>View all resources →</b>
+            <b>{t("nav.viewAllResources")}</b>
           </Link>
         </div>
       ) : null}
@@ -97,6 +100,12 @@ export default function Nav({
             </strong>
           )}
         </Link>
+
+        {/* Lives outside .rx-nav__links so it's reachable on mobile without
+            opening the burger menu — that's the primary viewing medium for
+            most visitors, and a language switch buried in a submenu isn't
+            a "prominent toggle". */}
+        <LanguageToggle />
 
         <nav
           className={`rx-nav__links${open ? " rx-nav__links--open" : ""}`}

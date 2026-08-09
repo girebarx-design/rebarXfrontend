@@ -298,6 +298,35 @@
   }
 }
 
+.rx-lang {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.2rem;
+  gap: 0.15rem;
+  flex-shrink: 0;
+}
+.rx-lang__btn {
+  border: 0;
+  background: none;
+  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--tx-soft);
+  cursor: pointer;
+  line-height: 1;
+}
+.rx-lang__btn--active {
+  background: var(--ink);
+  color: #fff;
+}
+/* Sits directly in .rx-nav__in (not inside the collapsible .rx-nav__links),
+   so it stays visible next to the burger button on mobile — the brand's
+   margin-right:auto already pushes it (and the burger) to the right edge
+   together, with the row's own gap spacing them apart. */
+
 /* ============================================================
    HERO
    ============================================================ */

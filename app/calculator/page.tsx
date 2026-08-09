@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import SlabCalculator from "@/components/SlabCalculator";
-import { Eyebrow } from "@/components/rx/ui";
-import Breadcrumbs from "@/components/rx/Breadcrumbs";
+import CalculatorContent from "@/components/rx/CalculatorContent";
 
 export const metadata: Metadata = {
   title: "GFRP Rebar Calculator — Quantity & Cost Savings | RebarX",
@@ -17,23 +15,5 @@ export const metadata: Metadata = {
 };
 
 export default function CalculatorPage() {
-  return (
-    <main>
-      <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Calculator" }]} />
-      <section className="rx-section">
-        <div className="rx-wrap">
-          <div className="rx-head">
-            <Eyebrow>Free tool</Eyebrow>
-            <h1>GFRP Rebar Calculator</h1>
-            <p>
-              Enter your slab dimensions — or just the span and load if you
-              haven&rsquo;t sized it yet — and get the bar diameter, spacing,
-              total length, weight, and estimated savings versus TMT steel.
-            </p>
-          </div>
-        </div>
-      </section>
-      <SlabCalculator />
-    </main>
-  );
+  return <CalculatorContent />;
 }

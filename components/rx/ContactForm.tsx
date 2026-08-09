@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Arrow } from "./ui";
+import { useT } from "@/lib/i18n/useT";
 
 type Field = { label: string; name: string; type: string; required?: boolean };
 
@@ -10,6 +11,7 @@ export default function ContactForm({ fields }: { fields: Field[] }) {
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">(
     "idle"
   );
+  const t = useT();
 
   const set = (name: string, v: string) =>
     setValues((p) => ({ ...p, [name]: v }));
@@ -47,11 +49,8 @@ export default function ContactForm({ fields }: { fields: Field[] }) {
             strokeLinejoin="round"
           />
         </svg>
-        <h3>Thank you — we&rsquo;ve got your enquiry.</h3>
-        <p>
-          Our team typically responds within one working day. For anything
-          urgent, message us on WhatsApp.
-        </p>
+        <h3>{t("contactForm.doneTitle")}</h3>
+        <p>{t("contactForm.doneBody")}</p>
       </div>
     );
   }
@@ -85,7 +84,7 @@ export default function ContactForm({ fields }: { fields: Field[] }) {
                 required={f.required}
                 value={values[f.name] ?? ""}
                 onChange={(e) => set(f.name, e.target.value)}
-                placeholder="Tell us about your project — element type, quantity, and location."
+                placeholder={t("contactForm.messagePlaceholder")}
               />
             ) : (
               <input
@@ -112,12 +111,12 @@ export default function ContactForm({ fields }: { fields: Field[] }) {
 
       <div className="rx-field rx-field--wide rx-form__foot">
         <button className="rx-btn" type="submit" disabled={state === "sending"}>
-          {state === "sending" ? "Sending…" : "Send enquiry"}
+          {state === "sending" ? t("contactForm.sending") : t("contactForm.sendEnquiry")}
           <Arrow />
         </button>
         {state === "error" ? (
           <p className="rx-form__err" role="alert">
-            Something went wrong. Please try WhatsApp or email us directly.
+            {t("contactForm.errorMsg")}
           </p>
         ) : null}
       </div>
