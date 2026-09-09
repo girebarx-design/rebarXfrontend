@@ -5,7 +5,7 @@ export const COMPANY_DOCS = [
     href: "/downloads/RebarX-Company-Profile.pdf",
     label: "Company Profile",
     blurb: "Who we are, our technology partners, and projects delivered.",
-    meta: "PDF · 2.1 MB",
+    meta: "PDF · 2.6 MB",
   },
   {
     href: "/downloads/RebarX-GFRP-Technical-Datasheet.pdf",
