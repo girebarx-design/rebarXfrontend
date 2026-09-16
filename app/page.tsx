@@ -120,7 +120,7 @@ export default async function Home() {
         brand: { "@id": "https://www.rebarx.in/#org" },
         material: "Glass Fibre Reinforced Polymer",
         description:
-          "Corrosion-proof GFRP reinforcement bar with up to 2x the tensile strength of TMT steel (1000 MPa) at a quarter of the weight. Available in 4–24mm diameters.",
+          "Corrosion-proof GFRP reinforcement bar with up to 2x the tensile strength of TMT steel (1000 MPa) at a quarter of the weight. Straight bars 3–20mm; bends 6–16mm.",
         ...(productImage ? { image: [productImage] } : {}),
       },
       ...(faqItems.length
