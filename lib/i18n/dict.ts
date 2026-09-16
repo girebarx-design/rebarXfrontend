@@ -76,6 +76,24 @@ export const dict = {
     breadcrumbContact: { en: "Contact", hi: "संपर्क" },
   },
 
+  applicationsPage: {
+    breadcrumb: { en: "Applications", hi: "उपयोग" },
+    eyebrow: { en: "On site", hi: "साइट पर" },
+    h1: { en: "Where RebarX has been used", hi: "RebarX कहाँ-कहाँ लगा है" },
+    intro: {
+      en: "Photographs from sites where RebarX went into the structure — slabs, columns and walls, taken during construction rather than staged afterwards.",
+      hi: "उन साइटों की तस्वीरें जहाँ RebarX ढांचे में लगा है — स्लैब, कॉलम और दीवारें, निर्माण के दौरान ली गईं, बाद में सजाकर नहीं।",
+    },
+    empty: {
+      en: "Site photographs are being added. Ask us for project references in the meantime.",
+      hi: "साइट की तस्वीरें जोड़ी जा रही हैं। तब तक प्रोजेक्ट रेफरेंस के लिए हमसे पूछें।",
+    },
+    ctaHeading: {
+      en: "Planning something similar?",
+      hi: "कुछ ऐसा ही बनाने की योजना है?",
+    },
+  },
+
   resourcesPage: {
     breadcrumb: { en: "Resources", hi: "रिसोर्स" },
     eyebrow: { en: "Resources", hi: "रिसोर्स" },

@@ -98,3 +98,13 @@ export async function getBlogPostBySlug(slug: string) {
     null
   );
 }
+
+/** Site albums for /applications. Newest first; CMS date is month-precision. */
+export async function getApplications() {
+  const res = await fetch(`${CMS}/applications?depth=2&limit=100&sort=-date`, {
+    next: { revalidate: 3600 },
+  });
+  if (!res.ok) return [];
+  const data = await res.json();
+  return data.docs ?? [];
+}
