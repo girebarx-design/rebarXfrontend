@@ -30,8 +30,8 @@ export const dict = {
 
   footer: {
     tagline: {
-      en: "RebarX manufactures GFRP reinforcement bar in Central India — rust-free, twice the tensile strength of steel, and built for a hundred-year service life.",
-      hi: "RebarX मध्य भारत में अपनी फैक्ट्री में GFRP रीबार बनाता है — जंग-रहित, स्टील से दुगुनी मज़बूती, और सौ साल तक चलने के लिए बनाया गया।",
+      en: "RebarX manufactures GFRP reinforcement bar in Central India — rust-free, twice the tensile strength of steel, and built for an 80-year-plus service life.",
+      hi: "RebarX मध्य भारत में अपनी फैक्ट्री में GFRP रीबार बनाता है — जंग-रहित, स्टील से दुगुनी मज़बूती, और 80 साल से ज़्यादा चलने के लिए बनाया गया।",
     },
     company: { en: "Company", hi: "कंपनी" },
     legal: { en: "Legal", hi: "कानूनी जानकारी" },
@@ -132,8 +132,8 @@ export const dict = {
     eyebrow: { en: "GFRP vs TMT steel", hi: "GFRP बनाम TMT स्टील" },
     h1: { en: "GFRP Rebar vs TMT Steel Rebar", hi: "GFRP रीबार बनाम TMT स्टील रीबार" },
     intro: {
-      en: "GFRP rebar has roughly 2x the tensile strength of TMT steel by weight, is about 80% lighter, and does not corrode — no rust staining, no chloride-driven spalling, no theft value for scrap. TMT steel still has a higher modulus of elasticity and remains the more conventionally specified option for deflection-sensitive designs. Below is the full spec-by-spec comparison.",
-      hi: "वज़न के हिसाब से GFRP रीबार की मज़बूती TMT स्टील से लगभग दुगुनी है, यह करीब 80% हल्का है, और इसमें जंग नहीं लगती — न जंग के दाग, न नमी से टूटन, न चोरी होकर बिकने का खतरा। TMT स्टील की कठोरता (मोड्युलस ऑफ इलास्टिसिटी) अभी भी ज़्यादा है, इसलिए झुकाव-संवेदनशील डिज़ाइन में यह ज़्यादा आम रहता है। नीचे पूरी तुलना विस्तार से दी गई है।",
+      en: "GFRP rebar has roughly 2x the tensile strength of TMT steel by weight, is about 4x lighter, and does not corrode — no rust staining, no chloride-driven spalling, no theft value for scrap. TMT steel still has a higher modulus of elasticity and remains the more conventionally specified option for deflection-sensitive designs. Below is the full spec-by-spec comparison.",
+      hi: "वज़न के हिसाब से GFRP रीबार की मज़बूती TMT स्टील से लगभग दुगुनी है, यह करीब 4 गुना हल्का है, और इसमें जंग नहीं लगती — न जंग के दाग, न नमी से टूटन, न चोरी होकर बिकने का खतरा। TMT स्टील की कठोरता (मोड्युलस ऑफ इलास्टिसिटी) अभी भी ज़्यादा है, इसलिए झुकाव-संवेदनशील डिज़ाइन में यह ज़्यादा आम रहता है। नीचे पूरी तुलना विस्तार से दी गई है।",
     },
     readFull: { en: "Read the full GFRP vs TMT comparison →", hi: "पूरी GFRP बनाम TMT तुलना पढ़ें →" },
     faqHeading: { en: "Frequently asked questions", hi: "अक्सर पूछे जाने वाले सवाल" },
@@ -164,8 +164,8 @@ export const dict = {
       {
         q: { en: "Is GFRP rebar more expensive than TMT steel?", hi: "क्या GFRP रीबार, TMT स्टील से महंगा है?" },
         a: {
-          en: "Per-kg pricing is typically higher than TMT steel, but GFRP's lower weight (about 80% lighter) reduces transport and handling cost, and eliminating corrosion removes a major long-term maintenance and repair cost that steel-reinforced structures carry over their service life.",
-          hi: "प्रति-किलो कीमत आमतौर पर TMT स्टील से ज़्यादा होती है, लेकिन GFRP का कम वज़न (लगभग 80% हल्का) ढुलाई और संभालने की लागत घटाता है, और जंग न लगने से वो बड़ा दीर्घकालिक रखरखाव और मरम्मत खर्च भी बचता है जो स्टील-रीइन्फोर्स्ड ढांचों में सालों तक चलता रहता है।",
+          en: "Per-kg pricing is typically higher than TMT steel, but GFRP's lower weight (about 4x lighter) reduces transport and handling cost, and eliminating corrosion removes a major long-term maintenance and repair cost that steel-reinforced structures carry over their service life.",
+          hi: "प्रति-किलो कीमत आमतौर पर TMT स्टील से ज़्यादा होती है, लेकिन GFRP का कम वज़न (लगभग 4 गुना हल्का) ढुलाई और संभालने की लागत घटाता है, और जंग न लगने से वो बड़ा दीर्घकालिक रखरखाव और मरम्मत खर्च भी बचता है जो स्टील-रीइन्फोर्स्ड ढांचों में सालों तक चलता रहता है।",
         },
       },
     ],

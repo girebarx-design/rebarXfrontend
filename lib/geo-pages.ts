@@ -185,7 +185,7 @@ export const GEO_PAGES: GeoPageData[] = [
     whyUs: [
       {
         title: "Built for large-scale work",
-        subtitle: "80% lighter than steel",
+        subtitle: "4x lighter than steel",
         body: "On highway, expressway, and large urban housing pours, GFRP's weight advantage over steel means faster handling and less crane/labor time per tonne of reinforcement moved.",
       },
       {

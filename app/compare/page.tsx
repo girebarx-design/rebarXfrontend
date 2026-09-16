@@ -9,7 +9,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "GFRP Rebar vs TMT Steel Rebar — Full Comparison | RebarX",
   description:
-    "GFRP rebar has roughly 2x the tensile strength of TMT steel, is about 80% lighter, and does not corrode. See the full spec-by-spec comparison, including where TMT steel is still the better fit.",
+    "GFRP rebar has roughly 2x the tensile strength of TMT steel (1000 MPa), is about 4x lighter, and does not corrode. See the full spec-by-spec comparison, including where TMT steel is still the better fit.",
   alternates: { canonical: "https://www.rebarx.in/compare" },
   openGraph: {
     title: "GFRP Rebar vs TMT Steel Rebar — Full Comparison | RebarX",

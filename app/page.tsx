@@ -12,7 +12,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "GFRP Rebar Manufacturer in India | RebarX — Rustfree",
   description:
-    "RebarX manufactures GFRP (glass fibre reinforced polymer) rebar in India — 2x the tensile strength of steel, 80% lighter, and 100% corrosion-proof. Used in slabs, bridges, marine and water infrastructure. Pan-India delivery and export.",
+    "RebarX manufactures GFRP (glass fibre reinforced polymer) rebar in India — 2x the tensile strength of steel, 4x lighter, and 100% corrosion-proof. Used in slabs, bridges, marine and water infrastructure. Pan-India delivery and export.",
   keywords: [
     "GFRP rebar",
     "GFRP rebar manufacturer India",
@@ -52,8 +52,8 @@ function Headline({ text }: { text: string }) {
 
 const STATS = [
   { n: "2×", l: "Tensile strength of TMT steel" },
-  { n: "80%", l: "Lighter to handle and transport" },
-  { n: "100yr", l: "Design service life" },
+  { n: "4×", l: "Lighter to handle and transport" },
+  { n: "80+yr", l: "Design service life" },
   { n: "0", l: "Corrosion, rust stains or theft value" },
 ];
 
@@ -120,7 +120,7 @@ export default async function Home() {
         brand: { "@id": "https://www.rebarx.in/#org" },
         material: "Glass Fibre Reinforced Polymer",
         description:
-          "Corrosion-proof GFRP reinforcement bar with up to 2x the tensile strength of TMT steel at 80% lower weight. Available in 4–24mm diameters.",
+          "Corrosion-proof GFRP reinforcement bar with up to 2x the tensile strength of TMT steel (1000 MPa) at a quarter of the weight. Available in 4–24mm diameters.",
         ...(productImage ? { image: [productImage] } : {}),
       },
       ...(faqItems.length
