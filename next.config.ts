@@ -39,6 +39,17 @@ const nextConfig: NextConfig = {
       "payload-back.onrender.com",
     ],
   },
+  // Public URL is the flat hyphenated form (/gfrp-rebar-in-mumbai) to match
+  // the existing state pages, but Next only treats a whole path segment as
+  // dynamic — "gfrp-rebar-in-[city]" is a literal folder, not a param. So the
+  // real route lives at /gfrp-rebar-in/[city] and this maps onto it. The
+  // canonical tag points at the hyphenated form, so the slash form cannot be
+  // indexed separately.
+  async rewrites() {
+    return [
+      { source: "/gfrp-rebar-in-:city", destination: "/gfrp-rebar-in/:city" },
+    ];
+  },
   async redirects() {
     return [
       // Footer CMS data links to /about as a standalone page, but it's a
