@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { slugify } from "@/lib/cms";
 import { GEO_PAGES } from "@/lib/geo-pages";
+import { getCities } from "@/lib/cms";
 
 const BACKEND_URL =
   process.env.NEXT_PUBLIC_PAYLOAD_URL || "https://rebar-xbackend.vercel.app";
@@ -95,6 +96,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       // Geo-landing pages (one per state RebarX has meaningful delivery
       // volume in) — driven by lib/geo-pages.ts so a new state page just
       // needs an entry there, not a second edit here.
+      ...(await getCities()).map((c: any) => ({
+        url: `${FRONTEND_URL}/gfrp-rebar-in-${c.slug}`,
+        lastModified: new Date(c.updatedAt ?? Date.now()),
+        changeFrequency: "monthly" as const,
+        priority: 0.7,
+      })),
       ...GEO_PAGES.map((g) => ({
         url: `${FRONTEND_URL}/gfrp-rebar-manufacturer-${g.slug}`,
         lastModified: new Date(),

@@ -108,3 +108,25 @@ export async function getApplications() {
   const data = await res.json();
   return data.docs ?? [];
 }
+
+/** City landing pages (/gfrp-rebar-in-<slug>). Unpublished cities are filtered
+ * server-side so they stay out of both the routes and the sitemap. */
+export async function getCities() {
+  const res = await fetch(
+    `${CMS}/cities?limit=300&sort=city&where[published][equals]=true`,
+    { next: { revalidate: 3600 } }
+  );
+  if (!res.ok) return [];
+  const data = await res.json();
+  return data.docs ?? [];
+}
+
+export async function getCityBySlug(slug: string) {
+  const res = await fetch(
+    `${CMS}/cities?limit=1&where[slug][equals]=${encodeURIComponent(slug)}&where[published][equals]=true`,
+    { next: { revalidate: 3600 } }
+  );
+  if (!res.ok) return null;
+  const data = await res.json();
+  return data.docs?.[0] ?? null;
+}
