@@ -105,6 +105,13 @@ export default function ResourcesContent() {
                 <b>{s.code}</b>
                 <span className="rx-resources__standard-body">{s.body}</span>
                 <p>{t(`complianceCovers.${s.code}`)}</p>
+                {/* Only the two BIS standards carry a hosted copy; the ACI and
+                    ASTM codes are referenced by name and bought from the body. */}
+                {"href" in s ? (
+                  <a className="rx-resources__standard-dl" href={s.href} download>
+                    {t("resourcesPage.downloadStandard")} <small>{s.meta}</small>
+                  </a>
+                ) : null}
               </div>
             ))}
           </div>

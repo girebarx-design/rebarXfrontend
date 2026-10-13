@@ -124,12 +124,17 @@ export const dict = {
       hi: "हर राज्य के लिए निर्माण और डिलीवरी की पूरी जानकारी, मध्य प्रदेश के बाहर की सच्ची लॉजिस्टिक्स सहित।",
     },
     ctaHeading: { en: "Need a specific test certificate or compliance document?", hi: "किसी खास टेस्ट सर्टिफिकेट या अनुपालन दस्तावेज़ की ज़रूरत है?" },
+    downloadStandard: { en: "Download the standard", hi: "मानक डाउनलोड करें" },
   },
 
   complianceCovers: {
     "IS 18256": {
       en: "GFRP bars for concrete reinforcement — the primary Indian material standard RebarX is manufactured to.",
       hi: "कंक्रीट रीइन्फोर्समेंट के लिए GFRP बार — वो मुख्य भारतीय मटीरियल मानक जिसके अनुसार RebarX बनाई जाती है।",
+    },
+    "IS 18255": {
+      en: "Test methods for FRP bars — the Indian companion standard to IS 18256, covering how tensile, bond, alkali-resistance and Tg are measured.",
+      hi: "FRP बार की टेस्ट पद्धतियाँ — IS 18256 का भारतीय साथी मानक, जो मज़बूती, बॉन्ड, क्षार-प्रतिरोध और Tg मापने का तरीका तय करता है।",
     },
     "ACI 440.11-22": {
       en: "Design code for structural concrete reinforced with GFRP bars.",

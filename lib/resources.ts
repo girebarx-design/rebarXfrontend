@@ -31,6 +31,15 @@ export const COMPLIANCE_STANDARDS = [
     code: "IS 18256",
     body: "Bureau of Indian Standards",
     covers: "GFRP bars for concrete reinforcement — the primary Indian material standard RebarX is manufactured to.",
+    href: "/downloads/IS-18256-2023-GFRP-Bars-Specification.pdf",
+    meta: "PDF · 2.4 MB",
+  },
+  {
+    code: "IS 18255",
+    body: "Bureau of Indian Standards",
+    covers: "Test methods for FRP bars — the Indian companion standard to IS 18256, covering how tensile, bond, alkali-resistance and Tg are measured.",
+    href: "/downloads/IS-18255-2023-FRP-Bars-Methods-of-Test.pdf",
+    meta: "PDF · 4.6 MB",
   },
   {
     code: "ACI 440.11-22",

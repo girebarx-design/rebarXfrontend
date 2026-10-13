@@ -1767,6 +1767,27 @@
   color: var(--tx-soft);
   line-height: 1.5;
 }
+.rx-resources__standard-dl {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--steel);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 1px;
+}
+.rx-resources__standard-dl:hover {
+  color: var(--ink);
+}
+.rx-resources__standard-dl small {
+  font-weight: 500;
+  font-size: 0.78rem;
+  color: var(--tx-soft);
+  border: 0;
+}
 @media (max-width: 720px) {
   .rx-resources__standards {
     grid-template-columns: 1fr;
