@@ -70,24 +70,46 @@ export function slugify(text = ""): string {
     .replace(/[^\w-]+/g, "");
 }
 
+/**
+ * Hides auto-drafted posts awaiting approval.
+ *
+ * Deliberately `not_equals false` and not `equals true`: posts created
+ * before the `published` field existed store null, and `equals true`
+ * would drop the entire back catalogue from the site and the sitemap.
+ */
+export const PUBLISHED_FILTER = "where[published][not_equals]=false";
+
+/**
+ * Fetches blog posts with the published filter, falling back to an
+ * unfiltered read if the filter itself is rejected.
+ *
+ * Payload answers a query against an unknown field with a 400
+ * ("The following path cannot be queried"), so if the frontend ships
+ * ahead of the backend migration the naive `if (!res.ok) return []`
+ * empties the blog index, 404s every post and drops every blog URL
+ * from the sitemap. Showing an unapproved draft for a few minutes is
+ * the far smaller failure.
+ */
+async function fetchBlogPosts(depth: number, limit: number) {
+  const base = `${CMS}/blog-posts?depth=${depth}&limit=${limit}`;
+  const opts = { next: { revalidate: 3600 } };
+
+  const res = await fetch(`${base}&${PUBLISHED_FILTER}`, opts);
+  if (res.ok) return (await res.json()).docs ?? [];
+
+  const fallback = await fetch(base, opts);
+  if (!fallback.ok) return [];
+  return (await fallback.json()).docs ?? [];
+}
+
 /** Blog index: light payload (depth=1) is enough for cards. */
 export async function getBlogPosts() {
-  const res = await fetch(`${CMS}/blog-posts?depth=1&limit=100`, {
-    next: { revalidate: 3600 },
-  });
-  if (!res.ok) return [];
-  const data = await res.json();
-  return data.docs ?? [];
+  return fetchBlogPosts(1, 100);
 }
 
 /** Single post: depth=2 to populate content + related posts. */
 export async function getBlogPostsFull() {
-  const res = await fetch(`${CMS}/blog-posts?depth=2&limit=100`, {
-    next: { revalidate: 3600 },
-  });
-  if (!res.ok) return [];
-  const data = await res.json();
-  return data.docs ?? [];
+  return fetchBlogPosts(2, 100);
 }
 
 export async function getBlogPostBySlug(slug: string) {

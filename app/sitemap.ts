@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import { slugify } from "@/lib/cms";
+import { slugify, PUBLISHED_FILTER } from "@/lib/cms";
 import { GEO_PAGES } from "@/lib/geo-pages";
 import { getCities } from "@/lib/cms";
 
@@ -27,9 +27,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // ==================== FETCH ALL COLLECTIONS ====================
 
     // 1. Fetch Blog Posts
-    const blogsRes = await fetch(`${BACKEND_URL}/api/blog-posts?limit=1000`, {
+    // Same fallback as lib/cms.ts: a filter on a field the deployed
+    // backend does not know about 400s, and dropping every blog URL
+    // from the sitemap is worse than listing an unapproved draft.
+    const blogsUrl = `${BACKEND_URL}/api/blog-posts?limit=1000`;
+    let blogsRes = await fetch(`${blogsUrl}&${PUBLISHED_FILTER}`, {
       next: { revalidate: 3600 }, // Revalidate every hour
     });
+    if (!blogsRes.ok) {
+      blogsRes = await fetch(blogsUrl, { next: { revalidate: 3600 } });
+    }
     const blogsData = await blogsRes.json();
 
     // 2. Fetch Pages (dynamic pages from your Pages collection)
