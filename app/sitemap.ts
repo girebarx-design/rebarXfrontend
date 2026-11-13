@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { slugify, PUBLISHED_FILTER } from "@/lib/cms";
+import { LOCAL_POSTS } from "@/content/posts";
 import { GEO_PAGES } from "@/lib/geo-pages";
 import { getCities } from "@/lib/cms";
 
@@ -118,13 +119,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ];
 
     // ==================== BLOG POSTS ====================
-    const blogPages: SitemapEntry[] =
-      blogsData?.docs?.map((blog: any) => ({
-        url: `${FRONTEND_URL}/blog/${slugify(blog.slug)}`,
-        lastModified: new Date(blog.updatedAt || blog.createdAt),
-        changeFrequency: "weekly" as const,
-        priority: 0.8,
-      })) || [];
+    const cmsPosts = blogsData?.docs || [];
+    const allPosts = [...LOCAL_POSTS, ...cmsPosts];
+    const blogPages: SitemapEntry[] = allPosts.map((blog: any) => ({
+      url: `${FRONTEND_URL}/blog/${slugify(blog.slug)}`,
+      lastModified: new Date(blog.updatedAt || blog.date || blog.createdAt || Date.now()),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    }));
 
     // ==================== DYNAMIC PAGES ====================
     // Pages created through your Pages collection

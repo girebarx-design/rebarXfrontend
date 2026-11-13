@@ -1,0 +1,1451 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RebarX™ | Corporate Profile & Technical Brief (Rev. Nov 2026)</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #07072B;
+  --royal: #2A14F0;
+  --gold: #FFC800;
+  --panel: #0C0A3F;
+  --card: #13115A;
+  --text: #ECECF7;
+  --muted: #A9A8C7;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  margin: 0; padding: 0;
+  height: 100%;
+  background: #030318;
+  font-family: 'Archivo', sans-serif;
+  color: var(--text);
+  overflow: hidden;
+}
+
+/* Top App Bar */
+.top-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 56px;
+  background: rgba(7, 7, 43, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 2px solid var(--royal);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 100;
+}
+
+.brand-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brand-badge .logo-text {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 20px;
+  letter-spacing: 0.04em;
+  color: #FFFFFF;
+}
+.brand-badge .logo-tag {
+  background: var(--royal);
+  color: #FFFFFF;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  border-radius: 3px;
+}
+
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn {
+  background: var(--card);
+  border: 1px solid rgba(42, 20, 240, 0.6);
+  color: #FFFFFF;
+  padding: 7px 14px;
+  font-family: 'Archivo', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+.btn:hover {
+  background: var(--royal);
+  border-color: var(--gold);
+}
+.btn-gold {
+  background: var(--gold);
+  color: #07072B;
+  border-color: var(--gold);
+  font-weight: 700;
+}
+.btn-gold:hover {
+  background: #FFE27A;
+  color: #07072B;
+}
+
+.slide-counter {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 14px;
+  color: var(--gold);
+  min-width: 60px;
+  text-align: center;
+}
+
+/* Progress Bar */
+.progress-bar-wrap {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 101;
+}
+.progress-fill {
+  height: 100%;
+  width: 5%;
+  background: linear-gradient(90deg, var(--royal), var(--gold));
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Presentation Stage */
+.stage {
+  position: absolute;
+  top: 59px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #0F0E3D 0%, #030318 100%);
+}
+
+/* Slide Mode vs Scroll Mode */
+body.mode-deck .slide-wrap {
+  display: none;
+  opacity: 0;
+  transform: scale(0.97);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+body.mode-deck .slide-wrap.active {
+  display: flex;
+  opacity: 1;
+  transform: scale(1);
+}
+
+body.mode-scroll .stage {
+  overflow-y: auto;
+  display: block;
+  padding: 30px 0 60px;
+}
+body.mode-scroll .slide-wrap {
+  display: flex;
+  margin: 0 auto 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.slide-wrap {
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.a4-slide {
+  width: 794px;
+  height: 1123px;
+  background: #07072B;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(42, 20, 240, 0.4);
+  transform-origin: center center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Floating Arrows */
+.arrow-nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  background: rgba(7, 7, 43, 0.85);
+  border: 1px solid rgba(42, 20, 240, 0.8);
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 90;
+  transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+.arrow-nav:hover {
+  background: var(--royal);
+  border-color: var(--gold);
+  transform: translateY(-50%) scale(1.1);
+}
+.arrow-prev { left: 24px; }
+.arrow-next { right: 24px; }
+
+/* Slide Index Drawer */
+.drawer {
+  position: fixed;
+  top: 59px;
+  bottom: 0;
+  left: 0;
+  width: 360px;
+  max-width: 85vw;
+  background: rgba(7, 7, 43, 0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-right: 2px solid var(--royal);
+  z-index: 120;
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+.drawer.open {
+  transform: translateX(0);
+}
+.drawer-header {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--card);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.drawer-header h3 {
+  margin: 0;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 16px;
+  color: var(--gold);
+}
+.drawer-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.drawer-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 4px;
+  text-align: left;
+  cursor: pointer;
+  font-family: 'Archivo', sans-serif;
+  font-size: 13px;
+  transition: all 0.15s;
+}
+.drawer-item:hover {
+  background: var(--card);
+  border-color: var(--royal);
+}
+.drawer-item.active {
+  background: var(--card);
+  border-color: var(--gold);
+  color: #FFFFFF;
+}
+.drawer-num {
+  font-family: 'Archivo Black', sans-serif;
+  color: var(--gold);
+  font-size: 13px;
+  min-width: 24px;
+}
+.drawer-backdrop {
+  position: fixed;
+  top: 59px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 110;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.drawer-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Interactive Calculator Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(3, 3, 24, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open {
+  display: flex;
+}
+.modal-card {
+  width: 820px;
+  max-width: 95vw;
+  max-height: 90vh;
+  background: var(--navy);
+  border: 2px solid var(--royal);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.modal-head {
+  background: var(--card);
+  border-bottom: 2px solid var(--royal);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-head h2 {
+  margin: 0;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 18px;
+  color: var(--gold);
+}
+.modal-body {
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.calc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+@media (max-width: 700px) {
+  .calc-grid { grid-template-columns: 1fr; }
+}
+
+.ctrl-group {
+  margin-bottom: 20px;
+}
+.ctrl-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.ctrl-val {
+  color: var(--gold);
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 15px;
+}
+.ctrl-slider {
+  width: 100%;
+  accent-color: var(--gold);
+  cursor: pointer;
+  height: 6px;
+  background: var(--card);
+  border-radius: 3px;
+}
+
+.dia-pills {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+}
+.dia-btn {
+  background: var(--card);
+  border: 1px solid var(--royal);
+  color: #FFFFFF;
+  padding: 8px 4px;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 12px;
+  text-align: center;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.dia-btn.active {
+  background: var(--gold);
+  color: #07072B;
+  border-color: var(--gold);
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.metric-box {
+  background: var(--card);
+  border: 1px solid var(--royal);
+  border-left: 4px solid var(--gold);
+  padding: 16px;
+  border-radius: 4px;
+}
+.metric-num {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 28px;
+  color: var(--gold);
+  line-height: 1;
+}
+.metric-title {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.metric-sub {
+  font-size: 11px;
+  color: #FFFFFF;
+  margin-top: 4px;
+  opacity: 0.8;
+}
+
+/* Responsive Scaling */
+@media (max-width: 860px) {
+  .arrow-nav { display: none; }
+}
+</style>
+</head>
+<body class="mode-deck">
+
+<!-- Top Bar -->
+<header class="top-bar">
+  <div class="brand-badge">
+    <button class="btn" id="btn-drawer" title="Toggle Slide Menu (M)">☰ Slides</button>
+    <div class="logo-text">REBAR<span style="color:var(--gold)">X</span></div>
+    <span class="logo-tag">IS 18256 : 2023</span>
+  </div>
+
+  <div class="nav-controls">
+    <button class="btn" id="btn-mode" title="Toggle Slide / Scroll View">Mode: Deck</button>
+    <button class="btn btn-gold" id="btn-calc" title="Open Savings Simulator (C)">⚡ Savings Reckoner</button>
+    <span class="slide-counter" id="slide-num">01 / 20</span>
+    <a href="/downloads/RebarX-Company-Profile.pdf" download="RebarX-GFRP-Company-Profile.pdf" class="btn" title="Download Official PDF">⬇ PDF</a>
+    <button class="btn" id="btn-fullscreen" title="Fullscreen (F)">⛶</button>
+  </div>
+</header>
+
+<!-- Progress Bar -->
+<div class="progress-bar-wrap">
+  <div class="progress-fill" id="progress-fill"></div>
+</div>
+
+<!-- Slide Drawer -->
+<div class="drawer-backdrop" id="drawer-backdrop"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-header">
+    <h3>EXECUTIVE PROFILE INDEX</h3>
+    <button class="btn" id="drawer-close">✕</button>
+  </div>
+  <div class="drawer-list" id="drawer-list">
+    
+        <button class="drawer-item" data-goto="1">
+          <span class="drawer-num">01</span>
+          <span class="drawer-title">Cover · Executive Overview</span>
+        </button>
+        <button class="drawer-item" data-goto="2">
+          <span class="drawer-num">02</span>
+          <span class="drawer-title">Leadership & Engineering</span>
+        </button>
+        <button class="drawer-item" data-goto="3">
+          <span class="drawer-num">03</span>
+          <span class="drawer-title">Composite Technology · What is GFRP</span>
+        </button>
+        <button class="drawer-item" data-goto="4">
+          <span class="drawer-num">04</span>
+          <span class="drawer-title">Technical Comparison: GFRP vs TMT</span>
+        </button>
+        <button class="drawer-item" data-goto="5">
+          <span class="drawer-num">05</span>
+          <span class="drawer-title">National Highways & IRC:137-2022</span>
+        </button>
+        <button class="drawer-item" data-goto="6">
+          <span class="drawer-num">06</span>
+          <span class="drawer-title">Industrial Flooring & Logistics Slabs</span>
+        </button>
+        <button class="drawer-item" data-goto="7">
+          <span class="drawer-num">07</span>
+          <span class="drawer-title">Marine, Water & Aggressive Alkali Resistance</span>
+        </button>
+        <button class="drawer-item" data-goto="8">
+          <span class="drawer-num">08</span>
+          <span class="drawer-title">Building Infrastructure & Civil Precast</span>
+        </button>
+        <button class="drawer-item" data-goto="9">
+          <span class="drawer-num">09</span>
+          <span class="drawer-title">Straight GFRP Rebar & BIS Weights</span>
+        </button>
+        <button class="drawer-item" data-goto="10">
+          <span class="drawer-num">10</span>
+          <span class="drawer-title">Factory Pre-Cured Bent Profiles</span>
+        </button>
+        <button class="drawer-item" data-goto="11">
+          <span class="drawer-num">11</span>
+          <span class="drawer-title">Ready Reckoner & Freight Multiplier</span>
+        </button>
+        <button class="drawer-item" data-goto="12">
+          <span class="drawer-num">12</span>
+          <span class="drawer-title">The RebarX Manufacturing Advantage</span>
+        </button>
+        <button class="drawer-item" data-goto="13">
+          <span class="drawer-num">13</span>
+          <span class="drawer-title">In-House Mechanical Testing Lab</span>
+        </button>
+        <button class="drawer-item" data-goto="14">
+          <span class="drawer-num">14</span>
+          <span class="drawer-title">ISO/IEC 17025 Accreditation & Lot MTCs</span>
+        </button>
+        <button class="drawer-item" data-goto="15">
+          <span class="drawer-num">15</span>
+          <span class="drawer-title">International Design Codes & Compositech</span>
+        </button>
+        <button class="drawer-item" data-goto="16">
+          <span class="drawer-num">16</span>
+          <span class="drawer-title">Tender Intake & Corporate Coordinates</span>
+        </button>
+  </div>
+</aside>
+
+<!-- Floating Nav Arrows -->
+<button class="arrow-nav arrow-prev" id="arrow-prev" title="Previous Slide (←)">❮</button>
+<button class="arrow-nav arrow-next" id="arrow-next" title="Next Slide (→)">❯</button>
+
+<!-- Presentation Stage -->
+<main class="stage" id="stage">
+  
+        <div class="slide-wrap" id="slide-1" data-index="1" data-title="Cover · Executive Overview">
+          <div class="a4-slide">
+            
+
+<div style="width: 794px; height: 1123px; box-sizing: border-box; position: relative; overflow: hidden; background: #07072B; font-family: 'Archivo', sans-serif; color: #ECECF7; display: flex; flex-direction: column">
+<div style="position: relative; height: 540px; flex: 0 0 540px; border-top: 8px solid #2A14F0">
+<img src="img/img-000.jpg" alt="Yellow GFRP rebar mesh laid across a highway pavement" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(7, 7, 43, 0.6)"></div>
+<div style="position: relative; height: 100%; box-sizing: border-box; padding: 36px 48px 40px; display: flex; flex-direction: column">
+<div style="display: flex; justify-content: space-between; align-items: flex-start">
+<div style="display: flex; align-items: center; gap: 14px">
+<img src="img/rebarx-logo-white.svg" alt="RebarX Logo" style="display: block; height: 64px; width: auto">
+</div>
+<div style="background: #2A14F0; color: #FFFFFF; padding: 10px 16px; font-weight: 700; font-size: 15px; letter-spacing: 0.06em">COMPANY PROFILE</div>
+</div>
+<div style="margin-top: auto">
+<h1 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 82px; line-height: 1.05; text-transform: uppercase; color: #FFFFFF">Reinforcing<br><span style="color: #FFC800">India's</span><br>Future</h1>
+<p style="margin: 22px 0 0; padding-left: 14px; border-left: 4px solid #FFC800; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; color: #FFFFFF">High-Performance Composite Reinforcement · IS 18256 : 2023 · IRC:137-2022</p>
+</div>
+</div>
+</div>
+<div style="flex: 0 0 auto; border-top: 4px solid #2A14F0; border-bottom: 4px solid #2A14F0; background: #0C0A3F; padding: 26px 48px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); text-align: center">
+<div style="border-right: 2px solid #2A14F0"><div style="font-family: 'Archivo Black', sans-serif; font-size: 50px; line-height: 1; color: #FFC800">3.7×</div><div style="margin-top: 8px; font-size: 15px; color: #C9C8E8">Lighter<br>than steel</div></div>
+<div style="border-right: 2px solid #2A14F0"><div style="font-family: 'Archivo Black', sans-serif; font-size: 50px; line-height: 1; color: #FFC800">2×</div><div style="margin-top: 8px; font-size: 15px; color: #C9C8E8">Stronger<br>in tension</div></div>
+<div style="border-right: 2px solid #2A14F0"><div style="font-family: 'Archivo Black', sans-serif; font-size: 50px; line-height: 1; color: #FFC800">75%</div><div style="margin-top: 8px; font-size: 15px; color: #C9C8E8">Less<br>CO₂ emission</div></div>
+<div><div style="font-family: 'Archivo Black', sans-serif; font-size: 50px; line-height: 1; color: #FFC800">80+</div><div style="margin-top: 8px; font-size: 15px; color: #C9C8E8">Years<br>service life</div></div>
+</div>
+<div style="flex: 1 1 auto; padding: 30px 48px 0">
+<p style="margin: 0 0 18px; text-align: center; font-size: 14px; font-weight: 700; letter-spacing: 0.14em; color: #FFC800">KEY INFRASTRUCTURE SECTORS</p>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px">
+<div style="background: #13115A; border-top: 5px solid #2A14F0; padding: 20px 14px; text-align: center; height: 196px; box-sizing: border-box"><div style="font-family: 'Archivo Black', sans-serif; font-size: 18px; line-height: 1.15; color: #FFC800">National Highways</div><div style="margin-top: 12px; font-size: 15px; color: #E4E3F5">Crash barriers, rigid pavements &amp; drainage lines</div></div>
+<div style="background: #13115A; border-top: 5px solid #2A14F0; padding: 20px 14px; text-align: center; height: 196px; box-sizing: border-box"><div style="font-family: 'Archivo Black', sans-serif; font-size: 18px; line-height: 1.15; color: #FFC800">Industrial Logistics</div><div style="margin-top: 12px; font-size: 15px; color: #E4E3F5">High-load slabs &amp; heavy automated warehouses</div></div>
+<div style="background: #13115A; border-top: 5px solid #2A14F0; padding: 20px 14px; text-align: center; height: 196px; box-sizing: border-box"><div style="font-family: 'Archivo Black', sans-serif; font-size: 18px; line-height: 1.15; color: #FFC800">Water &amp; Marine</div><div style="margin-top: 12px; font-size: 15px; color: #E4E3F5">ETP, STP, coastal jetties &amp; water reservoirs</div></div>
+<div style="background: #13115A; border-top: 5px solid #2A14F0; padding: 20px 14px; text-align: center; height: 196px; box-sizing: border-box"><div style="font-family: 'Archivo Black', sans-serif; font-size: 18px; line-height: 1.15; color: #FFC800">Civil &amp; Precast</div><div style="margin-top: 12px; font-size: 15px; color: #E4E3F5">Boundary walls, box culverts &amp; underground tanks</div></div>
+</div>
+</div>
+<div style="flex: 0 0 48px; background: #2A14F0; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #FFFFFF">IS&nbsp;18256:2023 · IRC:137-2022 · NHAI &amp; State PWD Source Approval · ISO/IEC&nbsp;17025 Accredited Lab · Pithampur, MP</div>
+</div>
+
+          </div>
+        </div>
+        <div class="slide-wrap" id="slide-2" data-index="2" data-title="Leadership & Engineering">
+          <div class="a4-slide">
+            
+
+<div style="width: 794px; height: 1123px; box-sizing: border-box; overflow: hidden; background: #F4F4F8; font-family: 'Archivo', sans-serif; color: #0B0B2E; display: flex; flex-direction: column">
+<div style="flex: 0 0 auto; background: #07072B; border-top: 6px solid #2A14F0; padding: 24px 48px 26px; display: flex; justify-content: space-between; align-items: center">
+<div><p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #FFC800">LEADERSHIP</p><h1 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 30px; color: #FFFFFF">Founder &amp; Director</h1></div>
+<div style="background: #FFC800; padding: 12px 18px; text-align: center"><div style="font-family: 'Archivo Black', sans-serif; font-size: 16px; color: #07072B">IIT KHARAGPUR</div><div style="margin-top: 4px; font-size: 13px; color: #07072B">B.Tech (Hons.), Mechanical, 2008</div></div>
+</div>
+<div style="flex: 1 1 auto; display: flex; min-height: 0">
+<div style="flex: 0 0 330px; background: #13115A; color: #ECECF7; padding: 32px 34px; box-sizing: border-box; display: flex; flex-direction: column; gap: 22px">
+<div>
+<div style="border: 2px solid #FFC800"><img src="img/img-035.jpg" alt="Kapil Agrawal, Founder and Director of RebarX" style="display: block; width: 258px; height: 367px; object-fit: cover"></div>
+<p style="margin: 10px 0 0; text-align: center; font-size: 15px; color: #FFC800">Kapil Agrawal<br>Founder &amp; Director, RebarX</p>
+</div>
+<div style="background: #2A14F0; padding: 18px; text-align: center; font-family: 'Archivo Black', sans-serif; font-size: 24px; line-height: 1.15; color: #FFFFFF">IIT KHARAGPUR<br>ALUMNUS</div>
+<div style="display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; align-items: center; gap: 14px"><span style="flex: 0 0 96px; font-family: 'Archivo Black', sans-serif; font-size: 32px; color: #FFC800">18</span><span style="font-size: 15px">Years in<br>industry</span></div>
+<div style="display: flex; align-items: center; gap: 14px"><span style="flex: 0 0 96px; font-family: 'Archivo Black', sans-serif; font-size: 26px; color: #FFC800">WORKS</span><span style="font-size: 15px">Pithampur<br>manufacturing</span></div>
+<div style="display: flex; align-items: center; gap: 14px"><span style="flex: 0 0 96px; font-family: 'Archivo Black', sans-serif; font-size: 26px; color: #FFC800">17025</span><span style="font-size: 15px">ISO/IEC accredited<br>testing lab</span></div>
+</div>
+</div>
+<div style="flex: 1 1 auto; padding: 36px 44px 28px 36px; box-sizing: border-box; display: flex; flex-direction: column">
+<h2 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 26px; line-height: 1.15">Engineering Permanent Corrosion Immunity for Concrete Infrastructure.</h2>
+<div style="width: 56px; height: 5px; background: #2A14F0; margin: 18px 0"></div>
+<p style="margin: 0 0 12px; font-size: 14px; line-height: 1.6; color: #2E2D4F">Kapil Agrawal graduated in Mechanical Engineering from IIT Kharagpur in 2008. Over an 18-year industrial and executive engineering career, he directed operations in energy infrastructure and scaled nationwide supply chain networks across more than 25 cities.</p>
+<p style="margin: 0 0 18px; font-size: 14px; line-height: 1.6; color: #2E2D4F">He established Credific Ventures to build India's premier high-precision GFRP rebar manufacturing enterprise under the RebarX brand. Based in the Pithampur Industrial Area, the facility deploys advanced automated pultrusion lines engineered with European technology partner Compositech, manufacturing straight rebar, compact coils, and structural bent shapes strictly to IS&nbsp;18256:2023.</p>
+<div style="background: #07072B; color: #FFC800; text-align: center; padding: 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.1em">EXECUTIVE BACKGROUND</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 10px">
+<div style="background: #FFFFFF; box-shadow: 0 1px 3px rgba(11, 11, 46, 0.14)"><div style="background: #2A14F0; color: #FFC800; padding: 6px 12px; font-weight: 700; font-size: 14px">IIT Kharagpur</div><div style="padding: 8px 12px; font-size: 13px; color: #2E2D4F">B.Tech (Hons.), Mechanical Engineering, 2008</div></div>
+<div style="background: #FFFFFF; box-shadow: 0 1px 3px rgba(11, 11, 46, 0.14)"><div style="background: #2A14F0; color: #FFC800; padding: 6px 12px; font-weight: 700; font-size: 14px">Energy Sector</div><div style="padding: 8px 12px; font-size: 13px; color: #2E2D4F">Operations &amp; heavy engineering management</div></div>
+<div style="background: #FFFFFF; box-shadow: 0 1px 3px rgba(11, 11, 46, 0.14)"><div style="background: #2A14F0; color: #FFC800; padding: 6px 12px; font-weight: 700; font-size: 14px">Enterprise Operations</div><div style="padding: 8px 12px; font-size: 13px; color: #2E2D4F">Scaled multi-state networks across 25+ cities</div></div>
+<div style="background: #FFFFFF; box-shadow: 0 1px 3px rgba(11, 11, 46, 0.14)"><div style="background: #FFC800; color: #07072B; padding: 6px 12px; font-weight: 700; font-size: 14px">Credific Ventures</div><div style="padding: 8px 12px; font-size: 13px; color: #2E2D4F">Founder &amp; Director · RebarX Plant, Pithampur</div></div>
+</div>
+<div style="margin-top: 14px; margin-bottom: 14px; background: #07072B; border-left: 6px solid #FFC800; padding: 14px 18px; font-size: 14px; line-height: 1.5; font-style: italic; color: #FFFFFF">"Premature deterioration in civil infrastructure is predominantly driven by corrosion of internal steel reinforcement. At RebarX, we manufacture structural composite rebar that eliminates corrosion risk at the source, engineered strictly to IS&nbsp;18256:2023 with verified batch traceability."</div>
+<div style="margin-top: auto; border-top: 5px solid #7B6CF6; padding-top: 18px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; text-align: center; font-size: 13px; font-weight: 600; color: #2E2D4F">
+<div><div style="font-family: 'Archivo Black', sans-serif; font-size: 18px; color: #2A14F0">IS&nbsp;18256</div>BIS-compliant bars</div>
+<div><div style="font-family: 'Archivo Black', sans-serif; font-size: 15px; color: #2A14F0">INDIA · UAE</div>Pithampur &amp; Dubai</div>
+<div><div style="font-family: 'Archivo Black', sans-serif; font-size: 18px; color: #2A14F0">NHAI</div>Source approval</div>
+<div><div style="font-family: 'Archivo Black', sans-serif; font-size: 18px; color: #2A14F0">100%</div>Made in India</div>
+</div>
+</div>
+</div>
+<div style="flex: 0 0 48px; background: #2A14F0; border-top: 8px solid #FFC800; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; font-size: 13px; color: #FFFFFF"><span>RebarX · Credific Ventures Pvt. Ltd. · Pithampur, Madhya Pradesh · www.rebarx.in</span><span>02</span></div>
+</div>
+
+          </div>
+        </div>
+        <div class="slide-wrap" id="slide-3" data-index="3" data-title="Composite Technology · What is GFRP">
+          <div class="a4-slide">
+            
+
+<div style="width: 794px; height: 1123px; box-sizing: border-box; overflow: hidden; background: #07072B; font-family: 'Archivo', sans-serif; color: #ECECF7; display: flex; flex-direction: column">
+<div style="flex: 1 1 auto; display: flex; min-height: 0">
+<div style="flex: 0 0 350px; position: relative; overflow: hidden">
+<img src="img/img-037.jpg" alt="Close-up of helically wound GFRP rebars" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(12, 10, 63, 0.45)"></div>
+</div>
+<div style="flex: 1 1 auto; border-top: 8px solid #2A14F0; padding: 36px 40px 24px 34px; box-sizing: border-box; display: flex; flex-direction: column">
+<h1 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 50px; line-height: 1; color: #FFFFFF">WHAT IS<br><span style="color: #FFC800">GFRP REBAR?</span></h1>
+<p style="margin: 16px 0 20px; font-size: 15px; line-height: 1.6; color: #E4E3F5">Glass Fibre Reinforced Polymer rebar is an advanced structural composite engineered to permanently replace steel TMT reinforcement in concrete subjected to corrosive environments.</p>
+
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="background: #13115A; border-left: 5px solid #2A14F0; padding: 12px 16px">
+<div style="font-family: 'Archivo Black', sans-serif; font-size: 16px; color: #FFC800">ECR Boron-Free Glass Rovings</div>
+<div style="font-size: 13px; line-height: 1.5; color: #E4E3F5; margin-top: 4px">High-purity continuous glass rovings aligned longitudinally in the direct axis of tension. Minimum fiber mass content ≥ 75% per IS&nbsp;18256:2023.</div>
+</div>
+
+<div style="background: #13115A; border-left: 5px solid #2A14F0; padding: 12px 16px">
+<div style="font-family: 'Archivo Black', sans-serif; font-size: 16px; color: #FFC800">Structural Epoxy / Vinyl Ester Matrix</div>
+<div style="font-size: 13px; line-height: 1.5; color: #E4E3F5; margin-top: 4px">Crosslinked polymeric matrix encasing every glass filament. 100% free of polyester resin, providing total barrier resistance against alkaline pore solutions (pH 12.5–13.5).</div>
+</div>
+
+<div style="background: #13115A; border-left: 5px solid #2A14F0; padding: 12px 16px">
+<div style="font-family: 'Archivo Black', sans-serif; font-size: 16px; color: #FFC800">Continuous Helical Spiral Ribbing</div>
+<div style="font-size: 13px; line-height: 1.5; color: #E4E3F5; margin-top: 4px">Precision mechanical helical winding delivering concrete bond strength ≥ 8&nbsp;MPa, ensuring crack-width mitigation and full developmental anchorage.</div>
+</div>
+
+<div style="background: #13115A; border-left: 5px solid #2A14F0; padding: 12px 16px">
+<div style="font-family: 'Archivo Black', sans-serif; font-size: 16px; color: #FFC800">Linear-Elastic Behavior &amp; Coiling</div>
+<div style="font-size: 13px; line-height: 1.5; color: #E4E3F5; margin-top: 4px">Linear-elastic stress-strain profile up to failure with no yield plateau. Lower flexural stiffness in smaller diameters (4–10&nbsp;mm) allows elastic coiling with 100% straight elastic recovery on uncoiling.</div>
+</div>
+</div>
+
+<div style="margin-top: auto; background: #0C0A3F; border: 1px solid #262380; border-top: 4px solid #FFC800; padding: 16px 20px">
+<div style="font-family: 'Archivo Black', sans-serif; font-size: 15px; color: #FFC800; margin-bottom: 6px">PROVEN INTERNATIONAL RECORD</div>
+<p style="margin: 0; font-size: 13px; line-height: 1.55; color: #C9C8E8">GFRP reinforcement has delivered over 50 years of verified performance in North America, Europe, and Japan. Standardized in India under <strong>IS&nbsp;18256:2023</strong> and road guidelines <strong>IRC:137-2022</strong>.</p>
+</div>
+</div>
+</div>
+<div style="flex: 0 0 48px; background: #2A14F0; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; font-size: 13px; color: #FFFFFF"><span>RebarX · Credific Ventures Pvt. Ltd. · Pithampur, Madhya Pradesh · www.rebarx.in</span><span>03</span></div>
+</div>
+
+          </div>
+        </div>
+        <div class="slide-wrap" id="slide-4" data-index="4" data-title="Technical Comparison: GFRP vs TMT">
+          <div class="a4-slide">
+            
+
+<div style="width: 794px; height: 1123px; box-sizing: border-box; overflow: hidden; background: #F4F4F8; font-family: 'Archivo', sans-serif; color: #0B0B2E; display: flex; flex-direction: column">
+<div style="flex: 0 0 auto; background: #07072B; border-top: 6px solid #FFC800; padding: 24px 48px 26px">
+<p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #FFC800">TECHNICAL COMPARISON</p>
+<h1 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 30px; color: #FFFFFF">GFRP vs TMT Steel</h1>
+</div>
+<div style="flex: 1 1 auto; padding: 24px 36px 0; display: flex; flex-direction: column">
+<h2 style="margin: 0 0 16px 8px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 20px">Key Engineering Properties Compared</h2>
+
+<div style="background: #FFFFFF; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14); border-left: 5px solid #2A14F0">
+<div style="background: #07072B; color: #FFC800; padding: 10px 18px; font-size: 13px; font-weight: 700">GUARANTEED TENSILE STRENGTH (MPa)</div>
+<div style="padding: 16px 20px">
+<div style="font-size: 13px; color: #4B4A6B">TMT Steel Fe 500 (Yield Strength)</div>
+<div style="display: flex; align-items: center; gap: 14px; margin: 4px 0 14px">
+<div style="width: 250px; height: 28px; background: #8A8A99"></div>
+<span style="font-weight: 700; font-size: 15px">500 MPa</span>
+</div>
+<div style="font-size: 13px; color: #4B4A6B">RebarX GFRP (6–12 mm Guaranteed Tensile)</div>
+<div style="display: flex; align-items: center; gap: 14px; margin-top: 4px">
+<div style="width: 500px; height: 28px; background: #2A14F0"></div>
+<span style="white-space: nowrap; font-family: 'Archivo Black', sans-serif; color: #2A14F0; font-size: 16px">≈ 1,000 MPa (2× Capacity)</span>
+</div>
+</div>
+</div>
+
+<table style="width: 100%; margin-top: 20px; border-collapse: collapse; background: #FFFFFF; font-size: 14px; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14)">
+<thead><tr><th scope="col" style="text-align: left; padding: 11px 14px; background: #07072B; color: #FFFFFF; width: 34%; border-right: 1px solid #E2E2EC">PROPERTY</th><th scope="col" style="text-align: left; padding: 11px 14px; background: #07072B; color: #FFFFFF; width: 30%; border-right: 1px solid #E2E2EC">TMT STEEL</th><th scope="col" style="text-align: left; padding: 11px 14px; background: #FFC800; color: #07072B">RebarX GFRP</th></tr></thead>
+<tbody>
+<tr style="border-bottom: 1px solid #E2E2EC"><th scope="row" style="text-align: left; padding: 9px 14px; font-weight: 400; border-right: 1px solid #E2E2EC">Tensile Strength</th><td style="padding: 9px 14px; border-right: 1px solid #E2E2EC">500 MPa (Fe 500 yield)</td><td style="padding: 9px 14px; font-weight: 700">≈ 1,000 MPa (6–12 mm)</td></tr>
+<tr style="border-bottom: 1px solid #E2E2EC"><th scope="row" style="text-align: left; padding: 9px 14px; font-weight: 400; border-right: 1px solid #E2E2EC">Density</th><td style="padding: 9px 14px; border-right: 1px solid #E2E2EC">7.85 g/cm³</td><td style="padding: 9px 14px; font-weight: 700">2.12 g/cm³ (3.7× lighter)</td></tr>
+<tr style="border-bottom: 1px solid #E2E2EC"><th scope="row" style="text-align: left; padding: 9px 14px; font-weight: 400; border-right: 1px solid #E2E2EC">Modulus of Elasticity</th><td style="padding: 9px 14px; border-right: 1px solid #E2E2EC">200 GPa</td><td style="padding: 9px 14px">≥ 45 GPa (IS 18256)</td></tr>
+<tr style="border-bottom: 1px solid #E2E2EC"><th scope="row" style="text-align: left; padding: 9px 14px; font-weight: 400; border-right: 1px solid #E2E2EC">Transverse Shear</th><td style="padding: 9px 14px; border-right: 1px solid #E2E2EC">≈ 300 MPa</td><td style="padding: 9px 14px">≥ 130 MPa (IS 18256 Table 2)</td></tr>
+<tr style="border-bottom: 1px solid #E2E2EC"><th scope="row" style="text-align: left; padding: 9px 14px; font-weight: 400; border-right: 1px solid #E2E2EC">Bond Strength</th><td style="padding: 9px 14px; border-right: 1px solid #E2E2EC">≈ 5–10 MPa</td><td style="padding: 9px 14px">≥ 8 MPa (IS 18256 Table 2)</td></tr>
+<tr style="border-bottom: 1px solid #E2E2EC"><th scope="row" style="text-align: left; padding: 9px 14px; font-weight: 400; border-right: 1px solid #E2E2EC">Corrosion Mechanism</th><td style="padding: 9px 14px; border-right: 1px solid #E2E2EC">Corrodes; expands 4–6× vol.</td><td style="padding: 9px 14px; font-weight: 700; color: #1E7A45">100% Corrosion Immune</td></tr>
+<tr style="border-bottom: 1px solid #E2E2EC"><th scope="row" style="text-align: left; padding: 9px 14px; font-weight: 400; border-right: 1px solid #E2E2EC">Electrical / Magnetic</th><td style="padding: 9px 14px; border-right: 1px solid #E2E2EC">Conductive / Magnetic</td><td style="padding: 9px 14px">Dielectric / Non-Magnetic</td></tr>
+<tr style="border-bottom: 1px solid #E2E2EC"><th scope="row" style="text-align: left; padding: 9px 14px; font-weight: 400; border-right: 1px solid #E2E2EC">Thermal Conductivity</th><td style="padding: 9px 14px; border-right: 1px solid #E2E2EC">50 W/(m·K)</td><td style="padding: 9px 14px">0.5 W/(m·K) (Thermal insulator)</td></tr>
+<tr style="border-bottom: 1px solid #E2E2EC"><th scope="row" style="text-align: left; padding: 9px 14px; font-weight: 400; border-right: 1px solid #E2E2EC">Design Service Life</th><td style="padding: 9px 14px; border-right: 1px solid #E2E2EC">30–40 yrs in aggressive sites</td><td style="padding: 9px 14px; font-weight: 700">80+ to 100 Years</td></tr>
+<tr><th scope="row" style="text-align: left; padding: 9px 14px; font-weight: 400; border-right: 1px solid #E2E2EC">Standard Specification</th><td style="padding: 9px 14px; border-right: 1px solid #E2E2EC">IS 1786</td><td style="padding: 9px 14px; font-weight: 700">IS 18256:2023 · IRC:137-2022</td></tr>
+</tbody>
+</table>
+
+<div style="margin-top: auto; margin-bottom: 24px; background: #07072B; border-left: 5px solid #FFC800; padding: 14px 18px; font-size: 13px; line-height: 1.55; color: #FFFFFF">
+<strong>Structural Engineering Note:</strong> Because GFRP exhibits a linear-elastic modulus (E ≥ 45 GPa) without plastic yielding, structural design per ACI 440.11-22 and IRC:137-2022 is typically governed by serviceability limits (deflection and crack width) rather than ultimate strength.
+</div>
+</div>
+<div style="flex: 0 0 48px; background: #2A14F0; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; font-size: 13px; color: #FFFFFF"><span>RebarX · Credific Ventures Pvt. Ltd. · Pithampur, Madhya Pradesh · www.rebarx.in</span><span>04</span></div>
+</div>
+
+          </div>
+        </div>
+        <div class="slide-wrap" id="slide-5" data-index="5" data-title="National Highways & IRC:137-2022">
+          <div class="a4-slide">
+            
+
+<div style="width: 794px; height: 1123px; box-sizing: border-box; overflow: hidden; background: #07072B; font-family: 'Archivo', sans-serif; color: #ECECF7; display: flex; flex-direction: column">
+<div style="flex: 0 0 48px; background: #2A14F0; display: flex; align-items: center; justify-content: flex-end; padding: 0 48px; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; color: #FFC800">APPLICATION — NATIONAL HIGHWAYS</div>
+<div style="flex: 0 0 520px; position: relative; overflow: hidden">
+<img src="img/img-068.jpg" alt="Multi-lane highway through forest" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(7, 7, 43, 0.42)"></div>
+<div style="position: relative; padding: 50px 48px 0">
+<h1 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 92px; line-height: 1.05; color: #FFFFFF">ROADS &amp;<br><span style="color: #FFC800">HIGHWAYS</span></h1>
+<p style="margin: 16px 0 0; font-size: 19px; font-style: italic; color: #FFFFFF">Built for national and state highway work</p>
+</div>
+</div>
+<div style="flex: 0 0 auto; background: #1D0FB0; padding: 12px 48px; text-align: center; font-size: 13px; font-style: italic; color: #FFFFFF">GFRP mesh in the road cross-section · Crash barrier reinforcement · Drainage channel lining · IRC:137-2022 compliant</div>
+<div style="flex: 1 1 auto; border-top: 4px solid #2A14F0; padding: 14px 40px 16px; display: flex; flex-direction: column">
+<p style="margin: 0 0 12px; text-align: center; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; color: #FFC800">IRC:137-2022 COMPLIANT · SOURCE APPROVAL: NHAI AND MAHARASHTRA PWD</p>
+<div style="flex: 1 1 auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 14px">
+<div style="background: #13115A; border: 1px solid #2A14F0; border-top: 5px solid #2A14F0; padding: 14px 16px"><h2 style="margin: 0 0 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 17px; line-height: 1.15; color: #FFC800">Crash Barriers &amp; Dividers</h2><p style="margin: 0; font-size: 13px; line-height: 1.5; color: #E4E3F5">GFRP stirrups and longitudinal bars replace steel in median and roadside barriers subjected to severe environmental weathering. Completely immune to chloride-induced corrosion and moisture intrusion.</p></div>
+<div style="background: #13115A; border: 1px solid #2A14F0; border-top: 5px solid #2A14F0; padding: 14px 16px"><h2 style="margin: 0 0 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 17px; line-height: 1.15; color: #FFC800">Drainage Lines &amp; Channels</h2><p style="margin: 0; font-size: 13px; line-height: 1.5; color: #E4E3F5">Continuous GFRP mesh for longitudinal drainage channels along national and state highways. 100% immune to aggressive runoff, standing water, and acidic soil conditions.</p></div>
+<div style="background: #13115A; border: 1px solid #2A14F0; border-top: 5px solid #2A14F0; padding: 14px 16px"><h2 style="margin: 0 0 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 17px; line-height: 1.15; color: #FFC800">Pavement Slab Reinforcement</h2><p style="margin: 0; font-size: 13px; line-height: 1.5; color: #E4E3F5">Rigid concrete pavement slabs reinforced with GFRP mesh designed per IRC:137-2022. RebarX holds validated source approvals for major NHAI and State PWD road packages.</p></div>
+<div style="background: #13115A; border: 1px solid #2A14F0; border-top: 5px solid #2A14F0; padding: 14px 16px"><h2 style="margin: 0 0 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 17px; line-height: 1.15; color: #FFC800">Culverts &amp; Approach Slabs</h2><p style="margin: 0; font-size: 13px; line-height: 1.5; color: #E4E3F5">Precast and cast-in-situ box culverts, retaining structures, and bridge approach slabs subjected to seasonal waterlogging, eliminating costly repair and spalling cycles.</p></div>
+</div>
+</div>
+<div style="flex: 0 0 48px; background: #2A14F0; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; font-size: 13px; color: #FFFFFF"><span>RebarX · Credific Ventures Pvt. Ltd. · Pithampur, Madhya Pradesh · www.rebarx.in</span><span>05</span></div>
+</div>
+
+          </div>
+        </div>
+        <div class="slide-wrap" id="slide-6" data-index="6" data-title="Industrial Flooring & Logistics Slabs">
+          <div class="a4-slide">
+            
+
+<div style="width: 794px; height: 1123px; box-sizing: border-box; overflow: hidden; background: #F4F4F8; font-family: 'Archivo', sans-serif; color: #0B0B2E; display: flex; flex-direction: column">
+<div style="flex: 0 0 auto; background: #07072B; border-top: 6px solid #FFC800; padding: 24px 48px 26px">
+<p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #FFC800">APPLICATIONS</p>
+<h1 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 30px; color: #FFFFFF">Industrial Flooring</h1>
+</div>
+<div style="flex: 0 0 400px; position: relative; overflow: hidden">
+<img src="img/img-085.jpg" alt="Workers laying GFRP mesh for an industrial logistics slab" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(7, 7, 43, 0.45)"></div>
+<div style="position: absolute; left: 40px; top: 80px; width: 440px; background: rgba(7, 7, 43, 0.85); padding: 22px 26px; border-left: 5px solid #FFC800">
+<h2 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 36px; line-height: 1.05; color: #FFFFFF">LARGE WAREHOUSE FLOOR SLABS</h2>
+<p style="margin: 12px 0 0; font-size: 14px; font-style: italic; color: #FFC800">Continuous GFRP mesh reinforcement for logistics parks &amp; factories</p>
+</div>
+</div>
+<div style="flex: 0 0 auto; background: #2A14F0; padding: 11px 48px; text-align: center; font-size: 13px; font-style: italic; color: #FFFFFF">GFRP mesh laid on site for a heavy logistics slab · Zero corrosion from chemical spills or standing wash water</div>
+<div style="flex: 1 1 auto; padding: 28px 32px 28px; display: flex; flex-direction: column">
+<h2 style="margin: 0 0 18px 12px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 22px">Why GFRP in Industrial Floor Slabs</h2>
+<div style="flex: 1 1 auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 18px 24px">
+<div style="background: #FFFFFF; border-top: 5px solid #2A14F0; padding: 20px; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14)"><h3 style="margin: 0 0 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 17px">Chemical &amp; Solvent Resistance</h3><p style="margin: 0; font-size: 14px; line-height: 1.55; color: #2E2D4F">Acids, alkalis, solvents, and salts that attack steel in factory slabs do not degrade GFRP. Ideal for chemical, pharmaceutical, food, battery, and fertilizer operations.</p></div>
+<div style="background: #FFFFFF; border-top: 5px solid #2A14F0; padding: 20px; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14)"><h3 style="margin: 0 0 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 17px">Zero Moisture Degradation</h3><p style="margin: 0; font-size: 14px; line-height: 1.55; color: #2E2D4F">Floors subjected to frequent high-pressure washdowns, damp subgrades, or effluent exposure retain complete reinforcement integrity with zero rust expansion or top spalling.</p></div>
+<div style="background: #FFFFFF; border-top: 5px solid #2A14F0; padding: 20px; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14)"><h3 style="margin: 0 0 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 17px">80+ Year Operating Life</h3><p style="margin: 0; font-size: 14px; line-height: 1.55; color: #2E2D4F">Eliminates disruptive structural floor rehabilitation cycles caused by internal steel corrosion. Facilities remain continuously productive without floor teardowns.</p></div>
+<div style="background: #FFFFFF; border-top: 5px solid #2A14F0; padding: 20px; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14)"><h3 style="margin: 0 0 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 17px">High Tensile Load Capacity</h3><p style="margin: 0; font-size: 14px; line-height: 1.55; color: #2E2D4F">Guaranteed tensile strength ≈ 1,000 MPa (6–12 mm) ensures effective crack distribution and load transfer under high racking posts and heavy automated forklift traffic.</p></div>
+</div>
+</div>
+<div style="flex: 0 0 48px; background: #2A14F0; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; font-size: 13px; color: #FFFFFF"><span>RebarX · Credific Ventures Pvt. Ltd. · Pithampur, Madhya Pradesh · www.rebarx.in</span><span>06</span></div>
+</div>
+
+          </div>
+        </div>
+        <div class="slide-wrap" id="slide-7" data-index="7" data-title="Marine, Water & Aggressive Alkali Resistance">
+          <div class="a4-slide">
+            
+
+<div style="width: 794px; height: 1123px; box-sizing: border-box; overflow: hidden; background: #07072B; font-family: 'Archivo', sans-serif; color: #ECECF7; display: flex; flex-direction: column">
+<div style="flex: 0 0 430px; position: relative; overflow: hidden; border-top: 6px solid #2A14F0">
+<img src="img/img-110.jpg" alt="GFRP rebar mesh submerged under water" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(7, 7, 43, 0.45)"></div>
+<p style="position: relative; margin: 0; padding: 22px 48px 0; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; color: #FFC800">APPLICATION · MARINE &amp; WATER INFRASTRUCTURE</p>
+<h1 style="position: relative; margin: 120px 48px 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 62px; line-height: 1.02; color: #FFFFFF">MADE FOR WATER<br>&amp; HARSH<br>ENVIRONMENTS</h1>
+</div>
+<div style="flex: 1 1 auto; background: #FFFFFF; color: #0B0B2E; padding: 26px 44px 22px; display: flex; flex-direction: column">
+<p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #2A14F0">ALKALI RESISTANCE</p>
+<h2 style="margin: 0 0 12px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 23px; line-height: 1.15; text-wrap: balance">Alkaline Pore-Water Durability &amp; Resin Chemistry</h2>
+<p style="margin: 0 0 16px; font-size: 14px; line-height: 1.6; color: #2E2D4F">Concrete pore solutions maintain sustained high alkalinity (pH 12.5 to 13.5). Rebars formulated with commercial polyester resins undergo severe saponification and tensile degradation over time. RebarX structural reinforcement is engineered exclusively with corrosion-resistant ECR boron-free glass rovings bound in an advanced epoxy resin matrix—100% free of polyester blends. This system easily satisfies the IS&nbsp;18256:2023 requirement of retaining ≥ 80% tensile capacity following 90 days of accelerated alkaline immersion testing.</p>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+<div style="background: #F4F4F8; border-left: 5px solid #2A14F0; padding: 12px 14px"><div style="font-family: 'Archivo Black', sans-serif; font-size: 22px; color: #2A14F0">pH 12.5–13.5</div><div style="margin-top: 4px; font-size: 13px; color: #2E2D4F">Concrete pore-water environment</div></div>
+<div style="background: #F4F4F8; border-left: 5px solid #2A14F0; padding: 12px 14px"><div style="font-family: 'Archivo Black', sans-serif; font-size: 22px; color: #2A14F0">≥ 80%</div><div style="margin-top: 4px; font-size: 13px; color: #2E2D4F">Tensile force retained after 90 days in alkali (IS&nbsp;18256)</div></div>
+<div style="background: #F4F4F8; border-left: 5px solid #2A14F0; padding: 12px 14px"><div style="font-family: 'Archivo Black', sans-serif; font-size: 22px; color: #2A14F0">Epoxy + ECR</div><div style="margin-top: 4px; font-size: 13px; color: #2E2D4F">Zero polyester in RebarX structural grade</div></div>
+</div>
+<p style="margin: 16px 0 0; padding: 11px 14px; background: #07072B; font-size: 13px; line-height: 1.5; color: #FFFFFF">Comparative alkaline immersion verification protocols (IS 18255 / ASTM D7705) and certified test specimens are available upon technical request.</p>
+</div>
+<div style="flex: 0 0 auto; border-top: 5px solid #2A14F0; background: #0C0A3F; padding: 16px 30px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px">
+<div style="background: #13115A; border: 1px solid #2A14F0; padding: 12px 10px; text-align: center"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" style="display: block; margin: 0 auto 8px"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#FFC800" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><div style="font-family: 'Archivo Black', sans-serif; font-size: 15px; line-height: 1.2; color: #FFFFFF">Water Reservoirs</div><div style="margin-top: 6px; font-size: 13px; color: #E4E3F5">Constant contact with water</div></div>
+<div style="background: #13115A; border: 1px solid #2A14F0; padding: 12px 10px; text-align: center"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" style="display: block; margin: 0 auto 8px"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#FFC800" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><div style="font-family: 'Archivo Black', sans-serif; font-size: 15px; line-height: 1.2; color: #FFFFFF">Coastal Structures</div><div style="margin-top: 6px; font-size: 13px; color: #E4E3F5">Salt air and chlorides</div></div>
+<div style="background: #13115A; border: 1px solid #2A14F0; padding: 12px 10px; text-align: center"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" style="display: block; margin: 0 auto 8px"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#FFC800" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><div style="font-family: 'Archivo Black', sans-serif; font-size: 15px; line-height: 1.2; color: #FFFFFF">Effluent Treatment</div><div style="margin-top: 6px; font-size: 13px; color: #E4E3F5">Chemical attack</div></div>
+<div style="background: #13115A; border: 1px solid #2A14F0; padding: 12px 10px; text-align: center"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" style="display: block; margin: 0 auto 8px"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#FFC800" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path></svg><div style="font-family: 'Archivo Black', sans-serif; font-size: 15px; line-height: 1.2; color: #FFFFFF">Sewage Treatment</div><div style="margin-top: 6px; font-size: 13px; color: #E4E3F5">Chemical and biological attack</div></div>
+</div>
+<div style="flex: 0 0 48px; background: #2A14F0; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; font-size: 13px; color: #FFFFFF"><span>RebarX · Credific Ventures Pvt. Ltd. · Pithampur, Madhya Pradesh · www.rebarx.in</span><span>07</span></div>
+</div>
+
+          </div>
+        </div>
+        <div class="slide-wrap" id="slide-8" data-index="8" data-title="Building Infrastructure & Civil Precast">
+          <div class="a4-slide">
+            
+
+<div style="width: 794px; height: 1123px; box-sizing: border-box; overflow: hidden; background: #07072B; font-family: 'Archivo', sans-serif; color: #ECECF7; display: flex; flex-direction: column">
+<div style="flex: 1 1 auto; display: flex; min-height: 0; border-top: 6px solid #2A14F0">
+<div style="flex: 0 0 345px; position: relative; overflow: hidden">
+<img src="img/img-103.jpg" alt="GFRP cages in a boundary wall, underground water tank and concrete elements" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover">
+<div style="position: absolute; left: 20px; top: 24px; background: #2A14F0; padding: 10px 22px; font-family: 'Archivo Black', sans-serif; font-size: 14px; color: #FFFFFF">CIVIL &amp; PRECAST</div>
+</div>
+<div style="flex: 1 1 auto; padding: 46px 40px 24px 44px; box-sizing: border-box; display: flex; flex-direction: column">
+<h1 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 38px; line-height: 1.05; color: #FFC800">BUILDING &amp; CIVIL APPLICATIONS</h1>
+<div style="width: 50px; height: 5px; background: #2A14F0; margin: 18px 0"></div>
+<p style="margin: 0 0 22px; font-size: 14px; line-height: 1.6; font-style: italic; color: #FFFFFF">Where RebarX GFRP replaces steel TMT for permanent corrosion immunity:</p>
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="background: #13115A; border: 1px solid #2A14F0; border-top: 4px solid #2A14F0; padding: 14px 16px"><h2 style="margin: 0 0 8px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 16px; line-height: 1.15; color: #FFC800">Boundary Wall Columns &amp; Plinth Beams</h2><p style="margin: 0; font-size: 13px; line-height: 1.5; color: #E4E3F5">GFRP cages in boundary wall columns, foundation ties, and fence plinths. Zero steel means zero rust spalling, even in aggressive coastal saline fog and damp border zones.</p></div>
+<div style="background: #13115A; border: 1px solid #2A14F0; border-top: 4px solid #2A14F0; padding: 14px 16px"><h2 style="margin: 0 0 8px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 16px; line-height: 1.15; color: #FFC800">Underground Water Tanks &amp; Basements</h2><p style="margin: 0; font-size: 13px; line-height: 1.5; color: #E4E3F5">100% corrosion-free reinforcement for subterranean RCC tanks, sumps, and retaining basements. Permanently prevents rebar oxidation—the #1 cause of tank leakage and concrete failure.</p></div>
+<div style="background: #13115A; border: 1px solid #2A14F0; border-top: 4px solid #2A14F0; padding: 14px 16px"><h2 style="margin: 0 0 8px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 16px; line-height: 1.15; color: #FFC800">Plinth Slabs &amp; Grade Beams</h2><p style="margin: 0; font-size: 13px; line-height: 1.5; color: #E4E3F5">Ground-level foundation concrete in high-salinity soil and high water tables, eliminating protective bituminous paint or chemical sacrificial coatings.</p></div>
+<div style="background: #13115A; border: 1px solid #2A14F0; border-top: 4px solid #2A14F0; padding: 14px 16px"><h2 style="margin: 0 0 8px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 16px; line-height: 1.15; color: #FFC800">Precast Hume Pipes &amp; Non-Magnetic Zones</h2><p style="margin: 0; font-size: 13px; line-height: 1.5; color: #E4E3F5">Collaborating with IIT scholars on composite spirals for NP2–NP4 precast pipes (IS 458 amendment). Completely dielectric for hospital MRI suites and electrical switchyards.</p></div>
+</div>
+<p style="margin: auto 0 0; background: #0C0A3F; border: 1px solid #262380; padding: 10px 14px; font-size: 12px; line-height: 1.5; font-style: italic; color: #C9C8E8">Note: GFRP rebar is not permitted as primary longitudinal reinforcement in main structural multistory building columns under current Indian codes.</p>
+</div>
+</div>
+<div style="flex: 0 0 48px; background: #2A14F0; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; font-size: 13px; color: #FFFFFF"><span>RebarX · Credific Ventures Pvt. Ltd. · Pithampur, Madhya Pradesh · www.rebarx.in</span><span>08</span></div>
+</div>
+
+          </div>
+        </div>
+        <div class="slide-wrap" id="slide-9" data-index="9" data-title="Straight GFRP Rebar & BIS Weights">
+          <div class="a4-slide">
+            
+
+<div style="width: 794px; height: 1123px; box-sizing: border-box; overflow: hidden; background: #07072B; font-family: 'Archivo', sans-serif; color: #ECECF7; display: flex; flex-direction: column; border-top: 6px solid #2A14F0">
+<div style="flex: 0 0 auto; display: flex">
+<div style="flex: 0 0 440px; padding: 26px 30px 18px 44px; box-sizing: border-box">
+<div style="width: 50px; height: 6px; background: #FFC800; margin-bottom: 10px"></div>
+<h1 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 40px; line-height: 1.02; color: #FFFFFF">STRAIGHT GFRP<br>REBAR</h1>
+<p style="display: inline-block; margin: 10px 0 0; padding: 5px 24px; background: #FFC800; font-family: 'Archivo Black', sans-serif; font-size: 13px; color: #07072B">CORE PRODUCT SPECIFICATIONS</p>
+<p style="margin: 12px 0 12px; font-size: 13px; line-height: 1.55; color: #E4E3F5">Manufactured on multi-strand continuous automated pultrusion lines. Fully compliant with IS&nbsp;18256:2023 with verified lot test certificates.</p>
+<dl style="margin: 0; display: grid; grid-template-columns: 136px 1fr; row-gap: 4px; font-size: 13px">
+<dt style="background: #13115A; border-left: 4px solid #2A14F0; padding: 6px 10px; color: #C9C8E8">Diameters</dt><dd style="margin: 0; background: #13115A; padding: 6px 10px; font-weight: 700; color: #FFC800">4&nbsp;mm – 20&nbsp;mm</dd>
+<dt style="background: #0C0A3F; border-left: 4px solid #2A14F0; padding: 6px 10px; color: #C9C8E8">Material</dt><dd style="margin: 0; background: #0C0A3F; padding: 6px 10px; font-weight: 700; color: #FFC800">ECR Boron-Free Glass + Epoxy Matrix</dd>
+<dt style="background: #13115A; border-left: 4px solid #2A14F0; padding: 6px 10px; color: #C9C8E8">Tensile Strength</dt><dd style="margin: 0; background: #13115A; padding: 6px 10px; font-weight: 700; color: #FFC800">≈ 1,000&nbsp;MPa (6–12&nbsp;mm)</dd>
+<dt style="background: #0C0A3F; border-left: 4px solid #2A14F0; padding: 6px 10px; color: #C9C8E8">Density</dt><dd style="margin: 0; background: #0C0A3F; padding: 6px 10px; font-weight: 700; color: #FFC800">2.12&nbsp;g/cm³ (vs 7.85 for steel)</dd>
+<dt style="background: #13115A; border-left: 4px solid #2A14F0; padding: 6px 10px; color: #C9C8E8">Surface Profile</dt><dd style="margin: 0; background: #13115A; padding: 6px 10px; font-weight: 700; color: #FFC800">Continuous Helical Spiral Ribbed</dd>
+<dt style="background: #0C0A3F; border-left: 4px solid #2A14F0; padding: 6px 10px; color: #C9C8E8">Standard Code</dt><dd style="margin: 0; background: #0C0A3F; padding: 6px 10px; font-weight: 700; color: #FFC800">IS&nbsp;18256:2023</dd>
+<dt style="background: #13115A; border-left: 4px solid #2A14F0; padding: 6px 10px; color: #C9C8E8">Stock Lengths</dt><dd style="margin: 0; background: #13115A; padding: 6px 10px; font-weight: 700; color: #FFC800">6 m / 12 m straight (4–10 mm elastic coils)</dd>
+<dt style="background: #0C0A3F; border-left: 4px solid #2A14F0; padding: 6px 10px; color: #C9C8E8">Fiber Mass Fraction</dt><dd style="margin: 0; background: #0C0A3F; padding: 6px 10px; font-weight: 700; color: #FFC800">≥ 75% by mass (ASTM D3171)</dd>
+<dt style="background: #13115A; border-left: 4px solid #2A14F0; padding: 6px 10px; color: #C9C8E8">Tg (Glass Transition)</dt><dd style="margin: 0; background: #13115A; padding: 6px 10px; font-weight: 700; color: #FFC800">&gt; 100 °C (DSC)</dd>
+<dt style="background: #0C0A3F; border-left: 4px solid #2A14F0; padding: 6px 10px; color: #C9C8E8">Bond Strength</dt><dd style="margin: 0; background: #0C0A3F; padding: 6px 10px; font-weight: 700; color: #FFC800">≥ 8 MPa (IS 18256 Table 2)</dd>
+</dl>
+</div>
+<div style="flex: 1 1 auto; position: relative; overflow: hidden">
+<img src="img/img-175.jpg" alt="Water treatment tanks with coils of GFRP rebar" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(7, 7, 43, 0.25)"></div>
+</div>
+</div>
+<div style="flex: 1 1 auto; background: #0C0A3F; border-top: 5px solid #FFC800; padding: 18px 40px 14px; display: flex; flex-direction: column">
+<div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px">
+<h2 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 19px; color: #FFFFFF">Weight &amp; Tensile Capacities per IS 18256 : 2023</h2>
+<span style="font-size: 12px; color: #C9C8E8">Density: 2.12 g/cm³ · Tested strictly to IS 18255</span>
+</div>
+<table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #ECECF7; font-variant-numeric: tabular-nums">
+<thead><tr style="background: #2A14F0; color: #FFFFFF; font-size: 12px; line-height: 1.3">
+<th scope="col" style="text-align: left; padding: 8px 10px">Bar designation</th>
+<th scope="col" style="text-align: right; padding: 8px 10px; font-weight: 700">Nominal<br>dia (mm)</th>
+<th scope="col" style="text-align: right; padding: 8px 10px; font-weight: 700">Min. cross<br>area (mm²)</th>
+<th scope="col" style="text-align: right; padding: 8px 10px; font-weight: 700">Min. tensile<br>force (kN)</th>
+<th scope="col" style="text-align: right; padding: 8px 10px; font-weight: 700">Min. weight<br>(kg/m)</th>
+<th scope="col" style="text-align: right; padding: 8px 10px; font-weight: 700">Weight per<br>12 m bar (kg)</th>
+<th scope="col" style="text-align: right; padding: 8px 10px; font-weight: 700">TMT 12 m<br>bar (kg)</th>
+<th scope="col" style="text-align: right; padding: 8px 10px; font-weight: 700">Weight saved<br>per bar (kg)</th>
+</tr></thead>
+<tbody>
+<tr style="background: #13115A"><th scope="row" style="text-align: left; padding: 7px 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; color: #FFC800">G6</th><td style="text-align: right; padding: 7px 10px">6</td><td style="text-align: right; padding: 7px 10px">29.2</td><td style="text-align: right; padding: 7px 10px">29.2</td><td style="text-align: right; padding: 7px 10px">0.062</td><td style="text-align: right; padding: 7px 10px">0.74</td><td style="text-align: right; padding: 7px 10px; color: #B4B3D9">2.66</td><td style="text-align: right; padding: 7px 10px; font-weight: 700; color: #FFC800">1.92</td></tr>
+<tr style="background: #0C0A3F"><th scope="row" style="text-align: left; padding: 7px 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; color: #FFC800">G8</th><td style="text-align: right; padding: 7px 10px">8</td><td style="text-align: right; padding: 7px 10px">51.3</td><td style="text-align: right; padding: 7px 10px">46.2</td><td style="text-align: right; padding: 7px 10px">0.109</td><td style="text-align: right; padding: 7px 10px">1.31</td><td style="text-align: right; padding: 7px 10px; color: #B4B3D9">4.74</td><td style="text-align: right; padding: 7px 10px; font-weight: 700; color: #FFC800">3.43</td></tr>
+<tr style="background: #13115A"><th scope="row" style="text-align: left; padding: 7px 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; color: #FFC800">G10</th><td style="text-align: right; padding: 7px 10px">10</td><td style="text-align: right; padding: 7px 10px">79.4</td><td style="text-align: right; padding: 7px 10px">63.5</td><td style="text-align: right; padding: 7px 10px">0.168</td><td style="text-align: right; padding: 7px 10px">2.02</td><td style="text-align: right; padding: 7px 10px; color: #B4B3D9">7.40</td><td style="text-align: right; padding: 7px 10px; font-weight: 700; color: #FFC800">5.38</td></tr>
+<tr style="background: #0C0A3F"><th scope="row" style="text-align: left; padding: 7px 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; color: #FFC800">G12</th><td style="text-align: right; padding: 7px 10px">12</td><td style="text-align: right; padding: 7px 10px">115.1</td><td style="text-align: right; padding: 7px 10px">80.6</td><td style="text-align: right; padding: 7px 10px">0.244</td><td style="text-align: right; padding: 7px 10px">2.93</td><td style="text-align: right; padding: 7px 10px; color: #B4B3D9">10.66</td><td style="text-align: right; padding: 7px 10px; font-weight: 700; color: #FFC800">7.73</td></tr>
+<tr style="background: #13115A"><th scope="row" style="text-align: left; padding: 7px 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; color: #FFC800">G16</th><td style="text-align: right; padding: 7px 10px">16</td><td style="text-align: right; padding: 7px 10px">206.8</td><td style="text-align: right; padding: 7px 10px">124.1</td><td style="text-align: right; padding: 7px 10px">0.439</td><td style="text-align: right; padding: 7px 10px">5.27</td><td style="text-align: right; padding: 7px 10px; color: #B4B3D9">18.96</td><td style="text-align: right; padding: 7px 10px; font-weight: 700; color: #FFC800">13.69</td></tr>
+<tr style="background: #0C0A3F"><th scope="row" style="text-align: left; padding: 7px 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; color: #FFC800">G20</th><td style="text-align: right; padding: 7px 10px">20</td><td style="text-align: right; padding: 7px 10px">316.0</td><td style="text-align: right; padding: 7px 10px">158.0</td><td style="text-align: right; padding: 7px 10px">0.670</td><td style="text-align: right; padding: 7px 10px">8.04</td><td style="text-align: right; padding: 7px 10px; color: #B4B3D9">29.64</td><td style="text-align: right; padding: 7px 10px; font-weight: 700; color: #FFC800">21.60</td></tr>
+</tbody>
+</table>
+<div style="margin-top: auto; padding-top: 10px; border-top: 1px solid #262380; font-size: 12px; color: #B4B3D9; display: flex; justify-content: space-between">
+<span>* Diameters 14 mm and 18 mm manufactured to project specification with custom lot testing.</span>
+<span>RebarX complies with IS 18256 Table 1 minimum guaranteed capacities.</span>
+</div>
+</div>
+<div style="flex: 0 0 48px; background: #2A14F0; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; font-size: 13px; color: #FFFFFF"><span>RebarX · Credific Ventures Pvt. Ltd. · Pithampur, Madhya Pradesh · www.rebarx.in</span><span>09</span></div>
+</div>
+
+          </div>
+        </div>
+        <div class="slide-wrap" id="slide-10" data-index="10" data-title="Factory Pre-Cured Bent Profiles">
+          <div class="a4-slide">
+            
+
+<div style="width: 794px; height: 1123px; box-sizing: border-box; overflow: hidden; background: #F4F4F8; font-family: 'Archivo', sans-serif; color: #0B0B2E; display: flex; flex-direction: column">
+<div style="flex: 0 0 auto; background: #07072B; border-top: 6px solid #FFC800; padding: 24px 48px 26px">
+<p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #FFC800">PRODUCT</p>
+<h1 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 30px; color: #FFFFFF">Custom Bent Profiles</h1>
+</div>
+<div style="flex: 1 1 auto; padding: 20px 40px 0; display: flex; flex-direction: column">
+<div style="display: flex; gap: 24px">
+<div style="flex: 1 1 auto; min-width: 0">
+<p style="display: inline-block; margin: 0; padding: 7px 18px; background: #1E7A45; color: #FFFFFF; font-family: 'Archivo Black', sans-serif; font-size: 13px">IN-HOUSE BENDING PLANT</p>
+<p style="margin: 12px 0 14px; font-size: 14px; line-height: 1.6; color: #2E2D4F">Pre-cured structural shapes fabricated in our dedicated facility strictly to approved engineering drawings and bar schedules.</p>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<div style="background: #FFFFFF; border-left: 5px solid #2A14F0; padding: 9px 12px; box-shadow: 0 1px 3px rgba(11, 11, 46, 0.14)"><div style="font-family: 'Archivo Black', sans-serif; font-size: 15px">Stirrups &amp; Links</div><div style="font-size: 12px; color: #4B4A6B">Square, rectangular, circular</div></div>
+<div style="background: #FFFFFF; border-left: 5px solid #2A14F0; padding: 9px 12px; box-shadow: 0 1px 3px rgba(11, 11, 46, 0.14)"><div style="font-family: 'Archivo Black', sans-serif; font-size: 15px">U-Bars</div><div style="font-size: 12px; color: #4B4A6B">Foundation &amp; pile cage caps</div></div>
+<div style="background: #FFFFFF; border-left: 5px solid #2A14F0; padding: 9px 12px; box-shadow: 0 1px 3px rgba(11, 11, 46, 0.14)"><div style="font-family: 'Archivo Black', sans-serif; font-size: 15px">L-Bends</div><div style="font-size: 12px; color: #4B4A6B">Corner &amp; edge development</div></div>
+<div style="background: #FFFFFF; border-left: 5px solid #2A14F0; padding: 9px 12px; box-shadow: 0 1px 3px rgba(11, 11, 46, 0.14)"><div style="font-family: 'Archivo Black', sans-serif; font-size: 15px">S-Bends</div><div style="font-size: 12px; color: #4B4A6B">Offset column connections</div></div>
+<div style="background: #FFFFFF; border-left: 5px solid #2A14F0; padding: 9px 12px; box-shadow: 0 1px 3px rgba(11, 11, 46, 0.14)"><div style="font-family: 'Archivo Black', sans-serif; font-size: 15px">Continuous Spirals</div><div style="font-size: 12px; color: #4B4A6B">Hume pipes &amp; bored piles</div></div>
+<div style="background: #FFFFFF; border-left: 5px solid #2A14F0; padding: 9px 12px; box-shadow: 0 1px 3px rgba(11, 11, 46, 0.14)"><div style="font-family: 'Archivo Black', sans-serif; font-size: 15px">Custom Cages</div><div style="font-size: 12px; color: #4B4A6B">Pre-assembled per BBS</div></div>
+</div>
+<div style="margin-top: 16px; background: #07072B; color: #FFC800; text-align: center; padding: 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.1em">BENDING SPECIFICATIONS</div>
+<dl style="margin: 0; display: grid; grid-template-columns: 140px 1fr; font-size: 14px">
+<dt style="padding: 10px 12px; color: #4B4A6B">Basis</dt><dd style="margin: 0; padding: 10px 12px; font-family: 'Archivo Black', sans-serif; font-size: 14px">Project Drawing / Approved BBS</dd>
+<dt style="padding: 10px 12px; background: #FFFFFF; color: #4B4A6B">Min. Bend Radius</dt><dd style="margin: 0; padding: 10px 12px; background: #FFFFFF; font-family: 'Archivo Black', sans-serif; font-size: 14px">≥ 3·d<sub>b</sub> per IS&nbsp;18256:2023</dd>
+<dt style="padding: 10px 12px; color: #4B4A6B">Turnaround</dt><dd style="margin: 0; padding: 10px 12px; font-family: 'Archivo Black', sans-serif; font-size: 14px">Delivered to site pouring schedule</dd>
+<dt style="padding: 10px 12px; background: #FFFFFF; color: #4B4A6B">Capability</dt><dd style="margin: 0; padding: 10px 12px; background: #FFFFFF; font-family: 'Archivo Black', sans-serif; font-size: 14px">Factory-cured shapes up to 16&nbsp;mm dia</dd>
+</dl>
+</div>
+<div style="flex: 0 0 300px; display: flex; flex-direction: column">
+<div style="flex: 1 1 auto; background: #000000; display: flex; align-items: center; justify-content: center; overflow: hidden"><img src="img/p12-024.png" alt="Bundles of GFRP stirrups and a bent GFRP profile" style="display: block; height: 100%; max-height: 520px; width: auto"></div>
+<div style="background: #2A14F0; color: #FFFFFF; padding: 9px 14px; font-size: 13px; font-style: italic; text-align: center">Pre-cured factory fabrication prevents site bending defects</div>
+</div>
+</div>
+<div style="margin-top: 22px; background: #07072B; color: #ECECF7; border-top: 6px solid #2A14F0; padding: 18px 24px 20px; box-shadow: 0 4px 12px rgba(11, 11, 46, 0.25)">
+<p style="margin: 0 0 16px; font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: #FFC800">WHY FACTORY PRE-CURING MATTERS</p>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; text-align: center">
+<div><div style="font-family: 'Archivo Black', sans-serif; font-size: 16px; color: #FFC800">No Site Bending</div><div style="margin-top: 8px; font-size: 13px; line-height: 1.5; color: #E4E3F5; text-wrap: balance">GFRP cannot be bent cold on site; shapes must be cured in factory molds</div></div>
+<div><div style="font-family: 'Archivo Black', sans-serif; font-size: 16px; color: #FFC800">BBS Accuracy</div><div style="margin-top: 8px; font-size: 13px; line-height: 1.5; color: #E4E3F5; text-wrap: balance">Precision jigs ensure exact dimensional tolerances for rapid installation</div></div>
+<div><div style="font-family: 'Archivo Black', sans-serif; font-size: 16px; color: #FFC800">Full Bond Strength</div><div style="margin-top: 8px; font-size: 13px; line-height: 1.5; color: #E4E3F5; text-wrap: balance">Helical ribs cured continuously along entire bend arc without delamination</div></div>
+<div><div style="font-family: 'Archivo Black', sans-serif; font-size: 16px; color: #FFC800">100% Quality Check</div><div style="margin-top: 8px; font-size: 13px; line-height: 1.5; color: #E4E3F5; text-wrap: balance">Every fabrication lot undergoes internal QA before dispatch to site</div></div>
+</div>
+<p style="margin: 18px 0 0; padding-top: 14px; border-top: 4px solid #2A14F0; text-align: center; font-size: 14px; line-height: 1.6; font-style: italic; color: #FFFFFF">Send us your project bar bending schedule (BBS). We quote with exact bar weights and deliver labeled bundles.</p>
+</div>
+</div>
+<div style="flex: 0 0 48px; margin-top: 20px; background: #2A14F0; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; font-size: 13px; color: #FFFFFF"><span>RebarX · Credific Ventures Pvt. Ltd. · Pithampur, Madhya Pradesh · www.rebarx.in</span><span>10</span></div>
+</div>
+
+          </div>
+        </div>
+        <div class="slide-wrap" id="slide-11" data-index="11" data-title="Ready Reckoner & Freight Multiplier">
+          <div class="a4-slide">
+            
+
+<div style="width: 794px; height: 1123px; box-sizing: border-box; overflow: hidden; background: #07072B; font-family: 'Archivo', sans-serif; color: #ECECF7; display: flex; flex-direction: column; border-top: 6px solid #2A14F0">
+<div style="flex: 0 0 auto; padding: 26px 48px 16px">
+<p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #FFC800">COMMERCIAL &amp; SITE LOGISTICS</p>
+<h1 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 36px; color: #FFFFFF">Weight Ready Reckoner &amp; Freight Optimization</h1>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.6; color: #E4E3F5">Because RebarX GFRP density is 2.12 g/cm³ vs 7.85 g/cm³ for TMT steel (3.7× lighter), 1 tonne of GFRP delivers nearly four times the linear meters of steel reinforcement.</p>
+</div>
+
+<div style="flex: 1 1 auto; padding: 10px 48px 20px; display: flex; flex-direction: column">
+<div style="background: #13115A; border: 1px solid #2A14F0; border-top: 6px solid #2A14F0; padding: 18px 20px; box-shadow: 0 4px 12px rgba(11, 11, 46, 0.25)">
+<p style="margin: 0 0 12px; text-align: center; font-size: 14px; font-weight: 700; color: #FFC800">READY RECKONER · RebarX at BIS Minimum Weight vs Conventional TMT Steel</p>
+<table style="width: 100%; border-collapse: collapse; font-size: 14px; color: #ECECF7; font-variant-numeric: tabular-nums">
+<thead><tr style="background: #2A14F0; color: #FFFFFF; font-size: 13px; line-height: 1.3">
+<th scope="col" style="text-align: left; padding: 10px">Bar Dia</th>
+<th scope="col" style="text-align: right; padding: 10px; font-weight: 700">GFRP kg per<br>12 m bar</th>
+<th scope="col" style="text-align: right; padding: 10px; font-weight: 700">GFRP kg<br>per 100 m</th>
+<th scope="col" style="text-align: right; padding: 10px; font-weight: 700">GFRP metres<br>per tonne</th>
+<th scope="col" style="text-align: right; padding: 10px; font-weight: 700">TMT kg<br>per 100 m</th>
+<th scope="col" style="text-align: right; padding: 10px; font-weight: 700">Weight Saved<br>per 100 m</th>
+<th scope="col" style="text-align: right; padding: 10px; font-weight: 700">Weight Saved<br>(%)</th>
+</tr></thead>
+<tbody>
+<tr style="background: #181566"><th scope="row" style="text-align: left; padding: 9px 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; color: #FFC800">Ø 6 mm</th><td style="text-align: right; padding: 9px 10px">0.74</td><td style="text-align: right; padding: 9px 10px">6.2</td><td style="text-align: right; padding: 9px 10px">16,129</td><td style="text-align: right; padding: 9px 10px; color: #B4B3D9">22.2</td><td style="text-align: right; padding: 9px 10px; font-weight: 700; color: #FFC800">16.0 kg</td><td style="text-align: right; padding: 9px 10px; font-weight: 700; color: #1E7A45">72.1%</td></tr>
+<tr style="background: #0C0A3F"><th scope="row" style="text-align: left; padding: 9px 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; color: #FFC800">Ø 8 mm</th><td style="text-align: right; padding: 9px 10px">1.31</td><td style="text-align: right; padding: 9px 10px">10.9</td><td style="text-align: right; padding: 9px 10px">9,174</td><td style="text-align: right; padding: 9px 10px; color: #B4B3D9">39.5</td><td style="text-align: right; padding: 9px 10px; font-weight: 700; color: #FFC800">28.6 kg</td><td style="text-align: right; padding: 9px 10px; font-weight: 700; color: #1E7A45">72.4%</td></tr>
+<tr style="background: #181566"><th scope="row" style="text-align: left; padding: 9px 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; color: #FFC800">Ø 10 mm</th><td style="text-align: right; padding: 9px 10px">2.02</td><td style="text-align: right; padding: 9px 10px">16.8</td><td style="text-align: right; padding: 9px 10px">5,952</td><td style="text-align: right; padding: 9px 10px; color: #B4B3D9">61.7</td><td style="text-align: right; padding: 9px 10px; font-weight: 700; color: #FFC800">44.9 kg</td><td style="text-align: right; padding: 9px 10px; font-weight: 700; color: #1E7A45">72.8%</td></tr>
+<tr style="background: #0C0A3F"><th scope="row" style="text-align: left; padding: 9px 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; color: #FFC800">Ø 12 mm</th><td style="text-align: right; padding: 9px 10px">2.93</td><td style="text-align: right; padding: 9px 10px">24.4</td><td style="text-align: right; padding: 9px 10px">4,098</td><td style="text-align: right; padding: 9px 10px; color: #B4B3D9">88.8</td><td style="text-align: right; padding: 9px 10px; font-weight: 700; color: #FFC800">64.4 kg</td><td style="text-align: right; padding: 9px 10px; font-weight: 700; color: #1E7A45">72.5%</td></tr>
+<tr style="background: #181566"><th scope="row" style="text-align: left; padding: 9px 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; color: #FFC800">Ø 16 mm</th><td style="text-align: right; padding: 9px 10px">5.27</td><td style="text-align: right; padding: 9px 10px">43.9</td><td style="text-align: right; padding: 9px 10px">2,278</td><td style="text-align: right; padding: 9px 10px; color: #B4B3D9">158.0</td><td style="text-align: right; padding: 9px 10px; font-weight: 700; color: #FFC800">114.1 kg</td><td style="text-align: right; padding: 9px 10px; font-weight: 700; color: #1E7A45">72.2%</td></tr>
+<tr style="background: #0C0A3F"><th scope="row" style="text-align: left; padding: 9px 10px; font-family: 'Archivo Black', sans-serif; font-weight: 400; color: #FFC800">Ø 20 mm</th><td style="text-align: right; padding: 9px 10px">8.04</td><td style="text-align: right; padding: 9px 10px">67.0</td><td style="text-align: right; padding: 9px 10px">1,493</td><td style="text-align: right; padding: 9px 10px; color: #B4B3D9">247.0</td><td style="text-align: right; padding: 9px 10px; font-weight: 700; color: #FFC800">180.0 kg</td><td style="text-align: right; padding: 9px 10px; font-weight: 700; color: #1E7A45">72.9%</td></tr>
+</tbody>
+</table>
+</div>
+
+<div style="margin-top: 24px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; text-align: center">
+<div style="background: #13115A; border-top: 5px solid #2A14F0; padding: 20px 16px"><div style="font-family: 'Archivo Black', sans-serif; font-size: 32px; color: #FFC800">3.7 : 1</div><div style="margin-top: 8px; font-size: 14px; font-weight: 700; color: #FFFFFF">Freight Volume Multiplier</div><div style="margin-top: 6px; font-size: 12px; color: #C9C8E8">1 Truckload of RebarX delivers the equivalent linear meters of nearly 4 trucks of steel.</div></div>
+<div style="background: #13115A; border-top: 5px solid #2A14F0; padding: 20px 16px"><div style="font-family: 'Archivo Black', sans-serif; font-size: 32px; color: #FFC800">−72.8%</div><div style="margin-top: 8px; font-weight: 700; font-size: 14px; color: #FFFFFF">Deadload Reduction</div><div style="margin-top: 6px; font-size: 12px; color: #C9C8E8">Substantially reduces foundation sizing, crane rental requirements, and site manual fatigue.</div></div>
+<div style="background: #13115A; border-top: 5px solid #2A14F0; padding: 20px 16px"><div style="font-family: 'Archivo Black', sans-serif; font-size: 32px; color: #FFC800">Zero Crane</div><div style="margin-top: 8px; font-weight: 700; font-size: 14px; color: #FFFFFF">Manual Handling on Site</div><div style="margin-top: 6px; font-size: 12px; color: #C9C8E8">Workers carry bundles of 12 m bars manually without heavy rigging or jobsite crane assistance.</div></div>
+</div>
+
+<div style="margin-top: auto; background: #0C0A3F; border-left: 5px solid #FFC800; padding: 14px 20px; font-size: 13px; line-height: 1.6; color: #FFFFFF">
+For customized project tonnage conversions, schedule optimization, and BOQ estimates, consult our engineering desk at <strong>sales@rebarx.in</strong> or access the live interactive reckoner.
+</div>
+</div>
+
+<div style="flex: 0 0 48px; background: #2A14F0; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; font-size: 13px; color: #FFFFFF"><span>RebarX · Credific Ventures Pvt. Ltd. · Pithampur, Madhya Pradesh · www.rebarx.in</span><span>11</span></div>
+</div>
+
+          </div>
+        </div>
+        <div class="slide-wrap" id="slide-12" data-index="12" data-title="The RebarX Manufacturing Advantage">
+          <div class="a4-slide">
+            
+
+<div style="width: 794px; height: 1123px; box-sizing: border-box; overflow: hidden; background: #F4F4F8; font-family: 'Archivo', sans-serif; color: #0B0B2E; display: flex; flex-direction: column">
+<div style="flex: 0 0 auto; background: #07072B; border-top: 6px solid #FFC800; padding: 24px 48px 26px">
+<p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #FFC800">MANUFACTURING EXCELLENCE</p>
+<h1 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 30px; color: #FFFFFF">The RebarX Advantage</h1>
+</div>
+<div style="flex: 1 1 auto; padding: 20px 32px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); gap: 16px 24px">
+<div style="display: flex; background: #FFFFFF; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14)"><div style="flex: 0 0 52px; background: #2A14F0; display: flex; align-items: center; justify-content: center; font-family: 'Archivo Black', sans-serif; font-size: 26px; color: #FFFFFF">01</div><div style="padding: 16px 18px"><h2 style="margin: 0 0 8px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 16px; line-height: 1.2">IIT Kharagpur Engineering</h2><p style="margin: 0 0 10px; background: #07072B; color: #FFC800; padding: 4px 8px; font-size: 11px; text-align: center; letter-spacing: 0.05em">IIT KGP · CLASS OF 2008</p><p style="margin: 0; font-size: 13px; line-height: 1.5; color: #2E2D4F">Led by an IIT Kharagpur mechanical engineer with 18 years in industrial operations. Resin formulation, automated pulling kinematics, and thermal cure profiles are governed from first engineering principles.</p></div></div>
+<div style="display: flex; background: #FFFFFF; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14)"><div style="flex: 0 0 52px; background: #2A14F0; display: flex; align-items: center; justify-content: center; font-family: 'Archivo Black', sans-serif; font-size: 26px; color: #FFFFFF">02</div><div style="padding: 16px 18px"><h2 style="margin: 0 0 8px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 16px; line-height: 1.2">European Technology Partner</h2><p style="margin: 0 0 10px; background: #07072B; color: #FFC800; padding: 4px 8px; font-size: 11px; text-align: center; letter-spacing: 0.05em">COMPOSITECH · EUROPE</p><p style="margin: 0; font-size: 13px; line-height: 1.5; color: #2E2D4F">Manufacturing equipment and tooling engineered in partnership with Compositech Europe, the pultrusion equipment builder partnered with the FRP Institute, USA. Continuous technical collaboration on cure and kinetics.</p></div></div>
+<div style="display: flex; background: #FFFFFF; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14)"><div style="flex: 0 0 52px; background: #2A14F0; display: flex; align-items: center; justify-content: center; font-family: 'Archivo Black', sans-serif; font-size: 26px; color: #FFFFFF">03</div><div style="padding: 16px 18px"><h2 style="margin: 0 0 8px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 16px; line-height: 1.2">Dedicated Structural Bending</h2><p style="margin: 0 0 10px; background: #07072B; color: #FFC800; padding: 4px 8px; font-size: 11px; text-align: center; letter-spacing: 0.05em">IN-HOUSE BENDING PLANT</p><p style="margin: 0; font-size: 13px; line-height: 1.5; color: #2E2D4F">Factory fabrication of stirrups, links, U-bars, and multi-axis bends per approved project BBS. Cured under continuous tension for exact corner radii without site manipulation.</p></div></div>
+<div style="display: flex; background: #FFFFFF; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14)"><div style="flex: 0 0 52px; background: #2A14F0; display: flex; align-items: center; justify-content: center; font-family: 'Archivo Black', sans-serif; font-size: 26px; color: #FFFFFF">04</div><div style="padding: 16px 18px"><h2 style="margin: 0 0 8px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 16px; line-height: 1.2">100% Lot Mechanical Testing</h2><p style="margin: 0 0 10px; background: #07072B; color: #FFC800; padding: 4px 8px; font-size: 11px; text-align: center; letter-spacing: 0.05em">CALIBRATED FIE UTM</p><p style="margin: 0; font-size: 13px; line-height: 1.5; color: #2E2D4F">Every production lot undergoes tensile verification on our FIE Universal Testing Machine alongside measured area, unit weight, and fiber mass checks. Full results are published on the accompanying MTC.</p></div></div>
+<div style="display: flex; background: #FFFFFF; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14)"><div style="flex: 0 0 52px; background: #2A14F0; display: flex; align-items: center; justify-content: center; font-family: 'Archivo Black', sans-serif; font-size: 26px; color: #FFFFFF">05</div><div style="padding: 16px 18px"><h2 style="margin: 0 0 8px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 16px; line-height: 1.2">ISO/IEC 17025 Accredited Lab</h2><p style="margin: 0 0 10px; background: #07072B; color: #FFC800; padding: 4px 8px; font-size: 11px; text-align: center; letter-spacing: 0.05em">ISO/IEC 17025:2017</p><p style="margin: 0; font-size: 13px; line-height: 1.5; color: #2E2D4F">In-house laboratory operates under ISO/IEC 17025:2017 accreditation for laboratory competence. Testing procedures and instruments follow strict national calibration standards with full lot traceability.</p></div></div>
+<div style="display: flex; background: #FFFFFF; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14)"><div style="flex: 0 0 52px; background: #2A14F0; display: flex; align-items: center; justify-content: center; font-family: 'Archivo Black', sans-serif; font-size: 26px; color: #FFFFFF">06</div><div style="padding: 16px 18px"><h2 style="margin: 0 0 8px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 16px; line-height: 1.2">Codes &amp; Technical Advisory</h2><p style="margin: 0 0 10px; background: #07072B; color: #FFC800; padding: 4px 8px; font-size: 11px; text-align: center; letter-spacing: 0.05em">IS 458 · PRECAST PIPES</p><p style="margin: 0; font-size: 13px; line-height: 1.5; color: #2E2D4F">Collaborating with IIT research scholars on structural criteria for composite reinforcement in NP2–NP4 precast hume pipes, supporting code advancements while providing tender-stage technical advisory.</p></div></div>
+</div>
+<div style="flex: 0 0 48px; background: #2A14F0; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; font-size: 13px; color: #FFFFFF"><span>RebarX · Credific Ventures Pvt. Ltd. · Pithampur, Madhya Pradesh · www.rebarx.in</span><span>12</span></div>
+</div>
+
+          </div>
+        </div>
+        <div class="slide-wrap" id="slide-13" data-index="13" data-title="In-House Mechanical Testing Lab">
+          <div class="a4-slide">
+            
+
+<div style="width: 794px; height: 1123px; box-sizing: border-box; overflow: hidden; background: #F4F4F8; font-family: 'Archivo', sans-serif; color: #0B0B2E; display: flex; flex-direction: column">
+<div style="flex: 0 0 auto; background: #07072B; border-top: 6px solid #FFC800; padding: 24px 48px 26px">
+<p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #FFC800">QUALITY ASSURANCE</p>
+<h1 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 30px; color: #FFFFFF">In-House Mechanical Testing Lab</h1>
+</div>
+<div style="flex: 0 0 400px; display: flex; background: #0C0A3F">
+<div style="flex: 0 0 300px; background: #EEEFF3; display: flex; align-items: center; justify-content: center; overflow: hidden"><img src="img/utm-cutout.png" alt="FIE universal testing machine in the RebarX lab at Pithampur, with a GFRP bar in the grips" style="display: block; height: 356px; width: auto; filter: drop-shadow(0 10px 10px rgba(7, 7, 43, 0.28))"></div>
+<div style="flex: 1 1 auto; padding: 40px 44px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center">
+<p style="display: inline-block; align-self: flex-start; margin: 0; background: #2A14F0; padding: 10px 18px; font-family: 'Archivo Black', sans-serif; font-size: 16px; color: #FFFFFF">TESTED BEFORE DISPATCH</p>
+<p style="margin: 20px 0 0; font-size: 14px; line-height: 1.6; color: #FFFFFF">Every production heat and lot undergoes mechanical and physical verification in our accredited Pithampur laboratory. Test methods adhere strictly to IS&nbsp;18255:2023, with comprehensive lot data recorded on the Manufacturer's Test Certificate (MTC) accompanying dispatch.</p>
+<p style="margin: 18px 0 0; font-size: 13px; color: #C9C8E8">Calibrated FIE Universal Testing Machine, RebarX QC Lab, Pithampur.</p>
+</div>
+</div>
+<div style="flex: 0 0 auto; background: #2A14F0; padding: 11px 48px; text-align: center; font-size: 13px; font-style: italic; color: #FFFFFF">FIE Universal Testing Machine · Lot-wise MTC verification · Complete sample archive</div>
+<div style="flex: 1 1 auto; padding: 24px 32px 22px; display: flex; flex-direction: column">
+<h2 style="margin: 0 0 14px 4px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 20px">Mechanical Properties Verified per Production Lot</h2>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px">
+<div style="background: #FFFFFF; border-top: 5px solid #2A14F0; padding: 16px 12px 12px; display: flex; flex-direction: column; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14)"><h3 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 16px">Tensile Strength</h3><p style="margin: 8px 0 12px; font-size: 13px; line-height: 1.5; color: #4B4A6B">Ultimate tensile force on calibrated FIE UTM</p><p style="margin: auto 0 0; background: #07072B; padding: 8px; font-size: 13px; font-weight: 700; text-align: center; color: #FFC800">IS 18256 Table 1</p></div>
+<div style="background: #FFFFFF; border-top: 5px solid #2A14F0; padding: 16px 12px 12px; display: flex; flex-direction: column; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14)"><h3 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 16px">Cross-Sectional Area</h3><p style="margin: 8px 0 12px; font-size: 13px; line-height: 1.5; color: #4B4A6B">Gravimetric water immersion test on ribbed bar</p><p style="margin: auto 0 0; background: #07072B; padding: 8px; font-size: 13px; font-weight: 700; text-align: center; color: #FFC800">IS 18256 Table 1</p></div>
+<div style="background: #FFFFFF; border-top: 5px solid #2A14F0; padding: 16px 12px 12px; display: flex; flex-direction: column; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14)"><h3 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 16px">Unit Weight (kg/m)</h3><p style="margin: 8px 0 12px; font-size: 13px; line-height: 1.5; color: #4B4A6B">Verified against BIS minimum specification</p><p style="margin: auto 0 0; background: #07072B; padding: 8px; font-size: 13px; font-weight: 700; text-align: center; color: #FFC800">8 mm ≥ 0.109 kg/m</p></div>
+<div style="background: #FFFFFF; border-top: 5px solid #2A14F0; padding: 16px 12px 12px; display: flex; flex-direction: column; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14)"><h3 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 16px">Fiber Mass Content</h3><p style="margin: 8px 0 12px; font-size: 13px; line-height: 1.5; color: #4B4A6B">Burn-off matrix analysis per ASTM D3171</p><p style="margin: auto 0 0; background: #07072B; padding: 8px; font-size: 13px; font-weight: 700; text-align: center; color: #FFC800">≥ 75% by mass</p></div>
+</div>
+<h2 style="margin: 24px 0 12px 4px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 20px">Mandatory Type-Test Performance per IS 18256 Table 2</h2>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+<div style="background: #FFFFFF; border-left: 5px solid #2A14F0; padding: 16px 16px 18px"><div style="font-size: 13px; color: #4B4A6B">Transverse Shear Strength</div><div style="margin-top: 4px; font-family: 'Archivo Black', sans-serif; font-size: 18px">≥ 130 MPa</div></div>
+<div style="background: #FFFFFF; border-left: 5px solid #2A14F0; padding: 16px 16px 18px"><div style="font-size: 13px; color: #4B4A6B">Concrete Bond Strength</div><div style="margin-top: 4px; font-family: 'Archivo Black', sans-serif; font-size: 18px">≥ 8 MPa</div></div>
+<div style="background: #FFFFFF; border-left: 5px solid #2A14F0; padding: 16px 16px 18px"><div style="font-size: 13px; color: #4B4A6B">Modulus of Elasticity (E)</div><div style="margin-top: 4px; font-family: 'Archivo Black', sans-serif; font-size: 18px">≥ 45 GPa</div></div>
+<div style="background: #FFFFFF; border-left: 5px solid #2A14F0; padding: 16px 16px 18px"><div style="font-size: 13px; color: #4B4A6B">Moisture Absorption (24 h / Long-Term)</div><div style="margin-top: 4px; font-family: 'Archivo Black', sans-serif; font-size: 18px">≤ 0.25% / ≤ 1.0%</div></div>
+<div style="background: #FFFFFF; border-left: 5px solid #2A14F0; padding: 16px 16px 18px"><div style="font-size: 13px; color: #4B4A6B">Alkali Resistance (90 days immersion)</div><div style="margin-top: 4px; font-family: 'Archivo Black', sans-serif; font-size: 18px">≥ 80% retained</div></div>
+<div style="background: #FFFFFF; border-left: 5px solid #2A14F0; padding: 16px 16px 18px"><div style="font-size: 13px; color: #4B4A6B">Glass Transition Temp, Tg (DSC)</div><div style="margin-top: 4px; font-family: 'Archivo Black', sans-serif; font-size: 18px">&gt; 100 °C</div></div>
+</div>
+</div>
+<div style="flex: 0 0 48px; background: #2A14F0; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; font-size: 13px; color: #FFFFFF"><span>RebarX · Credific Ventures Pvt. Ltd. · Pithampur, Madhya Pradesh · www.rebarx.in</span><span>13</span></div>
+</div>
+
+          </div>
+        </div>
+        <div class="slide-wrap" id="slide-14" data-index="14" data-title="ISO/IEC 17025 Accreditation & Lot MTCs">
+          <div class="a4-slide">
+            
+
+<div style="width: 794px; height: 1123px; box-sizing: border-box; overflow: hidden; background: #F4F4F8; font-family: 'Archivo', sans-serif; color: #0B0B2E; display: flex; flex-direction: column">
+<div style="flex: 0 0 auto; background: #07072B; border-top: 6px solid #FFC800; padding: 24px 48px 26px; display: flex; justify-content: space-between; align-items: center">
+<div><p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #FFC800">ACCREDITATION &amp; CERTIFICATION</p><h1 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 30px; color: #FFFFFF">ISO/IEC 17025:2017</h1><p style="margin: 6px 0 0; font-size: 14px; color: #A9A8C7">Testing and Calibration Laboratory Competence</p></div>
+<div style="background: #1E7A45; color: #FFFFFF; padding: 12px 18px; text-align: center"><div style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em">VALID TO</div><div style="margin-top: 2px; font-family: 'Archivo Black', sans-serif; font-size: 18px">04-02-2029</div></div>
+</div>
+<div style="flex: 1 1 auto; padding: 32px 46px 20px; display: flex; gap: 36px">
+<div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column">
+<p style="margin: 0 0 18px; padding-bottom: 16px; border-bottom: 2px solid #07072B; font-size: 15px; line-height: 1.6; color: #2E2D4F">Credific Ventures Private Limited operates in strict compliance with the international competence requirements of ISO/IEC&nbsp;17025:2017 for the certified scope below.</p>
+<dl style="margin: 0; display: grid; grid-template-columns: 118px 1fr; font-size: 14px">
+<dt style="padding: 9px 0; border-bottom: 1px solid #E2E2EC; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #4B4A6B">CERTIFICATE NO</dt><dd style="margin: 0; padding: 9px 0; border-bottom: 1px solid #E2E2EC; font-weight: 700; text-align: right">INISO/IEC/AN-21610/1/0226</dd>
+<dt style="padding: 9px 0; border-bottom: 1px solid #E2E2EC; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #4B4A6B">STANDARD</dt><dd style="margin: 0; padding: 9px 0; border-bottom: 1px solid #E2E2EC; font-weight: 700; text-align: right">ISO/IEC&nbsp;17025:2017</dd>
+<dt style="padding: 9px 0; border-bottom: 1px solid #E2E2EC; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #4B4A6B">ISSUED ON</dt><dd style="margin: 0; padding: 9px 0; border-bottom: 1px solid #E2E2EC; font-weight: 700; text-align: right">05-02-2026</dd>
+<dt style="padding: 9px 0; border-bottom: 1px solid #E2E2EC; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #4B4A6B">EXPIRES ON</dt><dd style="margin: 0; padding: 9px 0; border-bottom: 1px solid #E2E2EC; font-weight: 700; text-align: right">04-02-2029</dd>
+<dt style="padding: 9px 0; border-bottom: 1px solid #E2E2EC; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #4B4A6B">ISSUING BODY</dt><dd style="margin: 0; padding: 9px 0; border-bottom: 1px solid #E2E2EC; font-weight: 700; text-align: right">UKAFC · Ocean Standard Certification</dd>
+<dt style="padding: 9px 0; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #4B4A6B">WORKS SITE</dt><dd style="margin: 0; padding: 9px 0; font-weight: 700; text-align: right">Plot 8B &amp; 8C, Sector 3,<br>Pithampur, MP 454774</dd>
+</dl>
+<p style="margin: 22px 0 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #2A14F0">CERTIFIED ACCREDITATION SCOPE</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; font-weight: 700">Manufacturing, quality control and supply of GFRP rebars (all diameters and lengths) and GFRP bent elements (custom shapes and sizes).</p>
+<div style="margin-top: auto; margin-bottom: 26px; background: #07072B; padding: 18px 20px">
+<p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #A9A3FF">INSTITUTIONAL QUALITY ASSURANCE</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.6; color: #FFFFFF">Every production consignment is accompanied by a certified Manufacturer's Test Certificate (MTC) issued by our accredited laboratory, validating lot-specific physical, mechanical, and dimensional compliance.</p>
+</div>
+</div>
+<div style="flex: 0 0 340px; display: flex; flex-direction: column">
+<img src="img/img-236.jpg" alt="ISO/IEC 17025:2017 certificate of compliance issued to Credific Ventures Private Limited" style="display: block; width: 340px; height: 480px; object-fit: contain; box-shadow: 8px 8px 0 #D9D6FF">
+</div>
+</div>
+<div style="flex: 0 0 auto; border-top: 1px solid #E2E2EC; padding: 12px 46px 14px; font-size: 13px; color: #4B4A6B">
+<div style="font-weight: 700; letter-spacing: 0.08em; color: #2A14F0">IS&nbsp;18256:2023 · IRC:137-2022 · ISO/IEC&nbsp;17025:2017</div>
+<div style="margin-top: 4px">RebarX · Credific Ventures Pvt. Ltd. · Pithampur, Madhya Pradesh · www.rebarx.in<span style="float: right">14</span></div>
+</div>
+</div>
+
+          </div>
+        </div>
+        <div class="slide-wrap" id="slide-15" data-index="15" data-title="International Design Codes & Compositech">
+          <div class="a4-slide">
+            
+
+<div style="width: 794px; height: 1123px; box-sizing: border-box; overflow: hidden; background: #F4F4F8; font-family: 'Archivo', sans-serif; color: #0B0B2E; display: flex; flex-direction: column">
+<div style="flex: 0 0 auto; background: #07072B; border-top: 6px solid #FFC800; padding: 24px 48px 26px">
+<p style="margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #FFC800">GLOBAL COLLABORATION &amp; STANDARDS</p>
+<h1 style="margin: 0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 30px; color: #FFFFFF">Compositech Europe Technology Partnership</h1>
+</div>
+<div style="flex: 1 1 auto; padding: 26px 36px 24px; display: flex; flex-direction: column">
+<div style="background: #07072B; border-top: 8px solid #2A14F0; padding: 10px; display: flex; gap: 10px; box-shadow: 0 4px 12px rgba(11, 11, 46, 0.25)">
+<div style="flex: 1 1 0; background: #13115A; padding: 28px 20px; text-align: center">
+<img src="img/rebarx-logo-white.svg" alt="RebarX" style="display: block; height: 56px; width: auto; margin: 0 auto">
+<div style="margin-top: 12px; font-size: 14px; color: #E4E3F5">Pithampur, MP · India</div>
+<div style="margin-top: 8px; font-size: 14px; font-weight: 700; color: #FFC800">Manufacturing Works &amp; Testing Lab</div>
+</div>
+<div style="flex: 0 0 110px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px">
+<div style="width: 100%; height: 8px; background: #2A14F0"></div>
+<div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #FFC800">PARTNERS</div>
+</div>
+<div style="flex: 1 1 0; background: #13115A; padding: 28px 20px">
+<div style="font-family: 'Archivo Black', sans-serif; font-size: 28px; line-height: 1.1; color: #FFFFFF">COMPOSITECH<br><span style="color: #FFC800">EUROPE</span></div>
+<div style="margin-top: 12px; font-size: 14px; color: #E4E3F5">Europe</div>
+<div style="margin-top: 8px; font-size: 14px; font-weight: 700; color: #FFC800">Pultrusion Technology &amp; Tooling</div>
+</div>
+</div>
+
+<h2 style="margin: 24px 0 14px 4px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 20px">Scope of the Technology Collaboration</h2>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px">
+<div style="background: #FFFFFF; border-top: 5px solid #2A14F0; padding: 18px; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14)"><h3 style="margin: 0 0 8px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 16px">FRP Institute USA Affiliation</h3><p style="margin: 0; font-size: 13px; line-height: 1.55; color: #2E2D4F">Compositech is officially partnered with the FRP Institute, USA. Through this alliance we access advanced empirical research on vinyl ester/epoxy resin wetting, thermal kinetics, and long-term durability modeling.</p></div>
+<div style="background: #FFFFFF; border-top: 5px solid #2A14F0; padding: 18px; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14)"><h3 style="margin: 0 0 8px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 16px">Multi-Zone Thermal Cure Control</h3><p style="margin: 0; font-size: 13px; line-height: 1.55; color: #2E2D4F">Continuous die temperature profiling and resin bath monitoring follow strict Compositech protocols, guaranteeing uniform polymer conversion and high glass transition temperature (Tg &gt; 100 °C).</p></div>
+<div style="background: #FFFFFF; border-top: 5px solid #2A14F0; padding: 18px; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14)"><h3 style="margin: 0 0 8px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 16px">Automated Pulling Kinematics</h3><p style="margin: 0; font-size: 13px; line-height: 1.55; color: #2E2D4F">Reciprocating high-precision tractor pullers maintain constant linear roving tension, eliminating microscopic fiber waviness and ensuring high interlaminar shear strength.</p></div>
+<div style="background: #FFFFFF; border-top: 5px solid #2A14F0; padding: 18px; box-shadow: 0 1px 4px rgba(11, 11, 46, 0.14)"><h3 style="margin: 0 0 8px; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 16px">Complete Compositech Equipment Supply</h3><p style="margin: 0; font-size: 13px; line-height: 1.55; color: #2E2D4F">Beyond rebar manufacturing, Credific Ventures acts as technology distributor in India for complete Compositech turnkey pultrusion lines, including installation, commissioning, and operator training.</p></div>
+</div>
+
+<div style="margin-top: auto; background: #07072B; border-top: 4px solid #FFC800; padding: 16px 20px; color: #FFFFFF">
+<div style="font-family: 'Archivo Black', sans-serif; font-size: 15px; color: #FFC800; margin-bottom: 6px">INTERNATIONAL STRUCTURAL DESIGN CODES</div>
+<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; font-size: 12px; line-height: 1.4; color: #C9C8E8">
+<div><strong style="color:#FFF">ACI 440.11-22</strong><br>USA Structural Code for Building &amp; Bridge Slabs</div>
+<div><strong style="color:#FFF">CSA S806 / S6</strong><br>Canadian Highway Bridge Design Code</div>
+<div><strong style="color:#FFF">fib Bulletin 40</strong><br>European Composite Design Framework</div>
+<div><strong style="color:#FFF">IS 18256 / IRC:137</strong><br>Apex Indian Standards for Rebar &amp; Highways</div>
+</div>
+</div>
+</div>
+<div style="flex: 0 0 48px; background: #2A14F0; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; font-size: 13px; color: #FFFFFF"><span>RebarX · Credific Ventures Pvt. Ltd. · Pithampur, Madhya Pradesh · www.rebarx.in</span><span>15</span></div>
+</div>
+
+          </div>
+        </div>
+        <div class="slide-wrap" id="slide-16" data-index="16" data-title="Tender Intake & Corporate Coordinates">
+          <div class="a4-slide">
+            
+
+<div style="width: 794px; height: 1123px; box-sizing: border-box; overflow: hidden; background: #07072B; font-family: 'Archivo', sans-serif; color: #ECECF7; display: flex; flex-direction: column">
+<div style="flex: 1 1 auto; padding: 0 48px; display: flex; flex-direction: column">
+<div style="padding: 70px 0 36px; text-align: center">
+<img src="img/rebarx-logo-white.svg" alt="RebarX Logo" style="display: block; height: 72px; width: auto; margin: 0 auto 22px">
+<p style="margin: 0; font-size: 15px; letter-spacing: 0.06em; color: #C9C8E8">CREDIFIC VENTURES PRIVATE LIMITED</p>
+<div style="width: 250px; height: 4px; background: #2A14F0; margin: 16px auto 22px"></div>
+<p style="margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: 26px; font-style: italic; color: #FFC800">"The Strength That Endures"</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 38px">
+<div style="background: #13115A; border: 1px solid #2A14F0; border-top: 6px solid #2A14F0; padding: 20px 22px"><h2 style="margin: 0 0 14px; padding-bottom: 10px; border-bottom: 3px solid #2A14F0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 15px; color: #FFC800">MANUFACTURING WORKS</h2><p style="margin: 0; font-size: 14px; line-height: 1.75; color: #E4E3F5">Plot 8B &amp; 8C, Sector 3<br>Pithampur Industrial Area<br>Madhya Pradesh 454774, India<br><span style="color: #FFC800">ISO/IEC 17025 Accredited In-House Lab</span></p></div>
+<div style="background: #13115A; border: 1px solid #2A14F0; border-top: 6px solid #2A14F0; padding: 20px 22px"><h2 style="margin: 0 0 14px; padding-bottom: 10px; border-bottom: 3px solid #2A14F0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 15px; color: #FFC800">MIDDLE EAST DESK</h2><p style="margin: 0; font-size: 14px; line-height: 1.75; color: #E4E3F5">Dubai, United Arab Emirates<br>Middle East &amp; GCC Operations<br>Export enquiries: <a href="mailto:exports@rebarx.in" style="color: #FFFFFF; text-decoration: none">exports@rebarx.in</a></p></div>
+<div style="background: #13115A; border: 1px solid #2A14F0; border-top: 6px solid #2A14F0; padding: 20px 22px"><h2 style="margin: 0 0 14px; padding-bottom: 10px; border-bottom: 3px solid #2A14F0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 15px; color: #FFC800">COMMERCIAL &amp; SALES</h2>
+<p style="margin: 0; font-size: 14px; line-height: 1.75; color: #E4E3F5"><strong style="color: #FFFFFF">Kapil Agrawal</strong> · Founder &amp; Director<br><a href="tel:+919530013034" style="color: #FFFFFF; text-decoration: none">+91 95300 13034</a><br><a href="mailto:sales@rebarx.in" style="color: #FFFFFF; text-decoration: none">sales@rebarx.in</a> · <a href="https://www.rebarx.in" style="color: #FFFFFF; text-decoration: none">www.rebarx.in</a></p></div>
+<div style="background: #13115A; border: 1px solid #2A14F0; border-top: 6px solid #2A14F0; padding: 20px 22px"><h2 style="margin: 0 0 14px; padding-bottom: 10px; border-bottom: 3px solid #2A14F0; font-family: 'Archivo Black', sans-serif; font-weight: 400; font-size: 15px; color: #FFC800">PROJECTS &amp; TENDERS</h2>
+<p style="margin: 0; font-size: 14px; line-height: 1.75; color: #E4E3F5"><strong style="color: #FFFFFF">Corporate &amp; Estimating Desk</strong><br><a href="tel:+919203134055" style="color: #FFFFFF; text-decoration: none">+91 92031 34055</a><br><a href="mailto:hello@rebarx.in" style="color: #FFFFFF; text-decoration: none">hello@rebarx.in</a><br><span style="color: #FFC800">GeM (Govt. e-Marketplace) Registered</span></p></div>
+</div>
+<div style="margin: 34px -44px 0; border-top: 5px solid #1D0FB0"></div>
+<p style="margin: 18px 0 14px; text-align: center; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; color: #FFC800">APPROVALS AND STANDARDS</p>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; text-align: center">
+<div style="border: 2px solid #2A14F0; padding: 14px 6px"><div style="font-family: 'Archivo Black', sans-serif; font-size: 18px; color: #FFFFFF">NHAI</div><div style="margin-top: 4px; font-size: 12px; color: #C9C8E8">Source approval</div></div>
+<div style="border: 2px solid #2A14F0; padding: 14px 6px"><div style="font-family: 'Archivo Black', sans-serif; font-size: 15px; line-height: 1.45; color: #FFFFFF">Maharashtra PWD</div><div style="margin-top: 2px; font-size: 12px; color: #C9C8E8">Source approval</div></div>
+<div style="border: 2px solid #2A14F0; padding: 14px 6px"><div style="font-family: 'Archivo Black', sans-serif; font-size: 18px; color: #FFFFFF">IRC:137-2022</div><div style="margin-top: 4px; font-size: 12px; color: #C9C8E8">Indian Roads Congress</div></div>
+<div style="border: 2px solid #2A14F0; padding: 14px 6px"><div style="font-family: 'Archivo Black', sans-serif; font-size: 18px; color: #FFFFFF">IS&nbsp;18256:2023</div><div style="margin-top: 4px; font-size: 12px; color: #C9C8E8">Bureau of Indian Standards</div></div>
+</div>
+<p style="margin: auto 0 30px; font-size: 15px; line-height: 1.75; text-align: center; color: #FFFFFF">For quotations, Manufacturer's Test Certificates (MTC) or sample verification boxes, write to sales@rebarx.in or call +91 95300 13034. Structural drawings and bar bending schedules can be sent to the same address.</p>
+</div>
+<div style="flex: 0 0 48px; background: #2A14F0; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #FFFFFF">© 2026 Credific Ventures Pvt. Ltd. · RebarX is a registered brand · All rights reserved</div>
+</div>
+
+          </div>
+        </div>
+</main>
+
+<!-- Interactive Savings Reckoner Modal -->
+<div class="modal-overlay" id="calc-modal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h2>PROJECT SAVINGS & RECKONER SIMULATOR</h2>
+      <button class="btn" id="calc-close">✕ Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="calc-grid">
+        <div class="calc-controls">
+          <div class="ctrl-group">
+            <div class="ctrl-label">
+              <span>NOMINAL DIAMETER</span>
+              <span class="ctrl-val" id="disp-dia">8 mm (G8)</span>
+            </div>
+            <div class="dia-pills">
+              <button class="dia-btn" data-dia="6">6mm</button>
+              <button class="dia-btn active" data-dia="8">8mm</button>
+              <button class="dia-btn" data-dia="10">10mm</button>
+              <button class="dia-btn" data-dia="12">12mm</button>
+              <button class="dia-btn" data-dia="16">16mm</button>
+              <button class="dia-btn" data-dia="20">20mm</button>
+            </div>
+          </div>
+
+          <div class="ctrl-group">
+            <div class="ctrl-label">
+              <span>PROJECT STEEL REINFORCEMENT</span>
+              <span class="ctrl-val" id="disp-ton">50 Tonnes</span>
+            </div>
+            <input type="range" class="ctrl-slider" id="input-ton" min="5" max="300" step="5" value="50">
+          </div>
+
+          <div style="background: var(--card); border: 1px solid var(--royal); padding: 14px; border-radius: 4px; font-size: 13px; line-height: 1.5; color: var(--muted)">
+            <strong style="color:#FFF">IS 18256 : 2023 Basis:</strong> GFRP density is 2.12 g/cm³ vs 7.85 g/cm³ for TMT steel (3.7× lighter). Replacing steel by equal cross-sectional area yields an immediate 72.8% deadload reduction.
+          </div>
+        </div>
+
+        <div class="calc-results">
+          <div class="metric-grid">
+            <div class="metric-box">
+              <div class="metric-num" id="res-gfrp-ton">13.6 T</div>
+              <div class="metric-title">GFRP Rebar Required</div>
+              <div class="metric-sub">vs 50 T Steel</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-num" id="res-saved-ton">36.4 T</div>
+              <div class="metric-title">Deadload Saved</div>
+              <div class="metric-sub">72.8% lighter</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-num" id="res-trucks">2 Trucks</div>
+              <div class="metric-title">Logistics Needed</div>
+              <div class="metric-sub">Saves 3 trailer trips</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-num" id="res-co2">48 Tonnes</div>
+              <div class="metric-title">CO₂ Abated</div>
+              <div class="metric-sub">Lifecycle footprint cut</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentSlide = 1;
+const totalSlides = 16;
+let mode = 'deck'; // 'deck' or 'scroll'
+
+// Scale A4 Slides to Stage
+function resizeSlides() {
+  const stage = document.getElementById('stage');
+  const availableW = stage.clientWidth - 40;
+  const availableH = stage.clientHeight - 40;
+  const slideW = 794;
+  const slideH = 1123;
+  const scale = Math.min(availableW / slideW, availableH / slideH, 1.05);
+
+  document.querySelectorAll('.a4-slide').forEach(el => {
+    el.style.transform = `scale(${scale})`;
+  });
+}
+window.addEventListener('resize', resizeSlides);
+
+// Slide Navigation
+function showSlide(index) {
+  if (index < 1) index = 1;
+  if (index > totalSlides) index = totalSlides;
+  currentSlide = index;
+
+  document.querySelectorAll('.slide-wrap').forEach((el, idx) => {
+    if (idx + 1 === currentSlide) {
+      el.classList.add('active');
+    } else {
+      el.classList.remove('active');
+    }
+  });
+
+  document.getElementById('slide-num').textContent = `${String(currentSlide).padStart(2, '0')} / ${totalSlides}`;
+  document.getElementById('progress-fill').style.width = `${(currentSlide / totalSlides) * 100}%`;
+
+  document.querySelectorAll('.drawer-item').forEach((el, idx) => {
+    el.classList.toggle('active', idx + 1 === currentSlide);
+  });
+
+  if (mode === 'scroll') {
+    const target = document.getElementById(`slide-${currentSlide}`);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function nextSlide() { showSlide(currentSlide + 1); }
+function prevSlide() { showSlide(currentSlide - 1); }
+
+document.getElementById('arrow-next').addEventListener('click', nextSlide);
+document.getElementById('arrow-prev').addEventListener('click', prevSlide);
+
+// Keyboard controls
+window.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+    e.preventDefault();
+    nextSlide();
+  } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    prevSlide();
+  } else if (e.key === 'f' || e.key === 'F') {
+    toggleFullscreen();
+  } else if (e.key === 'c' || e.key === 'C') {
+    toggleModal();
+  } else if (e.key === 'm' || e.key === 'M') {
+    toggleDrawer();
+  } else if (e.key === 'Escape') {
+    closeModal();
+    closeDrawer();
+  }
+});
+
+// Drawer Controls
+const drawer = document.getElementById('drawer');
+const drawerBackdrop = document.getElementById('drawer-backdrop');
+function openDrawer() { drawer.classList.add('open'); drawerBackdrop.classList.add('open'); }
+function closeDrawer() { drawer.classList.remove('open'); drawerBackdrop.classList.remove('open'); }
+function toggleDrawer() { drawer.classList.contains('open') ? closeDrawer() : openDrawer(); }
+
+document.getElementById('btn-drawer').addEventListener('click', toggleDrawer);
+document.getElementById('drawer-close').addEventListener('click', closeDrawer);
+drawerBackdrop.addEventListener('click', closeDrawer);
+
+document.querySelectorAll('.drawer-item').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const g = parseInt(btn.dataset.goto, 10);
+    showSlide(g);
+    closeDrawer();
+  });
+});
+
+// View Mode Toggle
+const btnMode = document.getElementById('btn-mode');
+btnMode.addEventListener('click', () => {
+  if (mode === 'deck') {
+    mode = 'scroll';
+    document.body.classList.remove('mode-deck');
+    document.body.classList.add('mode-scroll');
+    btnMode.textContent = 'Mode: Scroll';
+    document.getElementById(`slide-${currentSlide}`).scrollIntoView();
+  } else {
+    mode = 'deck';
+    document.body.classList.remove('mode-scroll');
+    document.body.classList.add('mode-deck');
+    btnMode.textContent = 'Mode: Deck';
+    showSlide(currentSlide);
+  }
+  resizeSlides();
+});
+
+// Fullscreen
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => {});
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen();
+  }
+}
+document.getElementById('btn-fullscreen').addEventListener('click', toggleFullscreen);
+
+// Savings Reckoner Simulator
+const modal = document.getElementById('calc-modal');
+function openModal() { modal.classList.add('open'); }
+function closeModal() { modal.classList.remove('open'); }
+function toggleModal() { modal.classList.contains('open') ? closeModal() : openModal(); }
+
+document.getElementById('btn-calc').addEventListener('click', openModal);
+document.getElementById('calc-close').addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+let selectedDia = 8;
+const diaWeights = { 6: 0.062, 8: 0.109, 10: 0.168, 12: 0.244, 16: 0.439, 20: 0.670 };
+const steelWeights = { 6: 0.222, 8: 0.395, 10: 0.617, 12: 0.888, 16: 1.580, 20: 2.470 };
+
+function updateCalc() {
+  const steelTon = parseFloat(document.getElementById('input-ton').value);
+  document.getElementById('disp-ton').textContent = `${steelTon} Tonnes`;
+  document.getElementById('disp-dia').textContent = `${selectedDia} mm (G${selectedDia})`;
+
+  // GFRP ratio vs Steel
+  const gfrpTon = steelTon * (2.12 / 7.85);
+  const savedTon = steelTon - gfrpTon;
+  const trucksSteel = Math.ceil(steelTon / 10);
+  const trucksGfrp = Math.ceil(gfrpTon / 10);
+  const co2Saved = Math.round(steelTon * 1.85 * 0.7); // kg CO2 reduction
+
+  document.getElementById('res-gfrp-ton').textContent = `${gfrpTon.toFixed(1)} T`;
+  document.getElementById('res-saved-ton').textContent = `${savedTon.toFixed(1)} T`;
+  document.getElementById('res-trucks').textContent = `${trucksGfrp} ${trucksGfrp > 1 ? 'Trucks' : 'Truck'}`;
+  document.getElementById('res-co2').textContent = `${co2Saved} T`;
+}
+
+document.querySelectorAll('.dia-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.dia-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedDia = parseInt(btn.dataset.dia, 10);
+    updateCalc();
+  });
+});
+
+document.getElementById('input-ton').addEventListener('input', updateCalc);
+
+// Init
+resizeSlides();
+showSlide(1);
+updateCalc();
+</script>
+</body>
+</html>

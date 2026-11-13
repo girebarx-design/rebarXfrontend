@@ -42,3 +42,5 @@ next-env.d.ts
 
 # local dev helper
 dev.sh
+.claude/
+content-drafts/

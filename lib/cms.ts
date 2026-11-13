@@ -1,3 +1,5 @@
+import { LOCAL_POSTS } from "@/content/posts";
+
 const CMS = "https://rebar-xbackend.vercel.app/api";
 
 export type Block = Record<string, any>;
@@ -102,14 +104,16 @@ async function fetchBlogPosts(depth: number, limit: number) {
   return (await fallback.json()).docs ?? [];
 }
 
-/** Blog index: light payload (depth=1) is enough for cards. */
+/** Blog index: local git posts first, then CMS posts */
 export async function getBlogPosts() {
-  return fetchBlogPosts(1, 100);
+  const cms = await fetchBlogPosts(1, 100);
+  return [...LOCAL_POSTS, ...cms];
 }
 
-/** Single post: depth=2 to populate content + related posts. */
+/** Single post: local git posts first, then CMS posts */
 export async function getBlogPostsFull() {
-  return fetchBlogPosts(2, 100);
+  const cms = await fetchBlogPosts(2, 100);
+  return [...LOCAL_POSTS, ...cms];
 }
 
 export async function getBlogPostBySlug(slug: string) {

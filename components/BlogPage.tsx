@@ -43,11 +43,11 @@ export default function BlogPage({ posts }: { posts: any[] }) {
                   className="article-tile pinned w-inline-block"
                 >
                   <div className="image-wrap-blog pinned">
-                    {first.mainImage?.cloudinaryUrl ? (
+                    {first.mainImage?.cloudinaryUrl || first.mainImage?.url ? (
                       <img
                         alt={first.mainImage.alt || first.title || ""}
                         loading="lazy"
-                        src={cldOptimize(first.mainImage.cloudinaryUrl)}
+                        src={cldOptimize(first.mainImage.cloudinaryUrl || first.mainImage.url)}
                         sizes="(max-width: 479px) 100vw, (max-width: 767px) 92vw, 54vw"
                         className="image-coverforblogs"
                       />
@@ -85,11 +85,11 @@ export default function BlogPage({ posts }: { posts: any[] }) {
                     className="article-tile w-inline-block"
                   >
                     <div className="image-wrap-blog">
-                      {bb.mainImage?.cloudinaryUrl ? (
+                      {bb.mainImage?.cloudinaryUrl || bb.mainImage?.url ? (
                         <img
                           alt={bb.mainImage.alt || bb.title || ""}
                           loading="lazy"
-                          src={cldOptimize(bb.mainImage.cloudinaryUrl)}
+                          src={cldOptimize(bb.mainImage.cloudinaryUrl || bb.mainImage.url)}
                           sizes="(max-width: 479px) 100vw, (max-width: 767px) 44vw, (max-width: 991px) 46vw, 30vw"
                           className="image-coverforblogs"
                         />

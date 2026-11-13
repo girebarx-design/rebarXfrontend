@@ -170,10 +170,10 @@ export default function BlogPost({ blogData }: { blogData: any }) {
   return (
     <div>
       <section className="blog-hero-modern">
-        {blogData.mainImage?.cloudinaryUrl ? (
+        {blogData.mainImage?.cloudinaryUrl || blogData.mainImage?.url ? (
           <div className="blog-hero-bg">
             <img
-              src={cldOptimize(blogData.mainImage.cloudinaryUrl)}
+              src={cldOptimize(blogData.mainImage.cloudinaryUrl || blogData.mainImage.url)}
               alt={blogData.mainImage.alt || blogData.title}
               fetchPriority="high"
             />
