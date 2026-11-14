@@ -4,7 +4,7 @@ import { toSpecs } from "@/lib/lexical";
 import CompareContent from "@/components/rx/CompareContent";
 import { dict } from "@/lib/i18n/dict";
 
-export const revalidate = 3600;
+export const revalidate = 86400; // 24 hours
 
 export const metadata: Metadata = {
   title: "GFRP Rebar vs TMT Steel Rebar — Full Comparison | RebarX",

@@ -3,7 +3,7 @@ import BlogPage from "@/components/BlogPage";
 import { getBlogPosts } from "@/lib/cms";
 import Breadcrumbs from "@/components/rx/Breadcrumbs";
 
-export const revalidate = 3600;
+export const revalidate = 86400; // 24 hours
 
 export const metadata: Metadata = {
   title: "Blog | RebarX — GFRP Rebar Insights & Guides",

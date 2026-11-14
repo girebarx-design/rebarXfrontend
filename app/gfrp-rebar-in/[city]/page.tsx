@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import CityLandingPage from "@/components/rx/CityLandingPage";
 import { getCities, getCityBySlug } from "@/lib/cms";
 
-export const revalidate = 3600;
+export const revalidate = 86400; // 24 hours
 
 type Params = Promise<{ city: string }>;
 

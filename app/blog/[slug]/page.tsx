@@ -1,12 +1,26 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import BlogPost from "@/components/SingleBlog";
-import { getBlogPostBySlug, slugify } from "@/lib/cms";
+import { getBlogPostBySlug, getBlogPosts, slugify } from "@/lib/cms";
 import Breadcrumbs from "@/components/rx/Breadcrumbs";
 
-export const revalidate = 3600;
+export const revalidate = 86400; // 24 hours (posts are also statically pre-rendered at build time)
 
 type Params = Promise<{ slug: string }>;
+
+/** Pre-render all blog posts into static HTML files at build time (● SSG).
+ * Served directly from Vercel Edge CDN with 0 serverless CPU usage. */
+export async function generateStaticParams() {
+  try {
+    const posts = await getBlogPosts();
+    return posts.map((p: any) => ({
+      slug: slugify(p.slug),
+    }));
+  } catch (err) {
+    console.error("Failed to generate static params for blog posts:", err);
+    return [];
+  }
+}
 
 export async function generateMetadata({
   params,

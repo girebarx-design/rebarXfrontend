@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ContactContent from "@/components/rx/ContactContent";
 import { ORG_SAME_AS } from "@/lib/cms";
 
-export const revalidate = 3600;
+export const revalidate = 86400; // 24 hours
 
 const PHONE = "+91 95300 13034";
 const PHONE_HREF = "+919530013034";
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 async function getContact() {
   const res = await fetch(
     "https://rebar-xbackend.vercel.app/api/globals/contact-page?depth=2",
-    { next: { revalidate: 3600 } }
+    { next: { revalidate: 86400 } }
   );
   if (!res.ok) return null;
   return res.json();

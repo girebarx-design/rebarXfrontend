@@ -28,27 +28,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // ==================== FETCH ALL COLLECTIONS ====================
 
     // 1. Fetch Blog Posts
-    // Same fallback as lib/cms.ts: a filter on a field the deployed
-    // backend does not know about 400s, and dropping every blog URL
-    // from the sitemap is worse than listing an unapproved draft.
-    const blogsUrl = `${BACKEND_URL}/api/blog-posts?limit=1000`;
+    // Only select fields needed for sitemap (drops payload from 2.8MB to 8KB)
+    const blogsUrl = `${BACKEND_URL}/api/blog-posts?limit=1000&select[slug]=true&select[updatedAt]=true&select[date]=true&select[createdAt]=true`;
     let blogsRes = await fetch(`${blogsUrl}&${PUBLISHED_FILTER}`, {
-      next: { revalidate: 3600 }, // Revalidate every hour
+      next: { revalidate: 86400 },
     });
     if (!blogsRes.ok) {
-      blogsRes = await fetch(blogsUrl, { next: { revalidate: 3600 } });
+      blogsRes = await fetch(blogsUrl, { next: { revalidate: 86400 } });
     }
     const blogsData = await blogsRes.json();
 
     // 2. Fetch Pages (dynamic pages from your Pages collection)
-    const pagesRes = await fetch(`${BACKEND_URL}/api/pages?limit=1000`, {
-      next: { revalidate: 3600 },
+    const pagesRes = await fetch(`${BACKEND_URL}/api/pages?limit=1000&select[slug]=true&select[updatedAt]=true&select[createdAt]=true`, {
+      next: { revalidate: 86400 },
     });
     const pagesData = await pagesRes.json();
 
     // 3. Fetch Contact components (if they have public-facing URLs)
-    const contactRes = await fetch(`${BACKEND_URL}/api/contact?limit=1000`, {
-      next: { revalidate: 3600 },
+    const contactRes = await fetch(`${BACKEND_URL}/api/contact?limit=1000&select[isActive]=true&select[componentType]=true&select[slug]=true&select[name]=true&select[updatedAt]=true`, {
+      next: { revalidate: 86400 },
     });
     const contactData = await contactRes.json();
 

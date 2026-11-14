@@ -7,7 +7,7 @@ import SlabCalculator from "@/components/SlabCalculator";
 import { Btn, Eyebrow, Star } from "@/components/rx/ui";
 import { DOWNLOADS } from "@/lib/downloads";
 
-export const revalidate = 3600;
+export const revalidate = 86400; // 24 hours
 
 export const metadata: Metadata = {
   title: "GFRP Rebar Manufacturer in India | RebarX — Rustfree",
