@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>RebarX रेज़िन & प्रोडक्शन कैलकुलेटर</title>
+  <!-- 100% SELF-CONTAINED CSS (NO EXTERNAL CDN - WORKS OFFLINE & INSIDE WHATSAPP) -->
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #f1f5f9;
+      color: #0f172a;
+      line-height: 1.4;
+      padding: 8px;
+      padding-bottom: 90px;
+      overflow-x: hidden;
+    }
+    input, select, button {
+      font-family: inherit;
+      font-size: 16px; /* Prevents auto-zoom on iOS */
+    }
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    /* Card Styles */
+    .card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 8px;
+    }
+    .badge-brand {
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .subtext {
+      font-size: 12px;
+      color: #64748b;
+    }
+    /* Navigation Tabs */
+    .nav-tabs {
+      display: flex;
+      background: #e2e8f0;
+      padding: 4px;
+      border-radius: 8px;
+      gap: 4px;
+      margin-top: 8px;
+    }
+    .nav-tab-btn {
+      flex: 1;
+      padding: 8px 10px;
+      border: none;
+      background: transparent;
+      font-weight: 700;
+      font-size: 13px;
+      color: #475569;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .nav-tab-btn.active {
+      background: #ffffff;
+      color: #0f172a;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    /* Unit Toggle Buttons */
+    .unit-toggle-btn {
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 800;
+      border-radius: 8px;
+      border: 2px solid #0f172a;
+      background: #f8fafc;
+      color: #334155;
+      cursor: pointer;
+      touch-action: manipulation;
+      min-height: 40px;
+      transition: all 0.15s ease;
+    }
+    .unit-toggle-btn.active {
+      background: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+    }
+    .unit-toggle-btn:active {
+      transform: scale(0.96);
+    }
+    /* Shift Counter Card */
+    .shift-box {
+      border: 2px solid #0f172a;
+      background: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .turn-badge {
+      background: #0f172a;
+      color: #f59e0b;
+      padding: 6px 12px;
+      border-radius: 8px;
+      text-align: center;
+      min-width: 80px;
+    }
+    .turn-badge-label {
+      font-size: 10px;
+      color: #cbd5e1;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .turn-badge-num {
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+    .btn-turn-log {
+      background: #059669;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-turn-log:active {
+      background: #047857;
+      transform: scale(0.98);
+    }
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    /* Live Step Card */
+    .step-banner {
+      background: #fef3c7;
+      border: 2px solid #d97706;
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .step-target-badge {
+      background: #ffffff;
+      border: 2px solid #b45309;
+      border-radius: 8px;
+      padding: 6px 14px;
+      text-align: center;
+      min-width: 140px;
+    }
+    .target-val {
+      font-size: 24px;
+      font-weight: 900;
+      color: #0f172a;
+    }
+    /* Inputs */
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+    }
+    .text-input {
+      flex: 1;
+      background: #f8fafc;
+      border: 2px solid #94a3b8;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 20px;
+      font-weight: 900;
+      color: #0f172a;
+      outline: none;
+    }
+    .text-input:focus {
+      border-color: #0f172a;
+    }
+    .preset-btn {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+      cursor: pointer;
+    }
+    /* Component Touch Cards (Mobile First) */
+    .component-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .component-card.done {
+      background: #f8fafc;
+      opacity: 0.6;
+    }
+    .comp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .step-circle {
+      width: 24px;
+      height: 24px;
+      background: #0f172a;
+      color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .comp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.2fr;
+      gap: 8px;
+      align-items: center;
+      background: #f8fafc;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+    .comp-label {
+      font-size: 10px;
+      font-weight: 800;
+      color: #64748b;
+      text-transform: uppercase;
+    }
+    .comp-val-main {
+      font-size: 14px;
+      font-weight: 900;
+      color: #0f172a;
+    }
+    .comp-target-box {
+      background: #fef3c7;
+      border: 1px solid #fde68a;
+      border-radius: 6px;
+      padding: 4px 6px;
+      text-align: right;
+    }
+    .comp-target-num {
+      font-size: 15px;
+      font-weight: 900;
+      color: #92400e;
+    }
+    .btn-check {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      font-size: 12px;
+      font-weight: 800;
+      color: #334155;
+      cursor: pointer;
+    }
+    .btn-check.checked {
+      background: #059669;
+      color: white;
+      border-color: #059669;
+    }
+    /* Sticky Mobile Bottom Bar */
+    .sticky-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 10px 14px;
+      border-top: 3px solid #f59e0b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.15);
+      z-index: 999;
+    }
+    /* Table styles for Desktop & Print */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 6px 8px;
+      font-size: 12px;
+      text-align: left;
+    }
+    th {
+      background: #f1f5f9;
+      font-weight: 800;
+    }
+    .desktop-table-wrap {
+      display: none;
+    }
+    @media (min-width: 640px) {
+      .desktop-table-wrap {
+        display: block;
+      }
+      .mobile-cards-wrap {
+        display: none;
+      }
+      .sticky-bar {
+        display: none;
+      }
+      body {
+        padding-bottom: 20px;
+      }
+    }
+    /* WhatsApp Notice Box */
+    .wa-tip {
+      background: #dcfce7;
+      border: 1px solid #86efac;
+      color: #166534;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 10px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    /* Print Button Styles */
+    .print-only {
+      display: none;
+    }
+    .btn-print {
+      background: #0f172a;
+      color: #ffffff;
+      border: 1px solid #0f172a;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      touch-action: manipulation;
+      transition: all 0.15s ease;
+    }
+    .btn-print:active {
+      transform: scale(0.96);
+      background: #334155;
+    }
+    .btn-print-mini {
+      background: #ffffff;
+      color: #0f172a;
+      border: 1.5px solid #0f172a;
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      touch-action: manipulation;
+    }
+    .btn-print-mini:active {
+      background: #f1f5f9;
+    }
+
+    /* Printout CSS - High Contrast A4 Black & White (Strict 1-Page Layout) */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 10mm 10mm;
+      }
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        font-size: 10pt !important;
+        overflow: visible !important;
+      }
+      .container {
+        max-width: 100% !important;
+        gap: 0 !important;
+      }
+      /* Hide all web UI / screen controls */
+      .no-print,
+      #header-card,
+      #whatsapp-help-card,
+      #system-selector-card,
+      #shift-counter-card,
+      #base-weight-card,
+      #step-banner-card,
+      #overpour-card,
+      #fg-input-card,
+      #bom-summary-grid,
+      .mobile-cards-wrap,
+      .sticky-bar,
+      noscript {
+        display: none !important;
+      }
+      .card {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: transparent !important;
+      }
+      .desktop-table-wrap {
+        display: block !important;
+      }
+      .print-only {
+        display: block !important;
+      }
+      table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        margin-top: 3mm !important;
+        page-break-inside: avoid;
+      }
+      th, td {
+        border: 1px solid #000000 !important;
+        padding: 6px 8px !important;
+        color: #000000 !important;
+        background: transparent !important;
+        font-size: 10pt !important;
+      }
+      th {
+        font-weight: bold !important;
+        background-color: #f2f2f2 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .print-header {
+        border-bottom: 2px solid #000000;
+        padding-bottom: 3mm;
+        margin-bottom: 3mm;
+      }
+      .print-signoff {
+        margin-top: 14mm;
+        display: flex;
+        justify-content: space-between;
+        border-top: 1px solid #000000;
+        padding-top: 4mm;
+        font-size: 9.5pt;
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Header Card -->
+    <div class="card" id="header-card">
+      <div class="card-header">
+        <div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span class="badge-brand">Credific · RebarX</span>
+            <span class="subtext" style="font-weight:700;">पीथमपुर प्लांट</span>
+          </div>
+          <h1 style="font-size:20px; font-weight:900; margin-top:4px;">रेज़िन सिस्टम कैलकुलेटर</h1>
+          <p class="subtext">मिक्सिंग क्रम, टर्न काउंटर एवं सरिया रॉ-मटेरियल प्लानर</p>
+        </div>
+        <button class="btn-print no-print" onclick="prepareAndPrint()" title="A4 शीट प्रिंट निकालें या PDF सेव करें">
+          🖨️ प्रिंट (A4)
+        </button>
+      </div>
+
+      <!-- App Tabs -->
+      <div class="nav-tabs">
+        <button id="nav-btn-mixing" class="nav-tab-btn active" onclick="switchTab('mixing')">
+          १. मिक्सिंग कैलकुलेटर
+        </button>
+        <button id="nav-btn-planning" class="nav-tab-btn" onclick="switchTab('planning')">
+          २. सरिया प्लानर (BOM)
+        </button>
+      </div>
+    </div>
+
+    <!-- Fallback if JavaScript is blocked by WhatsApp / document viewer -->
+    <noscript>
+      <div style="background:#fee2e2; border:2px solid #ef4444; color:#991b1b; padding:12px; border-radius:10px; margin-bottom:8px; font-weight:800; font-size:13px; text-align:center;">
+        ⚠️ आपके ऐप में JavaScript बंद है (WhatsApp Document Preview)।<br>
+        कैलकुलेटर चलाने के लिए: ऊपर <strong>शेयर (Share)</strong> बटन दबाएँ और <strong>"Open in Safari"</strong> या <strong>"Open in Chrome"</strong> चुनें।
+      </div>
+    </noscript>
+
+    <!-- Mobile WhatsApp / In-App Browser Help Notice (Shows on small screens / preview) -->
+    <div class="card" id="whatsapp-help-card" style="background:#eff6ff; border:2px solid #3b82f6; padding:10px 12px; margin-bottom:2px;">
+      <div style="display:flex; align-items:flex-start; gap:8px;">
+        <span style="font-size:18px; line-height:1;">📱</span>
+        <div style="flex:1;">
+          <div style="font-size:12px; font-weight:800; color:#1d4ed8;">फ़ोन यूज़र्स के लिए निर्देश:</div>
+          <div style="font-size:11px; color:#1e3a5f; margin-top:2px; line-height:1.4;">
+            यदि WhatsApp प्रीव्यू में बटन या इनपुट रिस्पॉन्ड न करें: ऊपर <strong>Share (शेयर) / 3-Dots</strong> दबाकर <strong>"Open in Chrome" या "Open in Safari"</strong> चुनें।
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- TAB 1: SHOP FLOOR MIXING CALCULATOR -->
+    <!-- ============================================== -->
+    <div id="tab-content-mixing" style="display:flex; flex-direction:column; gap:12px;">
+
+      <!-- System Selector (Epoxy vs Polyester) -->
+      <div class="card" id="system-selector-card" style="padding:8px 12px; display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-size:12px; font-weight:800; color:#475569;">सिस्टम:</span>
+        <div style="display:flex; gap:4px; background:#e2e8f0; padding:2px; border-radius:6px;">
+          <button id="sys-epoxy-btn" class="preset-btn" style="background:#0f172a; color:#fff;" onclick="setSystem('epoxy')">इपॉक्सी (Epoxy)</button>
+          <button id="sys-poly-btn" class="preset-btn" onclick="setSystem('polyester')">पॉलिएस्टर (Agri)</button>
+        </div>
+      </div>
+
+      <!-- Shift Turn Counter Card -->
+      <div class="card shift-box" id="shift-counter-card">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="turn-badge">
+            <div class="turn-badge-label">वर्तमान टर्न</div>
+            <div class="turn-badge-num" id="current-turn-num">#1</div>
+          </div>
+          <div>
+            <div style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase;">आज की शिफ्ट उत्पादन</div>
+            <div style="font-size:18px; font-weight:900; color:#0f172a;" id="shift-summary-text">0 टर्न | 0.00 kg</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:6px;">
+          <button class="btn-turn-log" onclick="logCompletedTurn()" id="btn-log-turn">
+            ✓ टर्न पूरा हुआ (+1 टर्न)
+          </button>
+          <button class="btn-secondary" onclick="resetShift()">रीसेट</button>
+        </div>
+      </div>
+
+      <!-- Base Weight Input Card -->
+      <div class="card" id="base-weight-card">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <label style="font-size:12px; font-weight:800; color:#334155; text-transform:uppercase;">
+            बेस रेज़िन का वज़न (Base Weight):
+          </label>
+          <div style="display:flex; gap:6px;">
+            <button id="unit-kg" class="unit-toggle-btn active" onclick="setUnit('kg')">किलो (kg)</button>
+            <button id="unit-g" class="unit-toggle-btn" onclick="setUnit('g')">ग्राम (gm)</button>
+          </div>
+        </div>
+
+        <div class="input-row">
+          <input type="text" inputmode="decimal" id="base-weight-input" class="text-input" value="10" oninput="handleBaseInput(this.value)">
+          <button class="btn-secondary" onclick="toggleMode()" id="mode-btn" style="font-size:11px; font-weight:800;">
+            कुल बैच वज़न से निकालें
+          </button>
+        </div>
+
+        <!-- Presets -->
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:8px;">
+          <span class="subtext" style="font-size:11px; font-weight:700;">मात्रा:</span>
+          <button class="preset-btn" onclick="applyPreset(5)">5 kg</button>
+          <button class="preset-btn" onclick="applyPreset(10)">10 kg</button>
+          <button class="preset-btn" onclick="applyPreset(16)">16 kg</button>
+          <button class="preset-btn" onclick="applyPreset(20)">20 kg</button>
+          <button class="preset-btn" onclick="applyPreset(25)">25 kg</button>
+          <button class="preset-btn" onclick="applyPreset(240)" style="background:#fef3c7; color:#92400e; border-color:#f59e0b;">1 ड्रम (240)</button>
+        </div>
+      </div>
+
+      <!-- Live Operator Guide Banner -->
+      <div class="step-banner" id="step-banner-card">
+        <div>
+          <div style="font-size:11px; font-weight:900; color:#b45309; text-transform:uppercase;" id="step-guide-title">
+            कदम 1 / 6 · ऑपरेटर तराज़ू गाइड
+          </div>
+          <div style="font-size:15px; font-weight:900; color:#0f172a; margin-top:2px;" id="step-guide-desc">
+            खाली डिब्बा रखें और Tare (0) करें, फिर <span style="text-decoration:underline;">इपॉक्सी 10.00 kg</span> डालें
+          </div>
+        </div>
+        <div class="step-target-badge">
+          <div style="font-size:9px; font-weight:800; color:#64748b; text-transform:uppercase;">तराज़ू लक्ष्य (Scale Target)</div>
+          <div class="target-val" id="step-guide-target">10.00 kg</div>
+        </div>
+      </div>
+
+      <!-- Mobile Touch Cards Container (Visible on Mobile) -->
+      <div class="mobile-cards-wrap" id="mobile-cards-list">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Print Header for Tab 1 (Visible only during Print) -->
+      <div class="print-only print-header">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div>
+            <h2 style="font-size:15pt; font-weight:900; margin:0;">CREDIVIC VENTURES PVT. LTD. · REBARX</h2>
+            <p style="font-size:10pt; margin:2px 0 0 0; color:#333;">पीथमपुर प्लांट (म.प्र.) · रेज़िन मिक्सिंग बैच रिकॉर्ड शीट</p>
+          </div>
+          <div style="text-align:right; font-size:9pt; line-height:1.4;">
+            <div><strong>प्रिंट समय:</strong> <span id="print-date"></span></div>
+            <div><strong>रेज़िन सिस्टम:</strong> <span id="print-system">इपॉक्सी (Epoxy NVC ADB)</span></div>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-top:3mm; font-size:9.5pt; background:#f4f4f4; padding:5px 8px; border:1px solid #000;">
+          <div><strong>बेस वज़न:</strong> <span id="print-base-w">10 kg</span></div>
+          <div><strong>कुल बैच लक्ष्य वज़न:</strong> <span id="print-total-w">19.35 kg</span></div>
+          <div><strong>शिफ्ट / वर्तमान टर्न:</strong> <span id="print-turn">टर्न #1</span></div>
+        </div>
+      </div>
+
+      <!-- Desktop Table Container (Visible on Desktop / Print) -->
+      <div class="card desktop-table-wrap">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <h3 style="font-size:14px; font-weight:800; margin:0;">मिक्सिंग तालिका · घटक व संचयी रीडिंग</h3>
+          <button class="btn-print-mini no-print" onclick="prepareAndPrint()">
+            🖨️ A4 शीट प्रिंट करें
+          </button>
+        </div>
+        <table id="desktop-table">
+          <thead>
+            <tr>
+              <th style="width:40px; text-align:center;">क्रम</th>
+              <th>घटक (Component)</th>
+              <th style="text-align:right; width:90px;">प्रतिशत (%)</th>
+              <th style="text-align:right; width:110px;">डालें (+Add)</th>
+              <th style="text-align:right; width:130px; background:#fef3c7;">कुल तराज़ू रीडिंग</th>
+              <th style="text-align:center; width:70px;">मिलाया</th>
+            </tr>
+          </thead>
+          <tbody id="desktop-tbody">
+            <!-- Rendered via JS -->
+          </tbody>
+          <tfoot>
+            <tr style="font-weight:900; background:#f8fafc;">
+              <td colspan="2" style="text-align:right;">कुल बैच वज़न:</td>
+              <td style="text-align:right;" id="desk-total-pct">193.5%</td>
+              <td style="text-align:right; color:#059669;" id="desk-total-weight">19.35 kg</td>
+              <td style="text-align:right; color:#b45309; background:#fef3c7;" id="desk-final-scale">19.35 kg</td>
+              <td style="text-align:center;" id="desk-done-count">0/6</td>
+            </tr>
+          </tfoot>
+        </table>
+
+        <!-- Physical Plant Sign-Off Section (Print Only) -->
+        <div class="print-only print-signoff">
+          <div style="width:28%;">
+            <div><strong>ड्रम / बैच लॉट नं:</strong></div>
+            <div style="margin-top:7mm; border-bottom:1px solid #000; width:100%;"></div>
+          </div>
+          <div style="width:33%;">
+            <div><strong>मिक्सर ऑपरेटर (नाम व हस्ताक्षर):</strong></div>
+            <div style="margin-top:7mm; border-bottom:1px solid #000; width:100%;"></div>
+          </div>
+          <div style="width:33%;">
+            <div><strong>शिफ्ट इंचार्ज / सुपरवाइज़र (स्वीकृति):</strong></div>
+            <div style="margin-top:7mm; border-bottom:1px solid #000; width:100%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overpour Rebalancer Tool -->
+      <div class="card" id="overpour-card" style="border:1px solid #f59e0b; background:#fffbeb;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="background:#fef3c7; color:#92400e; font-size:10px; font-weight:800; padding:2px 6px; border-radius:4px; border:1px solid #fde68a;">नियम #3</span>
+            <span style="font-size:13px; font-weight:800; color:#0f172a; margin-left:4px;">ज़्यादा केमिकल डलने पर री-कैलकुलेटर</span>
+          </div>
+          <button class="btn-secondary" onclick="toggleOverpour()" id="btn-toggle-overpour" style="font-size:11px;">सुधार टूल खोलें ▼</button>
+        </div>
+
+        <div id="overpour-body" style="display:none; margin-top:10px; padding-top:10px; border-top:1px solid #fde68a;">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <div>
+              <label style="font-size:11px; font-weight:700;">कौन सा केमिकल ज़्यादा डला?</label>
+              <select id="overpour-select" style="width:100%; padding:6px; font-size:13px; border-radius:6px; border:1px solid #cbd5e1; background:#fff; margin-top:2px;"></select>
+            </div>
+            <div>
+              <label style="font-size:11px; font-weight:700;">वास्तविक कितना डल गया?</label>
+              <input type="text" inputmode="decimal" id="overpour-actual" placeholder="उदा. 9.5" style="width:100%; padding:6px; font-size:13px; border-radius:6px; border:1px solid #cbd5e1; background:#fff; margin-top:2px;">
+            </div>
+          </div>
+          <button class="btn-turn-log" style="width:100%; margin-top:8px; justify-content:center; background:#d97706;" onclick="applyOverpour()">
+            पूरे बैच को री-कैलकुलेट करें ⚡
+          </button>
+          <div id="overpour-msg" style="display:none; margin-top:6px; font-size:11px; color:#047857; font-weight:700;"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============================================== -->
+    <!-- TAB 2: FINISHED REBAR BOM PLANNER -->
+    <!-- ============================================== -->
+    <div id="tab-content-planning" style="display:none; flex-direction:column; gap:12px;">
+
+      <div class="card" id="fg-input-card" style="border:2px solid #059669;">
+        <span style="background:#d1fae5; color:#065f46; font-size:10px; font-weight:800; padding:2px 8px; border-radius:4px;">प्रोडक्शन प्लानिंग</span>
+        <h2 style="font-size:18px; font-weight:900; margin-top:4px;">तैयार सरिया (FG) से कच्चा माल आवश्यकता</h2>
+        <p class="subtext">जितना सरिया बनाना है (उदा. 2,000 kg), उसकी मात्रा दर्ज करें:</p>
+
+        <div style="margin-top:10px;">
+          <label style="font-size:12px; font-weight:800; color:#334155;">उत्पादन लक्ष्य (Target Finished Rebar):</label>
+          <div class="input-row">
+            <input type="text" inputmode="decimal" id="fg-input" class="text-input" value="2000" oninput="calcBOM()">
+            <span style="align-self:center; font-weight:800; color:#64748b;">kg</span>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:8px;">
+          <span class="subtext" style="font-size:11px; font-weight:700;">मात्रा:</span>
+          <button class="preset-btn" onclick="setFGPreset(500)">500 kg</button>
+          <button class="preset-btn" onclick="setFGPreset(1000)">1,000 kg (1 टन)</button>
+          <button class="preset-btn" onclick="setFGPreset(2000)" style="background:#d1fae5; border-color:#059669; color:#065f46; font-weight:900;">2,000 kg (2 टन)</button>
+          <button class="preset-btn" onclick="setFGPreset(5000)">5,000 kg</button>
+          <button class="preset-btn" onclick="setFGPreset(10000)">10,000 kg</button>
+        </div>
+      </div>
+
+      <!-- BOM Top 2 Inputs Cards -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;" id="bom-summary-grid">
+        <div class="card">
+          <div style="font-size:11px; font-weight:800; color:#64748b;">ग्लास फाइबर रोविंग (79.5%)</div>
+          <div style="font-size:22px; font-weight:900; color:#0f172a; margin-top:2px;" id="bom-glass-kg">1,590.00 kg</div>
+          <div class="subtext" style="margin-top:4px; font-weight:700;" id="bom-glass-spools">~88 स्पूल (18 kg ea)</div>
+        </div>
+
+        <div class="card">
+          <div style="font-size:11px; font-weight:800; color:#64748b;">रेज़िन मैट्रिक्स (20.5%)</div>
+          <div style="font-size:22px; font-weight:900; color:#d97706; margin-top:2px;" id="bom-resin-kg">410.00 kg</div>
+          <div class="subtext" style="margin-top:4px; font-weight:700;" id="bom-drums-count">~0.88 ड्रम (इपॉक्सी)</div>
+        </div>
+      </div>
+
+      <!-- Print Header for Tab 2 (Visible only during Print) -->
+      <div class="print-only print-header">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div>
+            <h2 style="font-size:15pt; font-weight:900; margin:0;">CREDIVIC VENTURES PVT. LTD. · REBARX</h2>
+            <p style="font-size:10pt; margin:2px 0 0 0; color:#333;">पीथमपुर प्लांट (म.प्र.) · कच्चा माल स्टोर इश्यू वाउचर (RM Store Issue)</p>
+          </div>
+          <div style="text-align:right; font-size:9pt; line-height:1.4;">
+            <div><strong>प्रिंट समय:</strong> <span id="print-bom-date"></span></div>
+            <div><strong>उत्पादन लक्ष्य (FG):</strong> <span id="print-bom-fg">2,000 kg</span></div>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-top:3mm; font-size:9.5pt; background:#f4f4f4; padding:5px 8px; border:1px solid #000;">
+          <div><strong>ग्लास फाइबर रोविंग (79.5%):</strong> <span id="print-bom-glass">1,590 kg (~88 स्पूल)</span></div>
+          <div><strong>रेज़िन मैट्रिक्स (20.5%):</strong> <span id="print-bom-resin">410 kg (~0.88 ड्रम)</span></div>
+        </div>
+      </div>
+
+      <!-- Chemical Requirement Table -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <h3 style="font-size:14px; font-weight:800; margin:0;">केमिकल आवश्यकता ब्रेकडाउन (स्टोर इश्यू)</h3>
+          <button class="btn-print-mini no-print" onclick="prepareAndPrint()">
+            🖨️ स्टोर वाउचर प्रिंट करें
+          </button>
+        </div>
+        <div style="overflow-x:auto; -webkit-overflow-scrolling:touch;">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:30px; text-align:center;">#</th>
+                <th>केमिकल का नाम</th>
+                <th style="text-align:right; width:70px;">अनुपात</th>
+                <th style="text-align:right; width:90px;">कुल वज़न (kg)</th>
+                <th style="width:90px;">स्टोर पैकिंग</th>
+                <th class="print-only" style="width:100px;">जारी मात्रा</th>
+              </tr>
+            </thead>
+            <tbody id="bom-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+            <tfoot>
+              <tr style="font-weight:900; background:#f8fafc;">
+                <td colspan="3" style="text-align:right;">कुल रेज़िन मिक्स:</td>
+                <td style="text-align:right; color:#d97706;" id="bom-footer-total">410.00 kg</td>
+                <td id="bom-footer-grand">2,000 kg कुल</td>
+                <td class="print-only"></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <!-- Physical Store Sign-Off Section (Print Only) -->
+        <div class="print-only print-signoff">
+          <div style="width:28%;">
+            <div><strong>स्टोर कीपर (जारीकर्ता):</strong></div>
+            <div style="margin-top:7mm; border-bottom:1px solid #000; width:100%;"></div>
+          </div>
+          <div style="width:33%;">
+            <div><strong>प्लांट ऑपरेटर (प्राप्तकर्ता):</strong></div>
+            <div style="margin-top:7mm; border-bottom:1px solid #000; width:100%;"></div>
+          </div>
+          <div style="width:33%;">
+            <div><strong>प्लांट सुपरवाइज़र स्वीकृति:</strong></div>
+            <div style="margin-top:7mm; border-bottom:1px solid #000; width:100%;"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- STICKY MOBILE BOTTOM BAR (Phones Only) -->
+  <div class="sticky-bar" id="mobile-sticky-bar">
+    <div>
+      <div style="font-size:10px; color:#f59e0b; font-weight:800; text-transform:uppercase;" id="sticky-step-text">कदम 1: इपॉक्सी</div>
+      <div style="font-size:16px; font-weight:900;" id="sticky-target-text">लक्ष्य: 10.00 kg</div>
+    </div>
+    <button class="btn-turn-log" style="padding:6px 14px; font-size:13px;" onclick="logCompletedTurn()">
+      टर्न पूरा ✓
+    </button>
+  </div>
+
+  <!-- JAVASCRIPT: PURE ZERO-DEPENDENCY OFFLINE ENGINE -->
+  <script>
+    let activeTab = 'mixing';
+    let currentSystem = 'epoxy';
+    let currentUnit = 'kg';
+    let isBatchTargetMode = false;
+    let checkedSteps = {};
+    let shiftTurns = [];
+
+    // Chemical Formulations (RebarX Standards)
+    const recipes = {
+      epoxy: {
+        items: [
+          { id: 'epoxy_base', name: 'इपॉक्सी रेज़िन (Epoxy Base)', pct: 100.0, isBase: true, desc: 'स्टेप 1: मुख्य आधार', pack: '240 kg ड्रम' },
+          { id: 'flexibilizer', name: 'प्लास्टिसाइज़र / फ्लेक्सिबिलाइज़र', pct: 2.0, isBase: false, desc: 'स्टेप 2: घुलनशील पॉलीमर', pack: '35 kg केन' },
+          { id: 'hardener', name: 'हार्डनर (Hardener NVC/ADB)', pct: 85.0, isBase: false, desc: 'स्टेप 3: विस्कोसिटी पतली करता है', pack: '220 kg ड्रम' },
+          { id: 'caco3', name: 'कैल्शियम कार्बोनेट (CaCO3)', pct: 2.0, isBase: false, desc: 'स्टेप 4: पाउडर (बिना गांठ घोले)', pack: '50 kg बोरी' },
+          { id: 'pigment', name: 'पिगमेंट (Steel Grey)', pct: 2.0, isBase: false, desc: 'स्टेप 5: रंग एकसमान करें', pack: '20 kg बाल्टी' },
+          { id: 'accelerator', name: 'एक्सेलरेटर (Accelerator NVC)', pct: 2.5, isBase: false, desc: 'स्टेप 6: कैटेलिस्ट (हमेशा अंत में!)', pack: '25 kg केन' }
+        ]
+      },
+      polyester: {
+        items: [
+          { id: 'poly_base', name: 'पॉलिएस्टर रेज़िन (Base)', pct: 100.0, isBase: true, desc: 'स्टेप 1: बेस पॉलिएस्टर', pack: '225 kg ड्रम' },
+          { id: 'silane', name: 'साइलेन (Silane)', pct: 1.0, isBase: false, desc: 'स्टेप 2: कपलिंग एजेंट', pack: '25 kg केन' },
+          { id: 'caco3_poly', name: 'कैल्शियम कार्बोनेट (CaCO3)', pct: 5.0, isBase: false, desc: 'स्टेप 3: पाउडर', pack: '50 kg बोरी' },
+          { id: 'tbpb', name: 'टीबीपीबी (TBPB)', pct: 2.0, isBase: false, desc: 'स्टेप 4: हाई टेम्प कैटेलिस्ट', pack: '25 kg केन' },
+          { id: 'bp_paste', name: 'बीपी पेस्ट (BP Paste)', pct: 0.5, isBase: false, desc: 'स्टेप 5: प्रमोटर', pack: '20 kg बाल्टी' },
+          { id: 'epoxy_add', name: 'इपॉक्सी रेज़िन (NVC)', pct: 15.0, isBase: false, desc: 'स्टेप 6: इपॉक्सी ब्लेंड', pack: '240 kg ड्रम' },
+          { id: 'hardener_add', name: 'हार्डनर (NVC)', pct: 15.0, isBase: false, desc: 'स्टेप 7: हार्डनर ब्लेंड', pack: '220 kg ड्रम' },
+          { id: 'accel_poly', name: 'एक्सेलरेटर (Accelerator)', pct: 0.375, isBase: false, desc: 'स्टेप 8: कैटेलिस्ट (हमेशा अंत में!)', pack: '25 kg केन' }
+        ]
+      }
+    };
+
+    function initApp() {
+      loadShift();
+      renderAll();
+      calcBOM();
+      populateOverpour();
+      updateShiftUI();
+    }
+
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
+
+    // Tab Switcher
+    function switchTab(t) {
+      activeTab = t;
+      document.getElementById('tab-content-mixing').style.display = t === 'mixing' ? 'flex' : 'none';
+      document.getElementById('tab-content-planning').style.display = t === 'planning' ? 'flex' : 'none';
+
+      document.getElementById('nav-btn-mixing').className = t === 'mixing' ? 'nav-tab-btn active' : 'nav-tab-btn';
+      document.getElementById('nav-btn-planning').className = t === 'planning' ? 'nav-tab-btn active' : 'nav-tab-btn';
+
+      const sticky = document.getElementById('mobile-sticky-bar');
+      if (sticky) sticky.style.display = (t === 'mixing' && window.innerWidth < 640) ? 'flex' : 'none';
+      if (t === 'planning') calcBOM();
+    }
+
+    // System Switcher
+    function setSystem(s) {
+      currentSystem = s;
+      checkedSteps = {};
+      document.getElementById('sys-epoxy-btn').style.background = s === 'epoxy' ? '#0f172a' : 'transparent';
+      document.getElementById('sys-epoxy-btn').style.color = s === 'epoxy' ? '#fff' : '#334155';
+      document.getElementById('sys-poly-btn').style.background = s === 'polyester' ? '#0f172a' : 'transparent';
+      document.getElementById('sys-poly-btn').style.color = s === 'polyester' ? '#fff' : '#334155';
+      populateOverpour();
+      renderAll();
+    }
+
+    // Units
+    function setUnit(u) {
+      if (currentUnit === u) return;
+      const inp = document.getElementById('base-weight-input');
+      let val = parseFloat(inp.value) || 0;
+      val = u === 'g' ? val * 1000 : val / 1000;
+      currentUnit = u;
+
+      const bKg = document.getElementById('unit-kg');
+      const bG = document.getElementById('unit-g');
+      if (bKg && bG) {
+        bKg.className = u === 'kg' ? 'unit-toggle-btn active' : 'unit-toggle-btn';
+        bG.className = u === 'g' ? 'unit-toggle-btn active' : 'unit-toggle-btn';
+      }
+
+      inp.value = Number(val.toFixed(2));
+      updateLive();
+    }
+
+    // Presets & Modes
+    function applyPreset(kg) {
+      document.getElementById('base-weight-input').value = currentUnit === 'g' ? kg * 1000 : kg;
+      updateLive();
+    }
+
+    function toggleMode() {
+      isBatchTargetMode = !isBatchTargetMode;
+      document.getElementById('mode-btn').innerText = isBatchTargetMode ? 'बेस वज़न से निकालें' : 'कुल बैच वज़न से निकालें';
+      updateLive();
+    }
+
+    function handleBaseInput() {
+      updateLive();
+    }
+
+    // Decimal Typing Fix
+    function handlePctChange(idx, raw) {
+      const clean = raw.replace(/[^0-9.]/g, '');
+      const num = parseFloat(clean);
+      recipes[currentSystem].items[idx].pct = isNaN(num) ? 0 : num;
+      
+      const desk = document.getElementById('desk-inp-' + idx);
+      const mob = document.getElementById('mob-inp-' + idx);
+      if (desk && desk !== document.activeElement) desk.value = clean;
+      if (mob && mob !== document.activeElement) mob.value = clean;
+
+      updateLive();
+    }
+
+    function formatNum(n) {
+      if (currentUnit === 'g') return Math.round(n).toLocaleString('en-US');
+      return n < 1 ? n.toFixed(3) : n.toFixed(2);
+    }
+
+    // Math
+    function getCalc() {
+      const recipe = recipes[currentSystem];
+      const raw = parseFloat(document.getElementById('base-weight-input').value) || 0;
+      let totalPct = 0;
+      recipe.items.forEach(i => totalPct += (parseFloat(i.pct) || 0));
+
+      const baseWeight = isBatchTargetMode ? (totalPct > 0 ? (raw * 100) / totalPct : 0) : raw;
+      let cumulative = 0;
+
+      const rows = recipe.items.map((item, idx) => {
+        const itemWeight = (baseWeight * (parseFloat(item.pct) || 0)) / 100;
+        cumulative += itemWeight;
+        return {
+          ...item,
+          index: idx + 1,
+          weight: itemWeight,
+          cumulative: cumulative,
+          isDone: !!checkedSteps[item.id]
+        };
+      });
+
+      return { baseWeight, totalWeight: cumulative, totalPct, rows };
+    }
+
+    // Live Numbers Update without destroying input focus or decimal points
+    function updateLive() {
+      const { baseWeight, totalWeight, totalPct, rows } = getCalc();
+      let pending = null;
+      let done = 0;
+
+      rows.forEach((r, idx) => {
+        if (r.isDone) done++;
+        else if (!pending) pending = r;
+
+        const dWeight = document.getElementById('desk-w-' + idx);
+        if (dWeight) dWeight.innerText = `+${formatNum(r.weight)} ${currentUnit}`;
+        const dCum = document.getElementById('desk-c-' + idx);
+        if (dCum) dCum.innerText = `${formatNum(r.cumulative)} ${currentUnit}`;
+
+        const mWeight = document.getElementById('mob-w-' + idx);
+        if (mWeight) mWeight.innerText = `+${formatNum(r.weight)} ${currentUnit}`;
+        const mCum = document.getElementById('mob-c-' + idx);
+        if (mCum) mCum.innerText = `${formatNum(r.cumulative)} ${currentUnit}`;
+      });
+
+      document.getElementById('desk-total-pct').innerText = totalPct.toFixed(2) + '%';
+      document.getElementById('desk-total-weight').innerText = `${formatNum(totalWeight)} ${currentUnit}`;
+      document.getElementById('desk-final-scale').innerText = `${formatNum(totalWeight)} ${currentUnit}`;
+      document.getElementById('desk-done-count').innerText = `${done}/${rows.length}`;
+
+      updateGuide(pending, rows);
+    }
+
+    // Render Table and Mobile Cards
+    function renderAll() {
+      const { baseWeight, totalWeight, totalPct, rows } = getCalc();
+
+      // Mobile Cards
+      const mobList = document.getElementById('mobile-cards-list');
+      mobList.innerHTML = '';
+
+      rows.forEach((r, idx) => {
+        const div = document.createElement('div');
+        div.className = 'component-card' + (r.isDone ? ' done' : '');
+        div.innerHTML = `
+          <div class="comp-header">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div class="step-circle">${r.index}</div>
+              <div>
+                <strong style="font-size:14px; color:#0f172a;">${r.name}</strong>
+                <div class="subtext" style="font-size:10px;">${r.desc}</div>
+              </div>
+            </div>
+            <button class="btn-check ${r.isDone ? 'checked' : ''}" onclick="toggleCheck('${r.id}')">
+              ${r.isDone ? '✓ मिलाया' : 'मिलाएँ'}
+            </button>
+          </div>
+
+          <div class="comp-grid">
+            <div>
+              <div class="comp-label">प्रतिशत %</div>
+              ${r.isBase ? `<div style="font-size:13px; font-weight:900;">100.0%</div>` : `
+                <div style="display:flex; align-items:center; gap:2px; margin-top:2px;">
+                  <input type="text" inputmode="decimal" id="mob-inp-${idx}" value="${r.pct}" 
+                    style="width:55px; padding:3px 4px; font-weight:900; border:1px solid #cbd5e1; border-radius:4px; font-size:13px; background:#fff;"
+                    oninput="handlePctChange(${idx}, this.value)">
+                  <span style="font-size:11px; font-weight:800; color:#64748b;">%</span>
+                </div>
+              `}
+            </div>
+
+            <div>
+              <div class="comp-label">डालें (+Add)</div>
+              <div class="comp-val-main" id="mob-w-${idx}">+${formatNum(r.weight)} ${currentUnit}</div>
+            </div>
+
+            <div class="comp-target-box">
+              <div class="comp-label" style="color:#b45309;">तराज़ू रीडिंग</div>
+              <div class="comp-target-num" id="mob-c-${idx}">${formatNum(r.cumulative)} ${currentUnit}</div>
+            </div>
+          </div>
+        `;
+        mobList.appendChild(div);
+      });
+
+      // Desktop Table
+      const dBody = document.getElementById('desktop-tbody');
+      dBody.innerHTML = '';
+
+      rows.forEach((r, idx) => {
+        const tr = document.createElement('tr');
+        tr.style.opacity = r.isDone ? '0.6' : '1';
+        tr.innerHTML = `
+          <td style="text-align:center; font-weight:800;">${r.index}</td>
+          <td>
+            <strong>${r.name}</strong>
+            <div class="subtext" style="font-size:10px;">${r.desc}</div>
+          </td>
+          <td style="text-align:right;">
+            ${r.isBase ? '100.0%' : `
+              <span class="no-print">
+                <input type="text" inputmode="decimal" id="desk-inp-${idx}" value="${r.pct}" 
+                  style="width:60px; padding:2px 4px; font-weight:900; border:1px solid #cbd5e1; border-radius:4px; font-size:12px; text-align:right;"
+                  oninput="handlePctChange(${idx}, this.value)"> %
+              </span>
+              <span class="print-only" style="font-weight:bold;">${r.pct}%</span>
+            `}
+          </td>
+          <td style="text-align:right; font-weight:800; color:#059669;" id="desk-w-${idx}">
+            +${formatNum(r.weight)} ${currentUnit}
+          </td>
+          <td style="text-align:right; font-weight:900; color:#92400e; background:#fef3c7;" id="desk-c-${idx}">
+            ${formatNum(r.cumulative)} ${currentUnit}
+          </td>
+          <td style="text-align:center;">
+            <button class="btn-check ${r.isDone ? 'checked' : ''} no-print" style="padding:2px 6px; font-size:11px;" onclick="toggleCheck('${r.id}')">
+              ${r.isDone ? '✓' : 'हो गया'}
+            </button>
+            <span class="print-only" style="font-size:13pt; font-weight:bold;">${r.isDone ? '☑' : '☐'}</span>
+          </td>
+        `;
+        dBody.appendChild(tr);
+      });
+
+      updateLive();
+    }
+
+    function toggleCheck(id) {
+      checkedSteps[id] = !checkedSteps[id];
+      renderAll();
+    }
+
+    function updateGuide(pending, allRows) {
+      const gTitle = document.getElementById('step-guide-title');
+      const gDesc = document.getElementById('step-guide-desc');
+      const gTarget = document.getElementById('step-guide-target');
+      const sStep = document.getElementById('sticky-step-text');
+      const sTarget = document.getElementById('sticky-target-text');
+
+      if (!pending) {
+        gTitle.innerText = "बैच तैयार है ✓";
+        gDesc.innerHTML = `<span style="color:#059669;">सभी सामग्री सही वज़न में मिल चुकी है!</span> <strong>3 मिनट</strong> अच्छी तरह मिक्स करें।`;
+        const lastW = allRows[allRows.length - 1].cumulative;
+        gTarget.innerText = `${formatNum(lastW)} ${currentUnit}`;
+        if (sStep) sStep.innerText = "बैच तैयार (3 मिनट मिक्स करें)";
+        if (sTarget) sTarget.innerText = `कुल: ${formatNum(lastW)} ${currentUnit}`;
+        return;
+      }
+
+      gTitle.innerText = `कदम ${pending.index} / ${allRows.length} · ऑपरेटर गाइड`;
+      if (pending.index === 1) {
+        gDesc.innerHTML = `खाली डिब्बा रखें और <strong>Tare (0)</strong> करें, फिर <span style="text-decoration:underline;">${pending.name}: ${formatNum(pending.weight)} ${currentUnit}</span> डालें`;
+      } else {
+        gDesc.innerHTML = `अब <span style="text-decoration:underline;">${pending.name}: +${formatNum(pending.weight)} ${currentUnit}</span> डालें`;
+      }
+      gTarget.innerText = `${formatNum(pending.cumulative)} ${currentUnit}`;
+
+      if (sStep) sStep.innerText = `कदम ${pending.index}: ${pending.name.split(' ')[0]}`;
+      if (sTarget) sTarget.innerText = `लक्ष्य: ${formatNum(pending.cumulative)} ${currentUnit}`;
+    }
+
+    // Shift Turn Counter
+    function loadShift() {
+      try {
+        const s = localStorage.getItem('rx_turns');
+        if (s) shiftTurns = JSON.parse(s);
+      } catch(e) {}
+    }
+
+    function saveShift() {
+      try {
+        localStorage.setItem('rx_turns', JSON.stringify(shiftTurns));
+      } catch(e) {}
+      updateShiftUI();
+    }
+
+    function logCompletedTurn() {
+      const { baseWeight, totalWeight } = getCalc();
+      if (totalWeight <= 0) return;
+
+      shiftTurns.push({
+        num: shiftTurns.length + 1,
+        time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }),
+        system: currentSystem,
+        base: baseWeight,
+        total: totalWeight,
+        unit: currentUnit
+      });
+
+      saveShift();
+      checkedSteps = {};
+      renderAll();
+
+      const btn = document.getElementById('btn-log-turn');
+      btn.innerText = "✓ दर्ज हुआ!";
+      setTimeout(() => updateShiftUI(), 1000);
+    }
+
+    function resetShift() {
+      if (confirm("क्या आप आज की शिफ्ट का टर्न काउंटर रीसेट करना चाहते हैं?")) {
+        shiftTurns = [];
+        saveShift();
+        checkedSteps = {};
+        renderAll();
+      }
+    }
+
+    function updateShiftUI() {
+      const count = shiftTurns.length;
+      document.getElementById('current-turn-num').innerText = '#' + (count + 1);
+      document.getElementById('btn-log-turn').innerText = `✓ टर्न ${count + 1} पूरा हुआ (+1)`;
+
+      let totalKg = 0;
+      shiftTurns.forEach(t => totalKg += (t.unit === 'g' ? t.total / 1000 : t.total));
+      document.getElementById('shift-summary-text').innerText = `${count} टर्न | ${totalKg.toFixed(2)} kg कुल`;
+    }
+
+    // TAB 2: BOM PLANNER
+    function setFGPreset(kg) {
+      document.getElementById('fg-input').value = kg;
+      calcBOM();
+    }
+
+    function calcBOM() {
+      const fg = parseFloat(document.getElementById('fg-input').value) || 0;
+      const glass = fg * 0.795;
+      const resin = fg * 0.205;
+
+      document.getElementById('bom-glass-kg').innerText = glass.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' kg';
+      document.getElementById('bom-glass-spools').innerText = `~${Math.ceil(glass / 18)} स्पूल (18 kg ea)`;
+
+      document.getElementById('bom-resin-kg').innerText = resin.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' kg';
+
+      // Epoxy recipe parts
+      const recipe = recipes.epoxy;
+      let parts = 0;
+      recipe.items.forEach(i => parts += (parseFloat(i.pct) || 0));
+
+      const bBody = document.getElementById('bom-tbody');
+      bBody.innerHTML = '';
+      let baseResinKg = 0;
+
+      recipe.items.forEach((item, idx) => {
+        const req = parts > 0 ? (resin * (parseFloat(item.pct) || 0)) / parts : 0;
+        if (item.isBase) baseResinKg = req;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="text-align:center; font-weight:800;">${idx + 1}</td>
+          <td><strong>${item.name}</strong></td>
+          <td style="text-align:right;">${item.pct}%</td>
+          <td style="text-align:right; font-weight:900; color:#0f172a;">${req.toFixed(2)} kg</td>
+          <td style="font-size:11px; color:#64748b;">${item.pack}</td>
+          <td class="print-only" style="border-bottom:1px solid #000;"></td>
+        `;
+        bBody.appendChild(tr);
+      });
+
+      document.getElementById('bom-drums-count').innerText = `~${(baseResinKg / 240).toFixed(2)} ड्रम (${baseResinKg.toFixed(1)} kg)`;
+      document.getElementById('bom-footer-total').innerText = resin.toFixed(2) + ' kg';
+      document.getElementById('bom-footer-grand').innerText = fg.toLocaleString() + ' kg कुल';
+    }
+
+    // Overpour Rebalancer
+    function populateOverpour() {
+      const sel = document.getElementById('overpour-select');
+      sel.innerHTML = '';
+      recipes[currentSystem].items.forEach(i => {
+        const o = document.createElement('option');
+        o.value = i.id;
+        o.innerText = i.name;
+        sel.appendChild(o);
+      });
+    }
+
+    function toggleOverpour() {
+      const b = document.getElementById('overpour-body');
+      const btn = document.getElementById('btn-toggle-overpour');
+      const isHidden = b.style.display === 'none';
+      b.style.display = isHidden ? 'block' : 'none';
+      btn.innerText = isHidden ? 'सुधार टूल बंद करें ▲' : 'सुधार टूल खोलें ▼';
+    }
+
+    function applyOverpour() {
+      const id = document.getElementById('overpour-select').value;
+      const actual = parseFloat(document.getElementById('overpour-actual').value) || 0;
+      if (actual <= 0) return;
+
+      const item = recipes[currentSystem].items.find(i => i.id === id);
+      if (!item || item.pct <= 0) return;
+
+      const newBase = (actual * 100) / item.pct;
+      isBatchTargetMode = false;
+      document.getElementById('base-weight-input').value = Number(newBase.toFixed(3));
+      document.getElementById('mode-btn').innerText = 'कुल बैच वज़न से निकालें';
+
+      updateLive();
+
+      const msg = document.getElementById('overpour-msg');
+      msg.style.display = 'block';
+      msg.innerHTML = `✓ री-कैलकुलेशन सफल! बेस रेज़िन नया वज़न: <strong>${formatNum(newBase)} ${currentUnit}</strong>।`;
+    }
+
+    // A4 Sheet & Voucher Print Function
+    function prepareAndPrint() {
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-GB') + ' ' + 
+                      now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+
+      // Tab 1 Meta
+      const pDate = document.getElementById('print-date');
+      if (pDate) pDate.innerText = dateStr;
+
+      const pSys = document.getElementById('print-system');
+      if (pSys) pSys.innerText = currentSystem === 'epoxy' ? 'इपॉक्सी (Epoxy NVC ADB)' : 'पॉलिएस्टर (Polyester Agri)';
+
+      const inpVal = document.getElementById('base-weight-input') ? document.getElementById('base-weight-input').value : '10';
+      const { totalWeight } = getCalc();
+
+      const pBase = document.getElementById('print-base-w');
+      if (pBase) pBase.innerText = `${inpVal} ${currentUnit}`;
+
+      const pTotal = document.getElementById('print-total-w');
+      if (pTotal) pTotal.innerText = `${formatNum(totalWeight)} ${currentUnit}`;
+
+      const pTurn = document.getElementById('print-turn');
+      if (pTurn) pTurn.innerText = `टर्न #${shiftTurns.length + 1}`;
+
+      // Tab 2 Meta
+      const pBomDate = document.getElementById('print-bom-date');
+      if (pBomDate) pBomDate.innerText = dateStr;
+
+      const fgVal = document.getElementById('fg-input') ? document.getElementById('fg-input').value : '2000';
+      const pBomFg = document.getElementById('print-bom-fg');
+      if (pBomFg) pBomFg.innerText = `${Number(fgVal).toLocaleString('en-US')} kg सरिया`;
+
+      const bGlass = document.getElementById('bom-glass-kg');
+      const bSpools = document.getElementById('bom-glass-spools');
+      const pBomGlass = document.getElementById('print-bom-glass');
+      if (pBomGlass && bGlass && bSpools) pBomGlass.innerText = `${bGlass.innerText} (${bSpools.innerText})`;
+
+      const bResin = document.getElementById('bom-resin-kg');
+      const bDrums = document.getElementById('bom-drums-count');
+      const pBomResin = document.getElementById('print-bom-resin');
+      if (pBomResin && bResin && bDrums) pBomResin.innerText = `${bResin.innerText} (${bDrums.innerText})`;
+
+      // Trigger standard browser print dialogue
+      window.print();
+    }
+  </script>
+</body>
+</html>
