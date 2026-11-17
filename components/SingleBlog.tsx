@@ -103,6 +103,50 @@ const LexicalContentRenderer = ({ content, className = "" }: any) => {
           </blockquote>
         );
 
+      case "table":
+        return (
+          <div key={index} className="overflow-x-auto my-6">
+            <table className="w-full text-left border-collapse border border-gray-200 text-sm">
+              <tbody>
+                {node.children?.map((child: any, i: number) => renderNode(child, i))}
+              </tbody>
+            </table>
+          </div>
+        );
+
+      case "tablerow":
+        return (
+          <tr key={index} className="border-b border-gray-200 hover:bg-gray-50">
+            {node.children?.map((child: any, i: number) => renderNode(child, i))}
+          </tr>
+        );
+
+      case "tableheader":
+        return (
+          <th key={index} className="bg-gray-100 font-semibold p-3 border border-gray-200 text-gray-900 text-sm">
+            {node.children?.map((child: any, i: number) => {
+              if (child.type === "text") return renderTextNode(child, i);
+              if (child.type === "paragraph") {
+                return child.children?.map((tc: any, ti: number) => renderTextNode(tc, ti));
+              }
+              return renderNode(child, i);
+            })}
+          </th>
+        );
+
+      case "tablecell":
+        return (
+          <td key={index} className="p-3 border border-gray-200 text-gray-700 text-sm">
+            {node.children?.map((child: any, i: number) => {
+              if (child.type === "text") return renderTextNode(child, i);
+              if (child.type === "paragraph") {
+                return child.children?.map((tc: any, ti: number) => renderTextNode(tc, ti));
+              }
+              return renderNode(child, i);
+            })}
+          </td>
+        );
+
       case "upload":
         if (node.value?.cloudinaryUrl) {
           return (
