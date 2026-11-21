@@ -24,10 +24,20 @@ export default function ComparisonTable({ sections }: { sections: any[] }) {
       bSpecs.find(
         (b) => b.label.toLowerCase() === a.label.toLowerCase()
       ) ?? bSpecs[i];
-    return { label: a.label, a: a.value, b: match?.value ?? "—" };
+    let aVal = a.value;
+    if (/80%\s*lighter/i.test(aVal)) {
+      aVal = aVal.replace(/80%\s*lighter/gi, "4× lighter (~75% lighter)");
+    }
+    return { label: a.label, a: aVal, b: match?.value ?? "—" };
   });
 
-  const advantages = toLines(extra?.properties?.[0]?.property);
+  const rawAdvantages = toLines(extra?.properties?.[0]?.property);
+  const advantages = rawAdvantages.map((adv) => {
+    if (/vastu/i.test(adv)) {
+      return "Non-magnetic & non-conductive (zero electromagnetic interference for hospitals, MRI rooms & substations)";
+    }
+    return adv;
+  });
 
   return (
     <>

@@ -111,16 +111,19 @@ export default function Nav({
           className={`rx-nav__links${open ? " rx-nav__links--open" : ""}`}
           aria-label="Primary"
         >
-          {links.map((l) => (
-            <Link
-              key={l.url + l.label}
-              href={l.url}
-              className="rx-nav__link"
-              onClick={() => setOpen(false)}
-            >
-              {l.label}
-            </Link>
-          ))}
+          {links.map((l) => {
+            const href = l.url.startsWith("#") ? `/${l.url}` : l.url;
+            return (
+              <Link
+                key={l.url + l.label}
+                href={href}
+                className="rx-nav__link"
+                onClick={() => setOpen(false)}
+              >
+                {l.label}
+              </Link>
+            );
+          })}
 
           {/* Desktop: dropdown. In the mobile panel the menu renders inline
               under the trigger, so the same component serves both. */}
@@ -129,7 +132,7 @@ export default function Nav({
           {/* The header CTA is hidden on small screens, so repeat it here. */}
           {cta ? (
             <Link
-              href={cta.url}
+              href={cta.url.startsWith("#") ? `/${cta.url}` : cta.url}
               className="rx-nav__link rx-nav__link--cta"
               onClick={() => setOpen(false)}
             >
@@ -140,7 +143,7 @@ export default function Nav({
 
         {cta ? (
           <div className="rx-nav__cta">
-            <Btn href={cta.url}>{cta.label}</Btn>
+            <Btn href={cta.url.startsWith("#") ? `/${cta.url}` : cta.url}>{cta.label}</Btn>
           </div>
         ) : null}
 

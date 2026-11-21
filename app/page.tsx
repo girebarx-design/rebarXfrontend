@@ -10,15 +10,20 @@ import { DOWNLOADS } from "@/lib/downloads";
 export const revalidate = 86400; // 24 hours
 
 export const metadata: Metadata = {
-  title: "GFRP Rebar Manufacturer in India | RebarX — Rustfree",
+  title: "RebarX — GFRP Rebar Manufacturer in India | Rust-Free Composite Reinforcement",
   description:
-    "RebarX manufactures GFRP (glass fibre reinforced polymer) rebar in India — 2x the tensile strength of steel, 4x lighter, and 100% corrosion-proof. Used in slabs, bridges, marine and water infrastructure. Pan-India delivery and export.",
+    "RebarX manufactures GFRP (glass fibre reinforced polymer) rebar in India per IS 18256:2023. Up to 2x tensile strength of TMT steel, 4x lighter (75% less weight), and 100% corrosion-proof. Pan-India dispatch from Pithampur, MP.",
   keywords: [
+    "RebarX",
+    "RebarX GFRP",
+    "RebarX India",
+    "RebarX Sariya",
     "GFRP rebar",
     "GFRP rebar manufacturer India",
-    "FRP rebar",
+    "FRP rebar India",
     "glass fibre reinforced polymer rebar",
     "corrosion free rebar",
+    "IS 18256 GFRP rebar",
     "TMT steel alternative",
     "composite rebar India",
   ],
@@ -27,15 +32,15 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://www.rebarx.in/",
     siteName: "RebarX",
-    title: "GFRP Rebar Manufacturer in India | RebarX",
+    title: "RebarX — GFRP Rebar Manufacturer in India",
     description:
-      "Rust-free, 2x stronger GFRP rebar for slabs, bridges, marine and water infrastructure. Manufactured in India with European technology.",
+      "Rust-free, up to 2x stronger GFRP rebar conforming to IS 18256:2023. 4x lighter than steel with 80+ years design service life.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "GFRP Rebar Manufacturer in India | RebarX",
+    title: "RebarX — GFRP Rebar Manufacturer in India",
     description:
-      "Rust-free, 2x stronger GFRP rebar. Manufactured in India with European technology.",
+      "Rust-free, up to 2x stronger GFRP rebar. Manufactured in Pithampur, MP per IS 18256:2023.",
   },
 };
 
@@ -51,10 +56,10 @@ function Headline({ text }: { text: string }) {
 }
 
 const STATS = [
-  { n: "2×", l: "Tensile strength of TMT steel" },
-  { n: "4×", l: "Lighter to handle and transport" },
-  { n: "80+yr", l: "Design service life" },
-  { n: "0", l: "Corrosion, rust stains or theft value" },
+  { n: "2×", l: "Tensile strength (up to 1000 MPa per size)" },
+  { n: "4×", l: "Lighter to handle & transport (75% less weight)" },
+  { n: "80+yr", l: "Design service life in concrete" },
+  { n: "0", l: "Corrosion, rust spalling or scrap theft risk" },
 ];
 
 export default async function Home() {
@@ -72,8 +77,73 @@ export default async function Home() {
   const cta = b["cta-section"] ?? {};
   const marquee = b.marquee ?? {};
 
+  // Sanitize savings claim to "Up to 30% savings on reinforcement costs"
+  const heroSubtext =
+    "Up to 30% savings on reinforcement costs with zero corrosion over an 80+ year design life.";
 
-  const faqItems = (faq.faqs ?? []) as { question: string; answer: string }[];
+  // Sanitize marquee items to align claims
+  const marqueeItems = [
+    { text: "2x Tensile Strength of Steel" },
+    { text: "4× Lighter (75% Weight Reduction)" },
+    { text: "Zero Corrosion & Rust-Proof" },
+    { text: "Up to 30% Reinforcement Savings" },
+    { text: "No Scrap Theft Risk" },
+    { text: "80+ Year Design Life" },
+    { text: "IS 18256:2023 Compliant" },
+  ];
+
+  // Sanitize about attributes (replace "Globally Certified" with exact standard)
+  const rawAttrs = (about.attributes ?? []) as any[];
+  const aboutAttrs = rawAttrs.map((a) => {
+    if (/globally|certified/i.test(a.title)) {
+      return { ...a, title: "IS 18256 & ACI 440" };
+    }
+    return a;
+  });
+
+  // Sanitize products to true manufactured range (3–20mm straight, 6–16mm bents)
+  const rawProducts = (prod.products ?? []) as any[];
+  const sanitizedProducts = rawProducts.map((p) => {
+    if (/straight|rebar/i.test(p.title) && !/bent/i.test(p.title)) {
+      return {
+        ...p,
+        title: "RebarX Straight Rebars",
+        bio: "Manufactured in 3 mm to 20 mm nominal diameters (structural sizes: 6 mm to 20 mm). Available in custom cut-to-length bundles to ensure zero site wastage.",
+      };
+    }
+    if (/bent/i.test(p.title)) {
+      return {
+        ...p,
+        title: "RebarX Factory Bents & Stirrups",
+        bio: "Factory pre-formed stirrups, links, and L-bends in 6 mm to 16 mm diameters. Pre-cured during factory pultrusion; no field bending required.",
+      };
+    }
+    return p;
+  });
+
+  // Sanitize FAQs
+  const rawFaqs = (faq.faqs ?? []) as { question: string; answer: string }[];
+  const sanitizedFaqs = rawFaqs.map((f) => {
+    if (/plastic/i.test(f.question)) {
+      return {
+        question: "Is GFRP rebar plastic?",
+        answer:
+          "Not a thermoplastic. GFRP (Glass Fiber Reinforced Polymer) consists of continuous high-strength ECR glass fibers bound in a rigid, hot-cured thermosetting epoxy resin matrix. Unlike ordinary plastics, it does not melt, creep, or deform under ambient heat, and delivers guaranteed structural tensile strength exceeding standard steel.",
+      };
+    }
+    let ans = f.answer;
+    if (/80%\s*lighter/i.test(ans)) {
+      ans = ans.replace(/up to 80%\s*lighter/gi, "4x lighter (~75% lighter)");
+      ans = ans.replace(/80%\s*lighter/gi, "4x lighter (~75% lighter)");
+    }
+    if (/2x\s*stronger/i.test(ans) && !ans.includes("IS 18256")) {
+      ans = ans.replace(/2x\s*stronger/gi, "up to 2x tensile strength per IS 18256");
+    }
+    return { ...f, answer: ans };
+  });
+
+  const ctaTitle =
+    "Let us connect to discuss how RebarX delivers better concrete construction at up to 30% lower reinforcement costs.";
 
   const productImage =
     prod.products?.[0]?.image?.cloudinaryUrl ?? hero.posterImage?.cloudinaryUrl;
@@ -89,21 +159,48 @@ export default async function Home() {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "Organization",
+        "@type": ["Organization", "Manufacturer"],
         "@id": "https://www.rebarx.in/#org",
         name: "RebarX",
+        alternateName: [
+          "RebarX GFRP",
+          "RebarX India",
+          "RebarX Sariya",
+          "RebarX GFRP Rebar",
+          "Credific Ventures"
+        ],
         legalName: "Credific Ventures Private Limited",
         url: "https://www.rebarx.in/",
+        logo: "https://res.cloudinary.com/dpdq6pwvr/image/upload/v1752335490/payload-media/logo__11.1_transparent.png",
+        image: "https://res.cloudinary.com/dpdq6pwvr/image/upload/v1752335490/payload-media/logo__11.1_transparent.png",
         description:
-          "Manufacturer of GFRP (glass fibre reinforced polymer) rebar in India.",
+          "Manufacturer of GFRP (glass fibre reinforced polymer) composite reinforcement rebars in India conforming to IS 18256:2023.",
         telephone: "+91-9530013034",
         email: "hello@rebarx.in",
+        founder: {
+          "@type": "Person",
+          name: "Kapil Agrawal",
+          jobTitle: "Founder & Director",
+          alumniOf: {
+            "@type": "CollegeOrUniversity",
+            name: "Indian Institute of Technology Kharagpur"
+          }
+        },
+        knowsAbout: [
+          "GFRP Rebar",
+          "Glass Fiber Reinforced Polymer",
+          "IS 18256:2023",
+          "IS 18255:2023",
+          "ACI 440.11-22",
+          "Corrosion-Free Concrete Reinforcement"
+        ],
         ...(sameAs.length ? { sameAs } : {}),
         address: {
           "@type": "PostalAddress",
           streetAddress: "Plot Number 8B, 8C, Industrial Area - Sector 3",
           addressLocality: "Pithampur",
           addressRegion: "Madhya Pradesh",
+          postalCode: "454774",
           addressCountry: "IN",
         },
       },
@@ -112,22 +209,23 @@ export default async function Home() {
         "@id": "https://www.rebarx.in/#site",
         url: "https://www.rebarx.in/",
         name: "RebarX",
+        alternateName: ["RebarX GFRP Rebar", "RebarX India"],
         publisher: { "@id": "https://www.rebarx.in/#org" },
       },
       {
         "@type": "Product",
         name: "RebarX GFRP Rebar",
         brand: { "@id": "https://www.rebarx.in/#org" },
-        material: "Glass Fibre Reinforced Polymer",
+        material: "Glass Fibre Reinforced Polymer (100% Epoxy Matrix)",
         description:
-          "Corrosion-proof GFRP reinforcement bar with up to 2x the tensile strength of TMT steel (1000 MPa) at a quarter of the weight. Straight bars 3–20mm; bends 6–16mm.",
+          "Corrosion-proof GFRP reinforcement bar with up to 2x the tensile strength of TMT steel at one-fourth the weight (4x lighter). Straight bars 3–20mm; factory pre-formed bends 6–16mm.",
         ...(productImage ? { image: [productImage] } : {}),
       },
-      ...(faqItems.length
+      ...(sanitizedFaqs.length
         ? [
             {
               "@type": "FAQPage",
-              mainEntity: faqItems.map((f) => ({
+              mainEntity: sanitizedFaqs.map((f) => ({
                 "@type": "Question",
                 name: f.question,
                 acceptedAnswer: { "@type": "Answer", text: f.answer },
@@ -171,9 +269,9 @@ export default async function Home() {
 
           <div className="rx-wrap">
             <div className="rx-hero__in">
-              {hero.label ? <Eyebrow>{hero.label}</Eyebrow> : null}
+              <Eyebrow>{hero.label ?? "RebarX® GFRP Reinforcement"}</Eyebrow>
               <Headline text={hero.headline ?? "Stronger. Lighter. Rustfree."} />
-              {hero.subtext ? <p className="rx-hero__sub">{hero.subtext}</p> : null}
+              <p className="rx-hero__sub">{heroSubtext}</p>
               <div className="rx-hero__cta">
                 <Btn href={hero.button?.link ?? "#calculator"} variant="brass">
                   {hero.button?.text ?? "Find Savings"}
@@ -202,17 +300,15 @@ export default async function Home() {
         </section>
 
         {/* ---------------- MARQUEE ---------------- */}
-        {marquee.items?.length ? (
-          <div className="rx-marquee" aria-hidden="true">
-            <div className="rx-marquee__track">
-              {[...marquee.items, ...marquee.items].map((m: any, i: number) => (
-                <span className="rx-marquee__item" key={i}>
-                  {m.text}
-                </span>
-              ))}
-            </div>
+        <div className="rx-marquee" aria-hidden="true">
+          <div className="rx-marquee__track">
+            {[...marqueeItems, ...marqueeItems].map((m: any, i: number) => (
+              <span className="rx-marquee__item" key={i}>
+                {m.text}
+              </span>
+            ))}
           </div>
-        ) : null}
+        </div>
 
         {/* ---------------- ABOUT ---------------- */}
         <section className="rx-section rx-about" id="about" data-section="about">
@@ -225,9 +321,9 @@ export default async function Home() {
                   <p className="rx-about__p">{about.sectionDescription}</p>
                 ) : null}
 
-                {about.attributes?.length ? (
+                {aboutAttrs.length ? (
                   <div className="rx-attrs">
-                    {about.attributes.map((a: any, i: number) => (
+                    {aboutAttrs.map((a: any, i: number) => (
                       <div className="rx-attr" key={i}>
                         {a.image?.cloudinaryUrl ? (
                           <img
@@ -298,6 +394,62 @@ export default async function Home() {
           </div>
         </section>
 
+        {/* ---------------- STANDARDS & TECHNICAL COMPLIANCE ---------------- */}
+        <section className="rx-section rx-on-dark" data-section="standards">
+          <div className="rx-wrap">
+            <div className="rx-head">
+              <Eyebrow>Quality &amp; Compliance</Eyebrow>
+              <h2>Engineered Strictly to Indian &amp; Global Standards</h2>
+              <p>
+                Every consignment manufactured at our Pithampur (MP) facility is dispatched
+                with a lot-specific test certificate verifying physical dimensions, guaranteed
+                tensile capacity, and 100% structural epoxy matrix declaration.
+              </p>
+            </div>
+            <div
+              className="rx-apps__grid"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                gap: "24px",
+              }}
+            >
+              <article className="rx-app">
+                <div className="rx-app__k">BIS Specification</div>
+                <h3>IS 18256:2023</h3>
+                <p>
+                  Full material conformance for Glass Fibre Reinforced Polymer bars in concrete reinforcement. 
+                  Guaranteed tensile force per Table 1; minimum fibre content ≥75%; glass transition temp Tg ≥100°C.
+                </p>
+              </article>
+              <article className="rx-app">
+                <div className="rx-app__k">Test Methodology</div>
+                <h3>IS 18255:2023</h3>
+                <p>
+                  Standard testing procedures for tensile properties, bond strength, immersion cross-sectional area, 
+                  and chemical resistance against alkaline concrete attack.
+                </p>
+              </article>
+              <article className="rx-app">
+                <div className="rx-app__k">Highways &amp; Bridges</div>
+                <h3>IRC 137:2022 / MoRTH</h3>
+                <p>
+                  Indian Roads Congress and Ministry of Road Transport guidelines for FRP bars in bridge decks, 
+                  box culverts, crash barriers, and coastal highway drainage.
+                </p>
+              </article>
+              <article className="rx-app">
+                <div className="rx-app__k">Precast &amp; Drainage</div>
+                <h3>IS 458 Inclusion</h3>
+                <p>
+                  Standardization and technical committee adoption work is actively underway for precast 
+                  concrete pipes, storm water culverts, and municipal drainage.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+
         {/* ---------------- PRODUCTS ---------------- */}
         <section className="rx-section rx-prod" data-section="products">
           <div className="rx-wrap">
@@ -310,7 +462,7 @@ export default async function Home() {
               </p>
             </div>
             <div className="rx-prod__grid">
-              {(prod.products ?? []).map((p: any, i: number) => (
+              {sanitizedProducts.map((p: any, i: number) => (
                 <article className="rx-prod__card" key={i}>
                   <div className="rx-prod__img">
                     {p.image?.cloudinaryUrl ? (
@@ -376,14 +528,14 @@ export default async function Home() {
         ) : null}
 
         {/* ---------------- FAQ ---------------- */}
-        {faqItems.length ? (
+        {sanitizedFaqs.length ? (
           <section className="rx-section rx-prod" data-section="faq">
             <div className="rx-wrap">
               <div className="rx-head">
                 <Eyebrow>Questions</Eyebrow>
                 <h2>{faq.sectionTitle ?? "Frequently asked questions"}</h2>
               </div>
-              <Faq items={faqItems} />
+              <Faq items={sanitizedFaqs} />
             </div>
           </section>
         ) : null}
@@ -431,7 +583,7 @@ export default async function Home() {
         <section className="rx-section rx-cta rx-on-dark" data-section="cta">
           <div className="rx-wrap">
             {cta.smallHeading ? <Eyebrow>{cta.smallHeading}</Eyebrow> : null}
-            <h2>{cta.title}</h2>
+            <h2>{ctaTitle}</h2>
             <div className="rx-cta__row">
               <Btn href={cta.button1?.link ?? "/contact"} variant="brass">
                 {cta.button1?.label ?? "Contact us"}

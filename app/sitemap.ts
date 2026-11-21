@@ -99,6 +99,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "monthly",
         priority: 0.8,
       },
+      {
+        url: `${FRONTEND_URL}/privacy`,
+        lastModified: new Date(),
+        changeFrequency: "yearly",
+        priority: 0.5,
+      },
+      {
+        url: `${FRONTEND_URL}/terms`,
+        lastModified: new Date(),
+        changeFrequency: "yearly",
+        priority: 0.5,
+      },
       // Geo-landing pages (one per state RebarX has meaningful delivery
       // volume in) — driven by lib/geo-pages.ts so a new state page just
       // needs an entry there, not a second edit here.

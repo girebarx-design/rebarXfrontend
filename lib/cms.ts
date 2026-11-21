@@ -9,7 +9,13 @@ export type Block = Record<string, any>;
 // LocalBusiness JSON-LD (same @id: https://www.rebarx.in/#org), so Google
 // and AI crawlers link this listing to the on-site entity instead of
 // treating it as an unrelated business.
-export const ORG_SAME_AS = ["https://www.indiamart.com/credificventures/"];
+export const ORG_SAME_AS = [
+  "https://www.indiamart.com/credificventures/",
+  "https://www.facebook.com/RebarX",
+  "https://www.facebook.com/profile.php?id=61583045324381",
+  "https://www.instagram.com/rebarx.sariya/",
+  "https://www.youtube.com/@RebarX_Fibre_Sariya",
+];
 
 /**
  * Inserts Cloudinary's auto-format/auto-quality transformation so the

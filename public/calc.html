@@ -2,28 +2,54 @@
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>RebarX रेज़िन & प्रोडक्शन कैलकुलेटर</title>
-  <!-- 100% SELF-CONTAINED CSS (NO EXTERNAL CDN - WORKS OFFLINE & INSIDE WHATSAPP) -->
+  
+  <!-- Mobile & PWA Optimization Meta -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="RebarX Calc">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="format-detection" content="telephone=no">
+
+  <!-- 100% SELF-CONTAINED CSS (ZERO DEPENDENCIES - OFFLINE READY) -->
   <style>
+    :root {
+      --sat: env(safe-area-inset-top, 0px);
+      --sar: env(safe-area-inset-right, 0px);
+      --sab: env(safe-area-inset-bottom, 0px);
+      --sal: env(safe-area-inset-left, 0px);
+    }
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
     }
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      height: 100%;
+    }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background-color: #f1f5f9;
       color: #0f172a;
       line-height: 1.4;
-      padding: 8px;
-      padding-bottom: 90px;
+      padding-top: max(10px, var(--sat));
+      padding-left: max(10px, var(--sal));
+      padding-right: max(10px, var(--sar));
+      padding-bottom: calc(110px + var(--sab));
       overflow-x: hidden;
+      width: 100%;
+      min-height: 100%;
     }
-    input, select, button {
+    /* Strictly >= 16px to prevent iOS Safari auto-zoom on input focus */
+    input, select, textarea, button {
       font-family: inherit;
-      font-size: 16px; /* Prevents auto-zoom on iOS */
+      font-size: 16px !important;
+      touch-action: manipulation;
     }
     input[type=number]::-webkit-inner-spin-button, 
     input[type=number]::-webkit-outer-spin-button { 
@@ -31,6 +57,7 @@
       margin: 0; 
     }
     .container {
+      width: 100%;
       max-width: 800px;
       margin: 0 auto;
       display: flex;
@@ -44,12 +71,14 @@
       border-radius: 12px;
       padding: 14px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      width: 100%;
+      overflow: hidden;
     }
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       gap: 8px;
     }
     .badge-brand {
@@ -74,22 +103,24 @@
       border-radius: 8px;
       gap: 4px;
       margin-top: 8px;
+      width: 100%;
     }
     .nav-tab-btn {
       flex: 1;
-      padding: 8px 10px;
+      padding: 10px 8px;
       border: none;
       background: transparent;
-      font-weight: 700;
-      font-size: 13px;
+      font-weight: 800;
+      font-size: 13px !important;
       color: #475569;
       border-radius: 6px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      text-align: center;
       transition: all 0.15s ease;
+      min-height: 44px;
     }
     .nav-tab-btn.active {
       background: #ffffff;
@@ -98,16 +129,19 @@
     }
     /* Unit Toggle Buttons */
     .unit-toggle-btn {
-      padding: 8px 14px;
-      font-size: 13px;
+      flex: 1;
+      padding: 8px 12px;
+      font-size: 13px !important;
       font-weight: 800;
       border-radius: 8px;
       border: 2px solid #0f172a;
       background: #f8fafc;
       color: #334155;
       cursor: pointer;
-      touch-action: manipulation;
-      min-height: 40px;
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       transition: all 0.15s ease;
     }
     .unit-toggle-btn.active {
@@ -123,10 +157,15 @@
       border: 2px solid #0f172a;
       background: #ffffff;
       display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .shift-box-row {
+      display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      flex-wrap: wrap;
+      width: 100%;
     }
     .turn-badge {
       background: #0f172a;
@@ -134,7 +173,7 @@
       padding: 6px 12px;
       border-radius: 8px;
       text-align: center;
-      min-width: 80px;
+      min-width: 75px;
     }
     .turn-badge-label {
       font-size: 10px;
@@ -143,22 +182,31 @@
       text-transform: uppercase;
     }
     .turn-badge-num {
-      font-size: 26px;
+      font-size: 24px;
       font-weight: 900;
       line-height: 1.1;
     }
+    .shift-actions {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
     .btn-turn-log {
+      flex: 1;
       background: #059669;
       color: white;
       border: none;
-      padding: 10px 16px;
+      padding: 10px 14px;
       border-radius: 8px;
-      font-size: 14px;
+      font-size: 14px !important;
       font-weight: 800;
       cursor: pointer;
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
+      min-height: 44px;
+      transition: transform 0.1s ease, background 0.1s ease;
     }
     .btn-turn-log:active {
       background: #047857;
@@ -168,11 +216,20 @@
       background: #f1f5f9;
       color: #334155;
       border: 1px solid #cbd5e1;
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-size: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px !important;
       font-weight: 700;
       cursor: pointer;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.1s ease;
+    }
+    .btn-secondary:active {
+      background: #e2e8f0;
+      transform: scale(0.97);
     }
     /* Live Step Card */
     .step-banner {
@@ -192,66 +249,90 @@
       border-radius: 8px;
       padding: 6px 14px;
       text-align: center;
-      min-width: 140px;
+      min-width: 130px;
+      flex-shrink: 0;
     }
     .target-val {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 900;
       color: #0f172a;
+      white-space: nowrap;
     }
-    /* Inputs */
+    /* Base Input Section */
+    .base-input-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+    }
     .input-row {
       display: flex;
       gap: 8px;
-      margin-top: 6px;
+      align-items: center;
+      width: 100%;
     }
     .text-input {
       flex: 1;
+      width: 100%;
       background: #f8fafc;
       border: 2px solid #94a3b8;
       border-radius: 8px;
       padding: 8px 12px;
-      font-size: 20px;
+      font-size: 20px !important;
       font-weight: 900;
       color: #0f172a;
       outline: none;
+      min-height: 46px;
     }
     .text-input:focus {
       border-color: #0f172a;
+      background: #ffffff;
     }
     .preset-btn {
       background: #f1f5f9;
       border: 1px solid #cbd5e1;
-      padding: 5px 10px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 700;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px !important;
+      font-weight: 800;
       color: #334155;
       cursor: pointer;
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
     }
-    /* Component Touch Cards (Mobile First) */
+    .preset-btn:active {
+      background: #e2e8f0;
+      transform: scale(0.96);
+    }
+    /* Component Touch Cards */
     .component-card {
       background: #ffffff;
-      border: 1px solid #cbd5e1;
+      border: 1.5px solid #cbd5e1;
       border-radius: 10px;
       padding: 12px;
       margin-bottom: 8px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
+      transition: border-color 0.15s ease, background 0.15s ease;
     }
     .component-card.done {
       background: #f8fafc;
-      opacity: 0.6;
+      border-color: #94a3b8;
+      opacity: 0.65;
     }
     .comp-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 8px;
     }
     .step-circle {
-      width: 24px;
-      height: 24px;
+      width: 26px;
+      height: 26px;
       background: #0f172a;
       color: #ffffff;
       border-radius: 50%;
@@ -260,14 +341,40 @@
       justify-content: center;
       font-size: 12px;
       font-weight: 900;
+      flex-shrink: 0;
+    }
+    .btn-check {
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1.5px solid #0f172a;
+      background: #ffffff;
+      font-size: 13px !important;
+      font-weight: 800;
+      color: #0f172a;
+      cursor: pointer;
+      min-height: 42px;
+      min-width: 80px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+    .btn-check.checked {
+      background: #059669;
+      color: #ffffff;
+      border-color: #059669;
+    }
+    .btn-check:active {
+      transform: scale(0.95);
     }
     .comp-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1.2fr;
-      gap: 8px;
+      gap: 6px;
       align-items: center;
       background: #f8fafc;
-      padding: 8px;
+      padding: 8px 10px;
       border-radius: 8px;
       border: 1px solid #e2e8f0;
     }
@@ -276,11 +383,13 @@
       font-weight: 800;
       color: #64748b;
       text-transform: uppercase;
+      white-space: nowrap;
     }
     .comp-val-main {
       font-size: 14px;
       font-weight: 900;
-      color: #0f172a;
+      color: #059669;
+      white-space: nowrap;
     }
     .comp-target-box {
       background: #fef3c7;
@@ -290,24 +399,25 @@
       text-align: right;
     }
     .comp-target-num {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 900;
       color: #92400e;
+      white-space: nowrap;
     }
-    .btn-check {
-      padding: 6px 12px;
+    .comp-input {
+      width: 58px;
+      padding: 4px 4px;
+      font-weight: 900;
+      border: 1.5px solid #cbd5e1;
       border-radius: 6px;
-      border: 1px solid #cbd5e1;
-      background: #f8fafc;
-      font-size: 12px;
-      font-weight: 800;
-      color: #334155;
-      cursor: pointer;
+      font-size: 16px !important;
+      text-align: center;
+      background: #ffffff;
+      min-height: 38px;
+      outline: none;
     }
-    .btn-check.checked {
-      background: #059669;
-      color: white;
-      border-color: #059669;
+    .comp-input:focus {
+      border-color: #0f172a;
     }
     /* Sticky Mobile Bottom Bar */
     .sticky-bar {
@@ -318,12 +428,19 @@
       background: #0f172a;
       color: #ffffff;
       padding: 10px 14px;
+      padding-bottom: max(10px, calc(10px + var(--sab)));
       border-top: 3px solid #f59e0b;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 -4px 10px rgba(0,0,0,0.15);
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.2);
       z-index: 999;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    body.keyboard-open .sticky-bar {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(100%);
     }
     /* Table styles for Desktop & Print */
     table {
@@ -333,8 +450,8 @@
     }
     th, td {
       border: 1px solid #cbd5e1;
-      padding: 6px 8px;
-      font-size: 12px;
+      padding: 8px 10px;
+      font-size: 13px;
       text-align: left;
     }
     th {
@@ -352,24 +469,11 @@
         display: none;
       }
       .sticky-bar {
-        display: none;
+        display: none !important;
       }
       body {
-        padding-bottom: 20px;
+        padding-bottom: 24px;
       }
-    }
-    /* WhatsApp Notice Box */
-    .wa-tip {
-      background: #dcfce7;
-      border: 1px solid #86efac;
-      color: #166534;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 6px 10px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
     /* Print Button Styles */
     .print-only {
@@ -381,13 +485,13 @@
       border: 1px solid #0f172a;
       border-radius: 8px;
       padding: 8px 14px;
-      font-size: 13px;
+      font-size: 13px !important;
       font-weight: 800;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      touch-action: manipulation;
+      min-height: 42px;
       transition: all 0.15s ease;
     }
     .btn-print:active {
@@ -399,14 +503,14 @@
       color: #0f172a;
       border: 1.5px solid #0f172a;
       border-radius: 6px;
-      padding: 5px 12px;
-      font-size: 12px;
+      padding: 6px 12px;
+      font-size: 12px !important;
       font-weight: 800;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      touch-action: manipulation;
+      min-height: 38px;
     }
     .btn-print-mini:active {
       background: #f1f5f9;
@@ -533,16 +637,21 @@
       </div>
     </noscript>
 
-    <!-- Mobile WhatsApp / In-App Browser Help Notice (Shows on small screens / preview) -->
+    <!-- Mobile WhatsApp / In-App Browser Help Notice -->
     <div class="card" id="whatsapp-help-card" style="background:#eff6ff; border:2px solid #3b82f6; padding:10px 12px; margin-bottom:2px;">
-      <div style="display:flex; align-items:flex-start; gap:8px;">
-        <span style="font-size:18px; line-height:1;">📱</span>
-        <div style="flex:1;">
-          <div style="font-size:12px; font-weight:800; color:#1d4ed8;">फ़ोन यूज़र्स के लिए निर्देश:</div>
-          <div style="font-size:11px; color:#1e3a5f; margin-top:2px; line-height:1.4;">
-            यदि WhatsApp प्रीव्यू में बटन या इनपुट रिस्पॉन्ड न करें: ऊपर <strong>Share (शेयर) / 3-Dots</strong> दबाकर <strong>"Open in Chrome" या "Open in Safari"</strong> चुनें।
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:8px;">
+        <div style="display:flex; align-items:flex-start; gap:8px;">
+          <span style="font-size:18px; line-height:1;">📱</span>
+          <div>
+            <div style="font-size:12px; font-weight:800; color:#1d4ed8;">फ़ोन यूज़र्स के लिए निर्देश:</div>
+            <div style="font-size:11px; color:#1e3a5f; margin-top:2px; line-height:1.4;">
+              यदि WhatsApp प्रीव्यू में बटन काम न करें, तो <strong>Chrome या Safari</strong> में खोलें।
+            </div>
           </div>
         </div>
+        <button onclick="copyWebLink(this)" class="btn-secondary" style="min-height:34px; padding:4px 10px; font-size:11px !important; white-space:nowrap; flex-shrink:0;">
+          🔗 लिंक कॉपी
+        </button>
       </div>
     </div>
 
@@ -552,9 +661,9 @@
     <div id="tab-content-mixing" style="display:flex; flex-direction:column; gap:12px;">
 
       <!-- System Selector (Epoxy vs Polyester) -->
-      <div class="card" id="system-selector-card" style="padding:8px 12px; display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size:12px; font-weight:800; color:#475569;">सिस्टम:</span>
-        <div style="display:flex; gap:4px; background:#e2e8f0; padding:2px; border-radius:6px;">
+      <div class="card" id="system-selector-card" style="padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-size:13px; font-weight:800; color:#475569;">सिस्टम:</span>
+        <div style="display:flex; gap:6px; background:#e2e8f0; padding:3px; border-radius:8px;">
           <button id="sys-epoxy-btn" class="preset-btn" style="background:#0f172a; color:#fff;" onclick="setSystem('epoxy')">इपॉक्सी (Epoxy)</button>
           <button id="sys-poly-btn" class="preset-btn" onclick="setSystem('polyester')">पॉलिएस्टर (Agri)</button>
         </div>
@@ -562,18 +671,20 @@
 
       <!-- Shift Turn Counter Card -->
       <div class="card shift-box" id="shift-counter-card">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <div class="turn-badge">
-            <div class="turn-badge-label">वर्तमान टर्न</div>
-            <div class="turn-badge-num" id="current-turn-num">#1</div>
-          </div>
-          <div>
-            <div style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase;">आज की शिफ्ट उत्पादन</div>
-            <div style="font-size:18px; font-weight:900; color:#0f172a;" id="shift-summary-text">0 टर्न | 0.00 kg</div>
+        <div class="shift-box-row">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="turn-badge">
+              <div class="turn-badge-label">वर्तमान टर्न</div>
+              <div class="turn-badge-num" id="current-turn-num">#1</div>
+            </div>
+            <div>
+              <div style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase;">आज की शिफ्ट उत्पादन</div>
+              <div style="font-size:18px; font-weight:900; color:#0f172a;" id="shift-summary-text">0 टर्न | 0.00 kg</div>
+            </div>
           </div>
         </div>
 
-        <div style="display:flex; gap:6px;">
+        <div class="shift-actions">
           <button class="btn-turn-log" onclick="logCompletedTurn()" id="btn-log-turn">
             ✓ टर्न पूरा हुआ (+1 टर्न)
           </button>
@@ -583,26 +694,29 @@
 
       <!-- Base Weight Input Card -->
       <div class="card" id="base-weight-card">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
           <label style="font-size:12px; font-weight:800; color:#334155; text-transform:uppercase;">
             बेस रेज़िन का वज़न (Base Weight):
           </label>
-          <div style="display:flex; gap:6px;">
+          <div style="display:flex; gap:6px; min-width:140px;">
             <button id="unit-kg" class="unit-toggle-btn active" onclick="setUnit('kg')">किलो (kg)</button>
             <button id="unit-g" class="unit-toggle-btn" onclick="setUnit('g')">ग्राम (gm)</button>
           </div>
         </div>
 
-        <div class="input-row">
-          <input type="text" inputmode="decimal" id="base-weight-input" class="text-input" value="10" oninput="handleBaseInput(this.value)">
-          <button class="btn-secondary" onclick="toggleMode()" id="mode-btn" style="font-size:11px; font-weight:800;">
+        <div class="base-input-wrap">
+          <div class="input-row">
+            <input type="text" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" id="base-weight-input" class="text-input" value="10" oninput="handleBaseInput(this.value)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <span style="font-size:18px; font-weight:900; color:#64748b; padding-right:4px;" id="base-unit-label">kg</span>
+          </div>
+          <button class="btn-secondary" onclick="toggleMode()" id="mode-btn" style="width:100%; font-size:13px !important; font-weight:800;">
             कुल बैच वज़न से निकालें
           </button>
         </div>
 
         <!-- Presets -->
-        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:8px;">
-          <span class="subtext" style="font-size:11px; font-weight:700;">मात्रा:</span>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;">
+          <span class="subtext" style="font-size:11px; font-weight:700; align-self:center;">मात्रा:</span>
           <button class="preset-btn" onclick="applyPreset(5)">5 kg</button>
           <button class="preset-btn" onclick="applyPreset(10)">10 kg</button>
           <button class="preset-btn" onclick="applyPreset(16)">16 kg</button>
@@ -614,7 +728,7 @@
 
       <!-- Live Operator Guide Banner -->
       <div class="step-banner" id="step-banner-card">
-        <div>
+        <div style="flex:1;">
           <div style="font-size:11px; font-weight:900; color:#b45309; text-transform:uppercase;" id="step-guide-title">
             कदम 1 / 6 · ऑपरेटर तराज़ू गाइड
           </div>
@@ -709,24 +823,24 @@
             <span style="background:#fef3c7; color:#92400e; font-size:10px; font-weight:800; padding:2px 6px; border-radius:4px; border:1px solid #fde68a;">नियम #3</span>
             <span style="font-size:13px; font-weight:800; color:#0f172a; margin-left:4px;">ज़्यादा केमिकल डलने पर री-कैलकुलेटर</span>
           </div>
-          <button class="btn-secondary" onclick="toggleOverpour()" id="btn-toggle-overpour" style="font-size:11px;">सुधार टूल खोलें ▼</button>
+          <button class="btn-secondary" onclick="toggleOverpour()" id="btn-toggle-overpour" style="font-size:11px; min-height:36px; padding:4px 10px;">सुधार टूल खोलें ▼</button>
         </div>
 
         <div id="overpour-body" style="display:none; margin-top:10px; padding-top:10px; border-top:1px solid #fde68a;">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <div style="display:flex; flex-direction:column; gap:8px;">
             <div>
-              <label style="font-size:11px; font-weight:700;">कौन सा केमिकल ज़्यादा डला?</label>
-              <select id="overpour-select" style="width:100%; padding:6px; font-size:13px; border-radius:6px; border:1px solid #cbd5e1; background:#fff; margin-top:2px;"></select>
+              <label style="font-size:12px; font-weight:700;">कौन सा केमिकल ज़्यादा डला?</label>
+              <select id="overpour-select" style="width:100%; padding:8px; font-size:16px !important; border-radius:8px; border:1.5px solid #cbd5e1; background:#fff; margin-top:3px; min-height:44px;"></select>
             </div>
             <div>
-              <label style="font-size:11px; font-weight:700;">वास्तविक कितना डल गया?</label>
-              <input type="text" inputmode="decimal" id="overpour-actual" placeholder="उदा. 9.5" style="width:100%; padding:6px; font-size:13px; border-radius:6px; border:1px solid #cbd5e1; background:#fff; margin-top:2px;">
+              <label style="font-size:12px; font-weight:700;">वास्तविक कितना डल गया?</label>
+              <input type="text" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" id="overpour-actual" placeholder="उदा. 9.5" style="width:100%; padding:8px 12px; font-size:16px !important; border-radius:8px; border:1.5px solid #cbd5e1; background:#fff; margin-top:3px; min-height:44px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             </div>
           </div>
-          <button class="btn-turn-log" style="width:100%; margin-top:8px; justify-content:center; background:#d97706;" onclick="applyOverpour()">
+          <button class="btn-turn-log" style="width:100%; margin-top:10px; justify-content:center; background:#d97706;" onclick="applyOverpour()">
             पूरे बैच को री-कैलकुलेट करें ⚡
           </button>
-          <div id="overpour-msg" style="display:none; margin-top:6px; font-size:11px; color:#047857; font-weight:700;"></div>
+          <div id="overpour-msg" style="display:none; margin-top:6px; font-size:12px; color:#047857; font-weight:700;"></div>
         </div>
       </div>
 
@@ -744,16 +858,16 @@
 
         <div style="margin-top:10px;">
           <label style="font-size:12px; font-weight:800; color:#334155;">उत्पादन लक्ष्य (Target Finished Rebar):</label>
-          <div class="input-row">
-            <input type="text" inputmode="decimal" id="fg-input" class="text-input" value="2000" oninput="calcBOM()">
-            <span style="align-self:center; font-weight:800; color:#64748b;">kg</span>
+          <div class="input-row" style="margin-top:4px;">
+            <input type="text" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" id="fg-input" class="text-input" value="2000" oninput="calcBOM()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <span style="font-size:18px; font-weight:800; color:#64748b; padding-right:4px;">kg</span>
           </div>
         </div>
 
-        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:8px;">
-          <span class="subtext" style="font-size:11px; font-weight:700;">मात्रा:</span>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;">
+          <span class="subtext" style="font-size:11px; font-weight:700; align-self:center;">मात्रा:</span>
           <button class="preset-btn" onclick="setFGPreset(500)">500 kg</button>
-          <button class="preset-btn" onclick="setFGPreset(1000)">1,000 kg (1 टन)</button>
+          <button class="preset-btn" onclick="setFGPreset(1000)">1,000 kg</button>
           <button class="preset-btn" onclick="setFGPreset(2000)" style="background:#d1fae5; border-color:#059669; color:#065f46; font-weight:900;">2,000 kg (2 टन)</button>
           <button class="preset-btn" onclick="setFGPreset(5000)">5,000 kg</button>
           <button class="preset-btn" onclick="setFGPreset(10000)">10,000 kg</button>
@@ -762,15 +876,15 @@
 
       <!-- BOM Top 2 Inputs Cards -->
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;" id="bom-summary-grid">
-        <div class="card">
+        <div class="card" style="padding:12px;">
           <div style="font-size:11px; font-weight:800; color:#64748b;">ग्लास फाइबर रोविंग (79.5%)</div>
-          <div style="font-size:22px; font-weight:900; color:#0f172a; margin-top:2px;" id="bom-glass-kg">1,590.00 kg</div>
+          <div style="font-size:20px; font-weight:900; color:#0f172a; margin-top:2px; white-space:nowrap;" id="bom-glass-kg">1,590.00 kg</div>
           <div class="subtext" style="margin-top:4px; font-weight:700;" id="bom-glass-spools">~88 स्पूल (18 kg ea)</div>
         </div>
 
-        <div class="card">
+        <div class="card" style="padding:12px;">
           <div style="font-size:11px; font-weight:800; color:#64748b;">रेज़िन मैट्रिक्स (20.5%)</div>
-          <div style="font-size:22px; font-weight:900; color:#d97706; margin-top:2px;" id="bom-resin-kg">410.00 kg</div>
+          <div style="font-size:20px; font-weight:900; color:#d97706; margin-top:2px; white-space:nowrap;" id="bom-resin-kg">410.00 kg</div>
           <div class="subtext" style="margin-top:4px; font-weight:700;" id="bom-drums-count">~0.88 ड्रम (इपॉक्सी)</div>
         </div>
       </div>
@@ -852,9 +966,9 @@
   <div class="sticky-bar" id="mobile-sticky-bar">
     <div>
       <div style="font-size:10px; color:#f59e0b; font-weight:800; text-transform:uppercase;" id="sticky-step-text">कदम 1: इपॉक्सी</div>
-      <div style="font-size:16px; font-weight:900;" id="sticky-target-text">लक्ष्य: 10.00 kg</div>
+      <div style="font-size:17px; font-weight:900;" id="sticky-target-text">लक्ष्य: 10.00 kg</div>
     </div>
-    <button class="btn-turn-log" style="padding:6px 14px; font-size:13px;" onclick="logCompletedTurn()">
+    <button class="btn-turn-log" style="padding:8px 16px; font-size:14px; min-height:42px; flex:initial;" onclick="logCompletedTurn()">
       टर्न पूरा ✓
     </button>
   </div>
@@ -900,12 +1014,50 @@
       calcBOM();
       populateOverpour();
       updateShiftUI();
+      initKeyboardHandling();
     }
 
     if (document.readyState === 'loading') {
       window.addEventListener('DOMContentLoaded', initApp);
     } else {
       initApp();
+    }
+
+    // Keyboard detector to prevent sticky bar overlap on Android/iOS
+    function initKeyboardHandling() {
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', () => {
+          const isKbd = window.visualViewport.height < window.innerHeight * 0.75;
+          document.body.classList.toggle('keyboard-open', isKbd);
+        });
+      }
+      window.addEventListener('focusin', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
+          document.body.classList.add('keyboard-open');
+        }
+      });
+      window.addEventListener('focusout', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
+          setTimeout(() => {
+            const active = document.activeElement;
+            if (!active || (active.tagName !== 'INPUT' && active.tagName !== 'SELECT')) {
+              document.body.classList.remove('keyboard-open');
+            }
+          }, 100);
+        }
+      });
+    }
+
+    function copyWebLink(btn) {
+      const url = "https://www.gfrpindia.com/calc.html";
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(() => {
+          btn.innerText = "✓ कॉपी हुआ!";
+          setTimeout(() => btn.innerText = "🔗 लिंक कॉपी", 1500);
+        }).catch(() => prompt("इस लिंक को कॉपी करें:", url));
+      } else {
+        prompt("इस लिंक को कॉपी करें:", url);
+      }
     }
 
     // Tab Switcher
@@ -948,6 +1100,9 @@
         bKg.className = u === 'kg' ? 'unit-toggle-btn active' : 'unit-toggle-btn';
         bG.className = u === 'g' ? 'unit-toggle-btn active' : 'unit-toggle-btn';
       }
+
+      const lbl = document.getElementById('base-unit-label');
+      if (lbl) lbl.innerText = u;
 
       inp.value = Number(val.toFixed(2));
       updateLive();
@@ -1053,6 +1208,7 @@
       rows.forEach((r, idx) => {
         const div = document.createElement('div');
         div.className = 'component-card' + (r.isDone ? ' done' : '');
+        div.setAttribute('data-id', r.id);
         div.innerHTML = `
           <div class="comp-header">
             <div style="display:flex; align-items:center; gap:8px;">
@@ -1070,10 +1226,10 @@
           <div class="comp-grid">
             <div>
               <div class="comp-label">प्रतिशत %</div>
-              ${r.isBase ? `<div style="font-size:13px; font-weight:900;">100.0%</div>` : `
-                <div style="display:flex; align-items:center; gap:2px; margin-top:2px;">
-                  <input type="text" inputmode="decimal" id="mob-inp-${idx}" value="${r.pct}" 
-                    style="width:55px; padding:3px 4px; font-weight:900; border:1px solid #cbd5e1; border-radius:4px; font-size:13px; background:#fff;"
+              ${r.isBase ? `<div style="font-size:14px; font-weight:900; height:38px; display:flex; align-items:center;">100.0%</div>` : `
+                <div style="display:flex; align-items:center; gap:2px;">
+                  <input type="text" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" class="comp-input" id="mob-inp-${idx}" value="${r.pct}" 
+                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                     oninput="handlePctChange(${idx}, this.value)">
                   <span style="font-size:11px; font-weight:800; color:#64748b;">%</span>
                 </div>
@@ -1101,6 +1257,7 @@
       rows.forEach((r, idx) => {
         const tr = document.createElement('tr');
         tr.style.opacity = r.isDone ? '0.6' : '1';
+        tr.setAttribute('data-id', r.id);
         tr.innerHTML = `
           <td style="text-align:center; font-weight:800;">${r.index}</td>
           <td>
@@ -1110,8 +1267,9 @@
           <td style="text-align:right;">
             ${r.isBase ? '100.0%' : `
               <span class="no-print">
-                <input type="text" inputmode="decimal" id="desk-inp-${idx}" value="${r.pct}" 
-                  style="width:60px; padding:2px 4px; font-weight:900; border:1px solid #cbd5e1; border-radius:4px; font-size:12px; text-align:right;"
+                <input type="text" inputmode="decimal" pattern="[0-9]*[.]?[0-9]*" id="desk-inp-${idx}" value="${r.pct}" 
+                  style="width:60px; padding:2px 4px; font-weight:900; border:1px solid #cbd5e1; border-radius:4px; font-size:16px !important; text-align:right;"
+                  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                   oninput="handlePctChange(${idx}, this.value)"> %
               </span>
               <span class="print-only" style="font-weight:bold;">${r.pct}%</span>
@@ -1136,9 +1294,38 @@
       updateLive();
     }
 
+    // In-place ToggleCheck (prevents mobile DOM-destroy flicker & lost clicks)
     function toggleCheck(id) {
       checkedSteps[id] = !checkedSteps[id];
-      renderAll();
+      const isDone = !!checkedSteps[id];
+
+      // Update mobile card
+      const mCard = document.querySelector(`.component-card[data-id="${id}"]`);
+      if (mCard) {
+        mCard.classList.toggle('done', isDone);
+        const btn = mCard.querySelector('.btn-check');
+        if (btn) {
+          btn.className = 'btn-check' + (isDone ? ' checked' : '');
+          btn.innerText = isDone ? '✓ मिलाया' : 'मिलाएँ';
+        }
+      }
+
+      // Update desktop row
+      const dRow = document.querySelector(`tr[data-id="${id}"]`);
+      if (dRow) {
+        dRow.style.opacity = isDone ? '0.6' : '1';
+        const btn = dRow.querySelector('.btn-check');
+        if (btn) {
+          btn.className = 'btn-check' + (isDone ? ' checked' : '') + ' no-print';
+          btn.innerText = isDone ? '✓' : 'हो गया';
+        }
+        const printBox = dRow.querySelector('.print-only');
+        if (printBox) {
+          printBox.innerText = isDone ? '☑' : '☐';
+        }
+      }
+
+      updateLive();
     }
 
     function updateGuide(pending, allRows) {

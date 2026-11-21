@@ -22,6 +22,28 @@ export default function Footer({
   const year = 2026;
   const t = useT();
 
+  const defaultLegal: L[] = [
+    { label: "Privacy Policy", url: "/privacy" },
+    { label: "Terms & Conditions", url: "/terms" },
+    { label: "Contact Us", url: "/contact" },
+  ];
+  const effectiveLegal =
+    legal.length >= 3
+      ? legal
+      : [
+          ...defaultLegal.filter(
+            (dl) => !legal.some((l) => l.url.includes(dl.url))
+          ),
+          ...legal,
+        ];
+
+  const effectiveCompany = company.map((c) => {
+    if (c.url.endsWith("/about") || c.url === "#about") {
+      return { ...c, url: "/#about" };
+    }
+    return c;
+  });
+
   return (
     <footer className="rx-foot">
       <div className="rx-wrap">
@@ -31,10 +53,10 @@ export default function Footer({
             <p>{t("footer.tagline")}</p>
           </div>
 
-          {company.length ? (
+          {effectiveCompany.length ? (
             <div className="rx-foot__col">
               <h4>{t("footer.company")}</h4>
-              {company.map((l) => (
+              {effectiveCompany.map((l) => (
                 <Link key={l.url + l.label} href={l.url}>
                   {l.label}
                 </Link>
@@ -42,10 +64,10 @@ export default function Footer({
             </div>
           ) : null}
 
-          {legal.length ? (
+          {effectiveLegal.length ? (
             <div className="rx-foot__col">
               <h4>{t("footer.legal")}</h4>
-              {legal.map((l) => (
+              {effectiveLegal.map((l) => (
                 <Link key={l.url + l.label} href={l.url}>
                   {l.label}
                 </Link>
