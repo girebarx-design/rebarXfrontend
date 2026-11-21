@@ -1,6 +1,33 @@
+import { cache } from "react";
 import { LOCAL_POSTS } from "@/content/posts";
 
 const CMS = "https://rebar-xbackend.vercel.app/api";
+
+const postCache = new Map<string, any>();
+
+async function safeFetch(
+  url: string,
+  opts: any = {},
+  timeoutMs = 12000,
+  retries = 2
+): Promise<Response | null> {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const res = await fetch(url, {
+        ...opts,
+        signal: AbortSignal.timeout(timeoutMs),
+      });
+      if (res.ok) return res;
+    } catch (err: any) {
+      if (attempt === retries) {
+        console.warn(`Fetch timed out or failed for ${url}:`, err?.message || err);
+        return null;
+      }
+      await new Promise((r) => setTimeout(r, 500 * (attempt + 1)));
+    }
+  }
+  return null;
+}
 
 export type Block = Record<string, any>;
 
@@ -36,29 +63,31 @@ export function cldOptimize(url?: string | null): string | undefined {
  * receive fully-rendered HTML. Revalidates hourly.
  */
 export async function getPage(slug: string) {
-  const res = await fetch(
+  const res = await safeFetch(
     `${CMS}/pages?where[slug][equals]=${slug}&depth=2`,
-    { next: { revalidate: 86400 } }
+    { next: { revalidate: 86400 } },
+    12000,
+    2
   );
-  if (!res.ok) throw new Error(`CMS ${res.status} for page "${slug}"`);
+  if (!res || !res.ok) return null;
   const data = await res.json();
   return data.docs?.[0] ?? null;
 }
 
 export async function getNav() {
-  const res = await fetch(`${CMS}/navbar?depth=2`, {
+  const res = await safeFetch(`${CMS}/navbar?depth=2`, {
     next: { revalidate: 86400 },
-  });
-  if (!res.ok) return null;
+  }, 12000, 2);
+  if (!res || !res.ok) return null;
   const data = await res.json();
   return data.docs?.[0] ?? null;
 }
 
 export async function getFooter() {
-  const res = await fetch(`${CMS}/footer?depth=2`, {
+  const res = await safeFetch(`${CMS}/footer?depth=2`, {
     next: { revalidate: 86400 },
-  });
-  if (!res.ok) return null;
+  }, 12000, 2);
+  if (!res || !res.ok) return null;
   const data = await res.json();
   return data.docs?.[0] ?? null;
 }
@@ -92,11 +121,11 @@ async function fetchBlogPosts(depth: number, limit: number, selectFields = BLOG_
   const base = `${CMS}/blog-posts?depth=${depth}&limit=${limit}${selectParam}`;
   const opts = { next: { revalidate: 86400 } };
 
-  const res = await fetch(`${base}&${PUBLISHED_FILTER}`, opts);
-  if (res.ok) return (await res.json()).docs ?? [];
+  const res = await safeFetch(`${base}&${PUBLISHED_FILTER}`, opts, 15000, 2);
+  if (res && res.ok) return (await res.json()).docs ?? [];
 
-  const fallback = await fetch(base, opts);
-  if (!fallback.ok) return [];
+  const fallback = await safeFetch(base, opts, 15000, 2);
+  if (!fallback || !fallback.ok) return [];
   return (await fallback.json()).docs ?? [];
 }
 
@@ -107,35 +136,50 @@ export async function getBlogPosts() {
 }
 
 /** Single post: check local git posts first; if not found, fetch ONLY that single post from CMS */
-export async function getBlogPostBySlug(slug: string) {
+export const getBlogPostBySlug = cache(async (slug: string) => {
   // 1. Check local posts in memory first (0ms, 0 external network, 0 CPU)
   const local =
     LOCAL_POSTS.find((p: any) => slugify(p.slug) === slug) ??
     LOCAL_POSTS.find((p: any) => p.slug === slug);
   if (local) return local;
 
-  // 2. Fetch specific single post by slug from CMS (36KB instead of 2.12MB full collection fetch)
+  // 2. In-memory worker cache
+  if (postCache.has(slug)) return postCache.get(slug);
+
+  // 3. Fetch specific single post by slug from CMS (36KB instead of 2.12MB full collection fetch)
   const opts = { next: { revalidate: 86400 } };
   try {
-    const res = await fetch(
+    const res = await safeFetch(
       `${CMS}/blog-posts?where[slug][equals]=${encodeURIComponent(slug)}&depth=2&limit=1`,
-      opts
+      opts,
+      12000,
+      2
     );
-    if (res.ok) {
+    if (res && res.ok) {
       const data = await res.json();
-      if (data.docs?.[0]) return data.docs[0];
+      if (data.docs?.[0]) {
+        postCache.set(slug, data.docs[0]);
+        postCache.set(slugify(slug), data.docs[0]);
+        return data.docs[0];
+      }
     }
 
     // Try without encoded slug if different
     const slugified = slugify(slug);
     if (slugified !== slug) {
-      const fallbackRes = await fetch(
+      const fallbackRes = await safeFetch(
         `${CMS}/blog-posts?where[slug][equals]=${encodeURIComponent(slugified)}&depth=2&limit=1`,
-        opts
+        opts,
+        12000,
+        2
       );
-      if (fallbackRes.ok) {
+      if (fallbackRes && fallbackRes.ok) {
         const data = await fallbackRes.json();
-        if (data.docs?.[0]) return data.docs[0];
+        if (data.docs?.[0]) {
+          postCache.set(slug, data.docs[0]);
+          postCache.set(slugified, data.docs[0]);
+          return data.docs[0];
+        }
       }
     }
   } catch (err) {
@@ -143,35 +187,39 @@ export async function getBlogPostBySlug(slug: string) {
   }
 
   return null;
-}
+});
 
 /** Site albums for /applications. Newest first; CMS date is month-precision. */
 export async function getApplications() {
-  const res = await fetch(`${CMS}/applications?depth=2&limit=100&sort=-date`, {
+  const res = await safeFetch(`${CMS}/applications?depth=2&limit=100&sort=-date`, {
     next: { revalidate: 86400 },
-  });
-  if (!res.ok) return [];
+  }, 12000, 2);
+  if (!res || !res.ok) return [];
   const data = await res.json();
   return data.docs ?? [];
 }
 
 /** City landing pages (/gfrp-rebar-in-<slug>). */
 export async function getCities() {
-  const res = await fetch(
+  const res = await safeFetch(
     `${CMS}/cities?limit=300&sort=city&where[published][equals]=true`,
-    { next: { revalidate: 86400 } }
+    { next: { revalidate: 86400 } },
+    12000,
+    2
   );
-  if (!res.ok) return [];
+  if (!res || !res.ok) return [];
   const data = await res.json();
   return data.docs ?? [];
 }
 
 export async function getCityBySlug(slug: string) {
-  const res = await fetch(
+  const res = await safeFetch(
     `${CMS}/cities?limit=1&where[slug][equals]=${encodeURIComponent(slug)}&where[published][equals]=true`,
-    { next: { revalidate: 86400 } }
+    { next: { revalidate: 86400 } },
+    12000,
+    2
   );
-  if (!res.ok) return null;
+  if (!res || !res.ok) return null;
   const data = await res.json();
   return data.docs?.[0] ?? null;
 }

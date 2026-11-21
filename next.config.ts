@@ -13,6 +13,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  staticPageGenerationTimeout: 180,
   reactStrictMode: false,
   eslint: {
     ignoreDuringBuilds: true,
